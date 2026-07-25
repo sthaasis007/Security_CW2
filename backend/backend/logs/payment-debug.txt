@@ -1,0 +1,14 @@
+
+═══════════════════════════════════════
+PAYMENT INITIATE CALLED AT 2026-02-25T16:12:06.325Z
+process.env.KHALTI_TEST_MODE = true
+KHALTI_TEST_MODE constant = false
+typeof KHALTI_TEST_MODE = boolean
+═══════════════════════════════════════
+
+═══════════════════════════════════════
+PAYMENT INITIATE CALLED AT 2026-02-25T16:12:48.668Z
+process.env.KHALTI_TEST_MODE = true
+KHALTI_TEST_MODE constant = false
+typeof KHALTI_TEST_MODE = boolean
+═══════════════════════════════════════

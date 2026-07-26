@@ -66,21 +66,21 @@ export default function ProductDetail({ productId }: ProductDetailProps) {
     fetchProduct();
   }, [productId]);
 
-  const handleAddToCart = () => {
+  const handleAddToCart = async () => {
     if (!product) return;
-    addToCart({
+    await addToCart({
       _id: product._id,
+      productId: product._id,
       name: product.name,
       price: product.price,
       description: product.description,
       image: product.image,
     });
-    alert(`Added "${product.name}" to cart`);
   };
 
-  const handleToggleFavorite = () => {
+  const handleToggleFavorite = async () => {
     if (!product) return;
-    toggleFavorite({
+    await toggleFavorite({
       _id: product._id,
       name: product.name,
       price: product.price,

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 
 interface FavoriteProduct {
   _id: string;
@@ -12,47 +12,85 @@ export function useFavorites() {
   const [favorites, setFavorites] = useState<FavoriteProduct[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  // Load favorites from localStorage on mount
-  useEffect(() => {
-    const stored = localStorage.getItem("favorites");
-    if (stored) {
-      try {
-        setFavorites(JSON.parse(stored));
-      } catch (e) {
-        console.error("Failed to load favorites", e);
-      }
+  const syncFavorites = useCallback(async () => {
+    if (typeof window === "undefined") return;
+    const token = localStorage.getItem("token");
+    if (!token) {
+      setFavorites([]);
+      setIsLoading(false);
+      return;
     }
-    setIsLoading(false);
+
+    try {
+      const res = await fetch("/api/favorites", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      if (!res.ok) throw new Error("Failed to fetch favorites");
+      const data = await res.json();
+      const items = (data.favorites || []).map((item: any) => ({
+        _id: item.productId?._id || item.productId,
+        name: item.productName || item.productId?.name || "Product",
+        price: item.productPrice || item.price || 0,
+        description: item.productDescription,
+        image: item.productImage,
+      }));
+      setFavorites(items);
+    } catch (error) {
+      console.error("Failed to load favorites", error);
+      setFavorites([]);
+    } finally {
+      setIsLoading(false);
+    }
   }, []);
 
-  // Save favorites to localStorage whenever they change
   useEffect(() => {
-    if (!isLoading) {
-      localStorage.setItem("favorites", JSON.stringify(favorites));
-    }
-  }, [favorites, isLoading]);
+    void syncFavorites();
+  }, [syncFavorites]);
 
-  const addFavorite = (product: FavoriteProduct) => {
-    setFavorites((prev) => {
-      const exists = prev.find((p) => p._id === product._id);
-      if (exists) return prev;
-      return [...prev, product];
+  const addFavorite = async (product: FavoriteProduct) => {
+    if (typeof window === "undefined") return;
+    const token = localStorage.getItem("token");
+    if (!token) {
+      setFavorites((prev) => (prev.some((p) => p._id === product._id) ? prev : [...prev, product]));
+      return;
+    }
+
+    const res = await fetch("/api/favorites", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+      body: JSON.stringify({ productId: product._id }),
     });
+    if (res.ok) {
+      await syncFavorites();
+    }
   };
 
-  const removeFavorite = (productId: string) => {
-    setFavorites((prev) => prev.filter((p) => p._id !== productId));
+  const removeFavorite = async (productId: string) => {
+    if (typeof window === "undefined") return;
+    const token = localStorage.getItem("token");
+    if (!token) {
+      setFavorites((prev) => prev.filter((p) => p._id !== productId));
+      return;
+    }
+
+    const res = await fetch(`/api/favorites/${productId}`, {
+      method: "DELETE",
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    if (res.ok) {
+      await syncFavorites();
+    }
   };
 
   const isFavorite = (productId: string) => {
     return favorites.some((p) => p._id === productId);
   };
 
-  const toggleFavorite = (product: FavoriteProduct) => {
+  const toggleFavorite = async (product: FavoriteProduct) => {
     if (isFavorite(product._id)) {
-      removeFavorite(product._id);
+      await removeFavorite(product._id);
     } else {
-      addFavorite(product);
+      await addFavorite(product);
     }
   };
 
@@ -63,5 +101,6 @@ export function useFavorites() {
     removeFavorite,
     isFavorite,
     toggleFavorite,
+    refreshFavorites: syncFavorites,
   };
 }

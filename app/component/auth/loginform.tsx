@@ -36,23 +36,39 @@ export default function LoginForm() {
 
       const body = await res.json().catch(() => ({}));
       if (res.ok) {
+        const token = body.token || body.accessToken;
+        const refreshToken = body.refreshToken;
+
         // save token and user data in cookies
-        if (body.token) {
-          Cookies.set("token", body.token, { expires: 1 }); // expires in 1 day
+        if (token) {
+          Cookies.set("token", token, { expires: 1 }); // expires in 1 day
+        }
+        if (refreshToken) {
+          Cookies.set("refreshToken", refreshToken, { expires: 7 });
         }
         if (body.user) {
           Cookies.set("user", JSON.stringify(body.user), { expires: 1 });
         }
+
         // also set localStorage so client-side hooks can read token/user
         try {
-          if (body.token) localStorage.setItem("token", body.token);
+          if (token) localStorage.setItem("token", token);
+          if (refreshToken) localStorage.setItem("refreshToken", refreshToken);
           if (body.user) localStorage.setItem("user", JSON.stringify(body.user));
         } catch (e) {
           // ignore (SSR or disabled storage)
         }
 
-        // redirect based on role
-        const role = body?.user?.role;
+        const role = body?.user?.role || (() => {
+          if (!token) return undefined;
+          try {
+            const payload = JSON.parse(atob(token.split(".")[1]));
+            return payload?.role;
+          } catch {
+            return undefined;
+          }
+        })();
+
         if (role === "admin") {
           router.push("/admin/users");
         } else {
@@ -85,12 +101,6 @@ export default function LoginForm() {
         {...register("password")}
         error={errors.password?.message}
       />
-
-      <div className="text-right text-sm">
-        <a href="/forgot-password" className="font-medium text-blue-600 hover:underline">
-          Forgot password?
-        </a>
-      </div>
 
       <Button type="submit" disabled={loading}>{loading ? "Signing in..." : "Login"}</Button>
       <p className="text-center text-sm text-slate-600">

@@ -8,15 +8,29 @@ const mongoose_1 = __importDefault(require("mongoose"));
 const userSchema = new mongoose_1.default.Schema({
     name: { type: String, trim: true },
     email: { type: String, required: true, unique: true, lowercase: true, trim: true },
-    password: { type: String, required: true }, // hashed password
+    password: { type: String, required: true },
     image: { type: String },
-    resetPasswordToken: { type: String },
-    resetPasswordExpires: { type: Date },
     role: {
         type: String,
         enum: ["user", "admin"],
         default: "user",
     },
+    passwordChangedAt: { type: Date, default: null },
+    resetPasswordToken: { type: String, default: null },
+    resetPasswordExpires: { type: Date, default: null },
+    resetPasswordUsed: { type: Boolean, default: false },
+    emailVerified: { type: Boolean, default: false },
+    emailVerificationToken: { type: String, default: null },
+    emailVerificationExpires: { type: Date, default: null },
+    refreshTokenHash: { type: String, default: null },
+    refreshTokenExpiresAt: { type: Date, default: null },
+    lastLoginAt: { type: Date, default: null },
+    loginAttempts: { type: Number, default: 0 },
+    lockUntil: { type: Date, default: null },
+    mfaEnabled: { type: Boolean, default: false },
+    mfaMethod: { type: String, enum: ["none", "email"], default: "none" },
+    mfaSecret: { type: String, default: null },
+    deviceInfo: { type: String, default: null },
 }, { timestamps: true });
 exports.UserModel = mongoose_1.default.model("User", userSchema);
 //# sourceMappingURL=user.model.js.map

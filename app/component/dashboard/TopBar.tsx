@@ -51,7 +51,14 @@ export default function TopBar() {
           </button>
           {hydrated && isLoggedIn && (
             <button 
-              onClick={() => {
+              onClick={async () => {
+                const token = Cookies.get("token") || (typeof window !== "undefined" ? localStorage.getItem("token") : null);
+                if (token) {
+                  await fetch("/api/auth/logout", {
+                    method: "POST",
+                    headers: { Authorization: `Bearer ${token}` },
+                  });
+                }
                 Cookies.remove("token");
                 Cookies.remove("user");
                 localStorage.removeItem("token");

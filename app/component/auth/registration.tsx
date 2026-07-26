@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { registerSchema, RegisterSchema } from "../../lib/validations/auth.schema";
@@ -17,10 +17,22 @@ export default function RegisterForm() {
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors },
   } = useForm<RegisterSchema>({
     resolver: zodResolver(registerSchema),
   });
+
+  const password = watch("password") || "";
+  const passwordStrength = useMemo(() => {
+    let score = 0;
+    if (password.length >= 12) score += 1;
+    if (/[A-Z]/.test(password)) score += 1;
+    if (/[a-z]/.test(password)) score += 1;
+    if (/\d/.test(password)) score += 1;
+    if (/[^A-Za-z0-9]/.test(password)) score += 1;
+    return score;
+  }, [password]);
 
   const onSubmit = async (data: RegisterSchema) => {
     setError(null);
@@ -70,6 +82,15 @@ export default function RegisterForm() {
         {...register("password")}
         error={errors.password?.message}
       />
+      {password ? (
+        <div className="text-sm">
+          <div className="mb-1 text-gray-700">Password strength</div>
+          <div className="h-2 w-full rounded bg-gray-200">
+            <div className="h-2 rounded bg-blue-600" style={{ width: `${(passwordStrength / 5) * 100}%` }} />
+          </div>
+          <p className="mt-1 text-xs text-gray-600">Use 8+ characters with uppercase, lowercase, a number, and a symbol.</p>
+        </div>
+      ) : null}
 
       <Input
         label="Confirm Password"

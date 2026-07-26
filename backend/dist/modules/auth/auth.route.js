@@ -10,8 +10,7 @@ const auth_middleware_1 = __importDefault(require("../../middleware/auth.middlew
 const router = (0, express_1.Router)();
 router.post("/register", auth_controller_1.AuthController.register);
 router.post("/login", auth_controller_1.AuthController.login);
-router.post("/forgot-password", auth_controller_1.AuthController.forgotPassword);
-router.post("/reset-password", auth_controller_1.AuthController.resetPassword);
+router.post("/logout", auth_middleware_1.default, auth_controller_1.AuthController.logout);
 // Create user via FormData (used by admin frontend creation form)
 router.post("/user", (0, upload_middleware_1.default)("image"), auth_controller_1.AuthController.createUser);
 // Update user (allow image upload)

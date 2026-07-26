@@ -1,4 +1,4 @@
-import { ForgotPasswordDto, LoginDto, RegisterDto, ResetPasswordDto } from "./auth.dto";
+import { LoginDto, RegisterDto } from "./auth.dto";
 export declare const AuthService: {
     register(data: RegisterDto): Promise<{
         ok: boolean;
@@ -10,35 +10,33 @@ export declare const AuthService: {
         status: number;
         message: string;
         user: {
-            id: import("mongoose").Types.ObjectId;
-            email: string;
-            role: "user" | "admin";
+            id: any;
+            name: any;
+            email: any;
+            role: any;
         };
     }>;
     login(data: LoginDto): Promise<{
         ok: boolean;
         status: number;
         message: string;
-        token?: never;
+        accessToken?: never;
+        refreshToken?: never;
         user?: never;
     } | {
         ok: boolean;
         status: number;
         message: string;
-        token: any;
+        accessToken: string;
+        refreshToken: string;
         user: {
-            id: import("mongoose").Types.ObjectId;
-            email: string;
-            role: "user" | "admin";
+            id: any;
+            name: any;
+            email: any;
+            role: any;
         };
     }>;
-    requestPasswordReset(data: ForgotPasswordDto): Promise<{
-        resetLink?: string;
-        ok: boolean;
-        status: number;
-        message: string;
-    }>;
-    resetPassword(data: ResetPasswordDto): Promise<{
+    logout(userId: string, req?: any): Promise<{
         ok: boolean;
         status: number;
         message: string;

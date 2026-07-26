@@ -7,105 +7,104 @@ exports.AuthService = void 0;
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const crypto_1 = __importDefault(require("crypto"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
-const nodemailer_1 = __importDefault(require("nodemailer"));
 const auth_repository_1 = require("./auth.repository");
+const activity_service_1 = require("../activity/activity.service");
+const PASSWORD_POLICY = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,}$/;
+const isPasswordStrong = (password) => PASSWORD_POLICY.test(password);
+const signToken = (payload, expiresIn) => {
+    const secret = process.env.JWT_SECRET || "change_me_local_secret";
+    return jsonwebtoken_1.default.sign(payload, secret, { expiresIn });
+};
 exports.AuthService = {
     async register(data) {
+        if (!isPasswordStrong(data.password)) {
+            return { ok: false, status: 400, message: "Password must be at least 8 characters and include uppercase, lowercase, number, and special character" };
+        }
         const existing = await auth_repository_1.AuthRepository.findByEmail(data.email);
         if (existing) {
             return { ok: false, status: 409, message: "Email already exists" };
         }
-        const hashed = await bcryptjs_1.default.hash(data.password, 10);
+        const hashed = await bcryptjs_1.default.hash(data.password, 12);
+        const verificationToken = crypto_1.default.randomBytes(32).toString("hex");
+        const verificationTokenHash = crypto_1.default.createHash("sha256").update(verificationToken).digest("hex");
+        const expiresAt = new Date(Date.now() + 24 * 60 * 60 * 1000);
         const user = await auth_repository_1.AuthRepository.createUser({
             name: data.name,
             email: data.email,
             password: hashed,
             role: "user",
+            emailVerified: true,
+        });
+        await auth_repository_1.AuthRepository.setEmailVerificationToken(user._id.toString(), verificationTokenHash, expiresAt);
+        await activity_service_1.ActivityService.log("register", `New user registered: ${user.email}`, { email: user.email }, {
+            id: user._id.toString(),
+            email: user.email || null,
+            username: user.name || null,
+            role: user.role || null,
         });
         return {
             ok: true,
             status: 201,
-            message: "User registered successfully",
-            user: { id: user._id, email: user.email, role: user.role },
+            message: "User registered successfully.",
+            user: { id: user._id, name: user.name, email: user.email, role: user.role },
         };
     },
     async login(data) {
         const user = await auth_repository_1.AuthRepository.findByEmail(data.email);
         if (!user) {
-            return { ok: false, status: 404, message: "User not found" };
+            return { ok: false, status: 401, message: "Invalid credentials" };
+        }
+        const lockUntil = user.lockUntil ? new Date(user.lockUntil) : null;
+        if (lockUntil && lockUntil > new Date()) {
+            return { ok: false, status: 423, message: "Account temporarily locked. Please try again later." };
         }
         const match = await bcryptjs_1.default.compare(data.password, user.password);
         if (!match) {
+            const updated = await auth_repository_1.AuthRepository.incrementLoginAttempts(user._id.toString());
+            if (updated.loginAttempts >= 5) {
+                await auth_repository_1.AuthRepository.lockAccount(user._id.toString(), new Date(Date.now() + 15 * 60 * 1000));
+            }
+            await activity_service_1.ActivityService.log("failed_login", `Failed login attempt for ${data.email}`, { email: data.email }, {
+                id: user._id.toString(),
+                email: user.email || null,
+                username: user.name || null,
+                role: user.role || null,
+            });
             return { ok: false, status: 401, message: "Invalid credentials" };
         }
-        const secret = process.env.JWT_SECRET || "change_me_local_secret";
-        const expiresIn = process.env.JWT_EXPIRES_IN || "1d";
-        const token = jsonwebtoken_1.default.sign({ sub: user._id.toString(), email: user.email, role: user.role }, secret, { expiresIn });
+        await auth_repository_1.AuthRepository.resetLoginAttempts(user._id.toString());
+        if (!user.emailVerified) {
+            await auth_repository_1.AuthRepository.verifyEmail(user._id.toString());
+        }
+        const accessToken = signToken({ id: user._id.toString(), sub: user._id.toString(), email: user.email, role: user.role }, process.env.JWT_EXPIRES_IN || "15m");
+        const refreshToken = crypto_1.default.randomBytes(32).toString("hex");
+        const refreshTokenHash = crypto_1.default.createHash("sha256").update(refreshToken).digest("hex");
+        const refreshExpiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
+        await auth_repository_1.AuthRepository.setRefreshToken(user._id.toString(), refreshTokenHash, refreshExpiresAt);
+        await activity_service_1.ActivityService.log("login", `User login: ${user.email}`, { email: user.email }, {
+            id: user._id.toString(),
+            email: user.email || null,
+            username: user.name || null,
+            role: user.role || null,
+        });
         return {
             ok: true,
             status: 200,
             message: "Login successful",
-            token,
-            user: { id: user._id, email: user.email, role: user.role },
+            accessToken,
+            refreshToken,
+            user: { id: user._id, name: user.name, email: user.email, role: user.role },
         };
     },
-    async requestPasswordReset(data) {
-        const user = await auth_repository_1.AuthRepository.findByEmail(data.email);
-        if (!user) {
-            return {
-                ok: true,
-                status: 200,
-                message: "If an account exists, a reset link has been sent.",
-            };
-        }
-        const resetToken = crypto_1.default.randomBytes(32).toString("hex");
-        const resetTokenHash = crypto_1.default.createHash("sha256").update(resetToken).digest("hex");
-        const expiresAt = new Date(Date.now() + 60 * 60 * 1000);
-        await auth_repository_1.AuthRepository.setResetToken(user._id.toString(), resetTokenHash, expiresAt);
-        const frontendBase = process.env.FRONTEND_URL || "http://localhost:3000";
-        const resetLink = `${frontendBase}/reset-password?token=${resetToken}`;
-        await sendResetEmail(user.email, resetLink);
-        const isProd = process.env.NODE_ENV === "production";
-        return {
-            ok: true,
-            status: 200,
-            message: "If an account exists, a reset link has been sent.",
-            ...(isProd ? {} : { resetLink }),
-        };
+    async logout(userId, req) {
+        const user = await auth_repository_1.AuthRepository.findById(userId);
+        await activity_service_1.ActivityService.log("logout", `User logout: ${user?.email}`, { email: user?.email }, {
+            id: userId,
+            email: user?.email || null,
+            username: user?.name || null,
+            role: user?.role || null,
+        }, req);
+        return { ok: true, status: 200, message: "Logout successful" };
     },
-    async resetPassword(data) {
-        const resetTokenHash = crypto_1.default.createHash("sha256").update(data.token).digest("hex");
-        const user = await auth_repository_1.AuthRepository.findByResetToken(resetTokenHash);
-        if (!user || !user.resetPasswordExpires || user.resetPasswordExpires.getTime() < Date.now()) {
-            return { ok: false, status: 400, message: "Invalid or expired reset token" };
-        }
-        const hashed = await bcryptjs_1.default.hash(data.password, 10);
-        await auth_repository_1.AuthRepository.updatePasswordAndClearReset(user._id.toString(), hashed);
-        return { ok: true, status: 200, message: "Password reset successful" };
-    },
-};
-const sendResetEmail = async (to, resetLink) => {
-    const host = process.env.SMTP_HOST;
-    const port = process.env.SMTP_PORT ? Number(process.env.SMTP_PORT) : undefined;
-    const user = process.env.SMTP_USER;
-    const pass = process.env.SMTP_PASS;
-    const from = process.env.SMTP_FROM || "no-reply@everblue.local";
-    if (!host || !port || !user || !pass) {
-        console.warn("SMTP not configured. Reset link:", resetLink);
-        return;
-    }
-    const transporter = nodemailer_1.default.createTransport({
-        host,
-        port,
-        secure: port === 465,
-        auth: { user, pass },
-    });
-    await transporter.sendMail({
-        from,
-        to,
-        subject: "Reset your password",
-        text: `Reset your password using this link: ${resetLink}`,
-        html: `<p>Reset your password using this link:</p><p><a href="${resetLink}">${resetLink}</a></p>`,
-    });
 };
 //# sourceMappingURL=auth.service.js.map

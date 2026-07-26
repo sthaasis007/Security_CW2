@@ -1,6 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import useAuth from "../../lib/useAuth";
+import apiFetch from "@/app/lib/request";
 import AdminLayout from "../../component/admin/AdminLayout";
 import UserManagement from "../../component/admin/UserManagement";
 
@@ -17,9 +18,7 @@ export default function AdminUsersPage() {
     }
     setIsLoading(true);
     try {
-      const res = await fetch("/api/admin/users", {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const res = await apiFetch("/api/admin/users");
       const data = await res.json();
       console.log("Response:", data);
       if (data.users) {
@@ -42,11 +41,7 @@ export default function AdminUsersPage() {
     }
 
     try {
-      const res = await fetch(`/api/admin/users/${userId}`, {
-        method: "DELETE",
-        headers: { Authorization: `Bearer ${token}` },
-      });
-
+      const res = await apiFetch(`/api/admin/users/${userId}`, { method: "DELETE" });
       if (res.ok) {
         alert("User deleted successfully");
         fetchUsers();

@@ -40,6 +40,15 @@ app.use(cors({ origin: process.env.FRONTEND_URL || "http://localhost:3000", cred
 app.use(express.json({ limit: "100kb" }));
 app.use(express.urlencoded({ extended: true, limit: "100kb" }));
 
+import sanitizeMiddleware from "./middleware/sanitize.middleware";
+import rateLimit from "./middleware/rateLimit.middleware";
+import csrfMiddleware from "./middleware/csrf.middleware";
+
+// Sanitize all incoming requests to mitigate NoSQL injection vectors
+app.use(sanitizeMiddleware);
+
+// Apply a conservative rate limit to auth endpoints via router-level middleware later
+
 // serve uploaded images
 // Allow these static files to be fetched cross-origin (useful in dev when frontend
 // may request files directly from the backend). Set Cross-Origin-Resource-Policy
@@ -55,7 +64,11 @@ app.use(
 
 app.get("/", (_req, res) => res.json({ message: "EverBlue API running" }));
 
-app.use("/api/auth", authRoutes);
+// Apply auth-specific rate limiting: max 6 requests per 15 minutes for sensitive endpoints
+const authRateLimiter = rateLimit({ windowMs: 15 * 60 * 1000, max: 6, keyPrefix: "auth" });
+app.use("/api/auth", authRateLimiter, authRoutes);
+// Apply CSRF protection to authenticated state-changing requests for API routes
+app.use("/api", csrfMiddleware);
 app.use("/api/admin", adminRoutes);
 app.use("/api/products", productPublicRoutes);
 app.use("/api/favorites", favoriteRoutes);
@@ -90,8 +103,8 @@ if (MONGO_URI) {
         const adminExists = await UserModel.findOne({ role: "admin" });
         if (!adminExists) {
           console.log("🌱 Creating default admin user (email: admin@local.com, password: Admin123!)...");
-          const hashed = await bcrypt.hash("Admin123!", 10);
-          await UserModel.create({ name: "Admin", email: "admin@local.com", password: hashed, role: "admin" } as any);
+          const hashed = await bcrypt.hash("Admin123!", 12);
+          await UserModel.create({ name: "Admin", email: "admin@local.com", password: hashed, role: "admin", passwordHistory: [{ hash: hashed, changedAt: new Date() }] } as any);
           console.log("✅ Admin user created");
         } else {
           // If an admin exists but has an invalid email like 'admin@local', update it to a valid address

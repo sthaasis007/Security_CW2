@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
 import { useEffect, useState } from "react";
+import apiFetch from "@/app/lib/request";
 import { useCart } from "@/app/lib/useCart";
 
 export default function TopBar() {
@@ -53,12 +54,9 @@ export default function TopBar() {
             <button 
               onClick={async () => {
                 const token = Cookies.get("token") || (typeof window !== "undefined" ? localStorage.getItem("token") : null);
-                if (token) {
-                  await fetch("/api/auth/logout", {
-                    method: "POST",
-                    headers: { Authorization: `Bearer ${token}` },
-                  });
-                }
+                  if (token) {
+                    await apiFetch("/api/auth/logout", { method: "POST" });
+                  }
                 Cookies.remove("token");
                 Cookies.remove("user");
                 localStorage.removeItem("token");

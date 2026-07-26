@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
+import apiFetch from "@/app/lib/request";
 import styles from "./ActivityLog.module.css";
 
 interface ActivityItem {
@@ -33,10 +34,7 @@ export default function ActivityLog() {
     if (from) query.set("from", from);
     if (to) query.set("to", to);
 
-    const res = await fetch(`/api/activity?${query.toString()}`, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-
+    const res = await apiFetch(`/api/activity?${query.toString()}`);
     if (res.ok) {
       const data = await res.json();
       setActivities(data.activities || []);

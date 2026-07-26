@@ -1,5 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
+import apiFetch from "@/app/lib/request";
 import { useParams } from "next/navigation";
 import useAuth from "../../../lib/useAuth";
 
@@ -12,7 +13,7 @@ export default function AdminUserView() {
     if (!ready) return;
     const token = localStorage.getItem("token");
     if (!token) return;
-    fetch(`/api/admin/users/${id}`, { headers: { Authorization: `Bearer ${token}` } })
+    apiFetch(`/api/admin/users/${id}`)
       .then((r) => r.json())
       .then((data) => setUser(data.user))
       .catch(() => setUser(null));

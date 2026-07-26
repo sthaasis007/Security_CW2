@@ -27,12 +27,8 @@ export default function LoginForm() {
     setError(null);
     setLoading(true);
     try {
-      const base = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
-      const res = await fetch(`${base}/api/auth/login`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: data.email, password: data.password }),
-      });
+      // use same-origin API route so cookies set by backend are stored correctly
+      const res = await apiFetch(`/api/auth/login`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ email: data.email, password: data.password }) });
 
       const body = await res.json().catch(() => ({}));
       if (res.ok) {

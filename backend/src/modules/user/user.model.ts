@@ -5,6 +5,13 @@ const userSchema = new mongoose.Schema(
     name: { type: String, trim: true },
     email: { type: String, required: true, unique: true, lowercase: true, trim: true },
     password: { type: String, required: true },
+    // Keep recent password hashes to prevent reuse (most recent first)
+    passwordHistory: [
+      {
+        hash: { type: String },
+        changedAt: { type: Date },
+      },
+    ],
     image: { type: String },
     role: {
       type: String,
@@ -20,6 +27,8 @@ const userSchema = new mongoose.Schema(
     emailVerificationExpires: { type: Date, default: null },
     refreshTokenHash: { type: String, default: null },
     refreshTokenExpiresAt: { type: Date, default: null },
+    csrfTokenHash: { type: String, default: null },
+    csrfTokenExpiresAt: { type: Date, default: null },
     lastLoginAt: { type: Date, default: null },
     loginAttempts: { type: Number, default: 0 },
     lockUntil: { type: Date, default: null },

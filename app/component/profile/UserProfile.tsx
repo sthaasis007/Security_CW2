@@ -1,5 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
+import apiFetch from "@/app/lib/request";
 import { useRouter } from "next/navigation";
 import styles from "./UserProfile.module.css";
 import { buildImageUrl } from "@/app/lib/imageUrl";
@@ -38,7 +39,7 @@ export default function UserProfile() {
           const userId = parsedStored._id || parsedStored.id;
           if (userId) {
             try {
-              const res = await fetch(`/api/auth/${userId}`, { headers: { Authorization: `Bearer ${token}` } });
+              const res = await apiFetch(`/api/auth/${userId}`);
               if (res.ok) {
                 const data = await res.json();
                   const user = data.user || data;
@@ -114,11 +115,7 @@ export default function UserProfile() {
       const fd = new FormData();
       fd.append(field, editValue);
 
-      const response = await fetch(`/api/auth/${userId}`, {
-        method: "PUT",
-        headers: { Authorization: `Bearer ${token}` },
-        body: fd,
-      });
+      const response = await apiFetch(`/api/auth/${userId}`, { method: "PUT", body: fd });
 
       if (!response.ok) {
         throw new Error("Failed to update profile");
@@ -167,11 +164,7 @@ export default function UserProfile() {
       const fd = new FormData();
       if (image) fd.append("image", image);
 
-      const response = await fetch(`/api/auth/${userId}`, {
-        method: "PUT",
-        headers: { Authorization: `Bearer ${token}` },
-        body: fd,
-      });
+      const response = await apiFetch(`/api/auth/${userId}`, { method: "PUT", body: fd });
 
       if (!response.ok) {
         throw new Error("Failed to update profile image");
@@ -219,10 +212,7 @@ export default function UserProfile() {
         throw new Error("User ID not found");
       }
 
-      const res = await fetch(`/api/auth/${userId}`, {
-        method: "DELETE",
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const res = await apiFetch(`/api/auth/${userId}`, { method: "DELETE" });
 
       if (!res.ok) {
         throw new Error("Failed to delete account");

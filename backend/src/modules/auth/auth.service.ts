@@ -5,9 +5,10 @@ import { AuthRepository } from "./auth.repository";
 import { LoginDto, RegisterDto } from "./auth.dto";
 import { ActivityService } from "../activity/activity.service";
 
-const PASSWORD_POLICY = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,}$/;
+// Require minimum 12 characters and mixed classes
+const PASSWORD_POLICY = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{12,}$/;
 
-const isPasswordStrong = (password: string) => PASSWORD_POLICY.test(password);
+export const isPasswordStrong = (password: string) => PASSWORD_POLICY.test(password);
 
 const signToken = (payload: object, expiresIn: string) => {
   const secret = process.env.JWT_SECRET || "change_me_local_secret";
@@ -17,7 +18,7 @@ const signToken = (payload: object, expiresIn: string) => {
 export const AuthService = {
   async register(data: RegisterDto) {
     if (!isPasswordStrong(data.password)) {
-      return { ok: false, status: 400, message: "Password must be at least 8 characters and include uppercase, lowercase, number, and special character" };
+      return { ok: false, status: 400, message: "Password must be at least 12 characters and include uppercase, lowercase, number, and special character" };
     }
 
     const existing = await AuthRepository.findByEmail(data.email);
@@ -103,6 +104,12 @@ export const AuthService = {
     const refreshExpiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
     await AuthRepository.setRefreshToken((user as any)._id.toString(), refreshTokenHash, refreshExpiresAt);
 
+    // create csrf token and store its hash
+    const csrfToken = crypto.randomBytes(24).toString("hex");
+    const csrfHash = crypto.createHash("sha256").update(csrfToken).digest("hex");
+    const csrfExpiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
+    await AuthRepository.setCsrfToken((user as any)._id.toString(), csrfHash, csrfExpiresAt);
+
     await ActivityService.log(
       "login",
       `User login: ${(user as any).email}`,
@@ -121,6 +128,7 @@ export const AuthService = {
       message: "Login successful",
       accessToken,
       refreshToken,
+      csrfToken,
       user: { id: (user as any)._id, name: (user as any).name, email: (user as any).email, role: (user as any).role },
     };
   },
@@ -139,6 +147,51 @@ export const AuthService = {
       },
       req
     );
+    // Clear refresh token from DB to invalidate session
+    await AuthRepository.clearRefreshToken(userId);
+    // Clear csrf token as well
+    await AuthRepository.clearCsrfToken(userId);
     return { ok: true, status: 200, message: "Logout successful" };
+  },
+
+  async rotateRefreshToken(rawToken: string) {
+    try {
+      if (!rawToken) return { ok: false, status: 401, message: "Missing refresh token" };
+      const tokenHash = crypto.createHash("sha256").update(rawToken).digest("hex");
+      const user = await AuthRepository.findByRefreshTokenHash(tokenHash);
+      if (!user) {
+        return { ok: false, status: 401, message: "Invalid refresh token" };
+      }
+
+      if (user.refreshTokenExpiresAt && new Date(user.refreshTokenExpiresAt) < new Date()) {
+        await AuthRepository.clearRefreshToken((user as any)._id.toString());
+        return { ok: false, status: 401, message: "Refresh token expired" };
+      }
+
+      // generate new tokens
+      const accessToken = signToken({ id: (user as any)._id.toString(), sub: (user as any)._id.toString(), email: user.email, role: user.role }, process.env.JWT_EXPIRES_IN || "15m");
+      const newRefresh = crypto.randomBytes(32).toString("hex");
+      const newRefreshHash = crypto.createHash("sha256").update(newRefresh).digest("hex");
+      const refreshExpiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
+      await AuthRepository.setRefreshToken((user as any)._id.toString(), newRefreshHash, refreshExpiresAt);
+
+      // rotate csrf token as well
+      const csrfToken = crypto.randomBytes(24).toString("hex");
+      const csrfHash = crypto.createHash("sha256").update(csrfToken).digest("hex");
+      const csrfExpiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
+      await AuthRepository.setCsrfToken((user as any)._id.toString(), csrfHash, csrfExpiresAt);
+
+      return {
+        ok: true,
+        status: 200,
+        accessToken,
+        refreshToken: newRefresh,
+        csrfToken,
+        user: { id: (user as any)._id, email: (user as any).email, role: (user as any).role },
+      };
+    } catch (err) {
+      console.error('rotateRefreshToken error', err);
+      return { ok: false, status: 500, message: 'Server error' };
+    }
   },
 };

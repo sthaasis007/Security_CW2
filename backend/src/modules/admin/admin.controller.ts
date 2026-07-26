@@ -14,7 +14,7 @@ export const AdminController = {
       const existing = await AuthRepository.findByEmail(email);
       if (existing) return res.status(409).json({ ok: false, message: "Email exists" });
 
-      const hashed = await bcrypt.hash(password, 10);
+      const hashed = await bcrypt.hash(password, 12);
       const image = (req as any).file ? (req as any).file.filename : undefined;
 
       const user = await AuthRepository.createUser({
@@ -53,7 +53,7 @@ export const AdminController = {
       }
       // don't allow password update here unless explicitly provided
       if (body.password) {
-        body.password = await bcrypt.hash(body.password, 10);
+        body.password = await bcrypt.hash(body.password, 12);
       }
 
       const updated = await AuthRepository.updateUser(id as string, body as any);

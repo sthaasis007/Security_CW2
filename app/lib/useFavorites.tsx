@@ -1,4 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
+import Cookies from "js-cookie";
+import apiFetch from "@/app/lib/request";
 
 interface FavoriteProduct {
   _id: string;
@@ -22,9 +24,7 @@ export function useFavorites() {
     }
 
     try {
-      const res = await fetch("/api/favorites", {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const res = await apiFetch("/api/favorites");
       if (!res.ok) throw new Error("Failed to fetch favorites");
       const data = await res.json();
       const items = (data.favorites || []).map((item: any) => ({
@@ -55,14 +55,8 @@ export function useFavorites() {
       return;
     }
 
-    const res = await fetch("/api/favorites", {
-      method: "POST",
-      headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
-      body: JSON.stringify({ productId: product._id }),
-    });
-    if (res.ok) {
-      await syncFavorites();
-    }
+    const res = await apiFetch("/api/favorites", { method: "POST", body: JSON.stringify({ productId: product._id }) });
+    if (res.ok) await syncFavorites();
   };
 
   const removeFavorite = async (productId: string) => {
@@ -73,13 +67,8 @@ export function useFavorites() {
       return;
     }
 
-    const res = await fetch(`/api/favorites/${productId}`, {
-      method: "DELETE",
-      headers: { Authorization: `Bearer ${token}` },
-    });
-    if (res.ok) {
-      await syncFavorites();
-    }
+    const res = await apiFetch(`/api/favorites/${productId}`, { method: "DELETE" });
+    if (res.ok) await syncFavorites();
   };
 
   const isFavorite = (productId: string) => {

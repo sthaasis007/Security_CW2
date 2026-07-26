@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import apiFetch from "@/app/lib/request";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { registerSchema, RegisterSchema } from "../../lib/validations/auth.schema";
@@ -38,12 +39,7 @@ export default function RegisterForm() {
     setError(null);
     setLoading(true);
     try {
-      const base = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
-      const res = await fetch(`${base}/api/auth/register`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name: data.name, email: data.email, password: data.password }),
-      });
+      const res = await apiFetch(`/api/auth/register`, { method: "POST", body: JSON.stringify({ name: data.name, email: data.email, password: data.password }) });
 
       const body = await res.json().catch(() => ({}));
       if (res.ok) {

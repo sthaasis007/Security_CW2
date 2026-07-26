@@ -1,6 +1,7 @@
 "use client";
 import React, { useEffect, useMemo, useState } from "react";
 import styles from "./ProductManagement.module.css";
+import apiFetch from "@/app/lib/request";
 import { buildImageUrl } from "@/app/lib/imageUrl";
 
 export type ProductPlacement = "bestseller" | "current";
@@ -46,9 +47,7 @@ export default function ProductManagement() {
 
       setIsLoading(true);
       try {
-        const res = await fetch("/api/admin/products", {
-          headers: { Authorization: `Bearer ${token}` },
-        });
+        const res = await apiFetch("/api/admin/products");
         const data = await res.json();
         if (data.products) {
           setProducts(data.products);
@@ -164,12 +163,7 @@ export default function ProductManagement() {
 
       const url = editingId ? `/api/admin/products/${editingId}` : "/api/admin/products";
       const method = editingId ? "PUT" : "POST";
-      const res = await fetch(url, {
-        method,
-        headers: { Authorization: `Bearer ${token}` },
-        body: fd,
-      });
-
+      const res = await apiFetch(url, { method, body: fd });
       const data = await res.json();
       if (!res.ok) {
         throw new Error(data.message || "Failed to create product");
@@ -202,10 +196,7 @@ export default function ProductManagement() {
     }
 
     try {
-      const res = await fetch(`/api/admin/products/${id}`, {
-        method: "DELETE",
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const res = await apiFetch(`/api/admin/products/${id}`, { method: "DELETE" });
       if (!res.ok) {
         throw new Error("Failed to delete product");
       }

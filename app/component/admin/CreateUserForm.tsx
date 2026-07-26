@@ -1,5 +1,6 @@
 "use client";
 import React, { useState } from "react";
+import apiFetch from "@/app/lib/request";
 import { useRouter } from "next/navigation";
 import styles from "./CreateUserForm.module.css";
 
@@ -51,7 +52,7 @@ export default function CreateUserForm() {
       fd.append("role", formData.role);
       if (image) fd.append("image", image);
 
-      const response = await fetch(`/api/auth/user`, {
+      const response = await apiFetch(`/api/auth/user`, {
         method: "POST",
         body: fd,
       });

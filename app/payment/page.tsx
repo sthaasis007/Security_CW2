@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
+import apiFetch from "@/app/lib/request";
 import { useRouter } from "next/navigation";
 import { useCart } from "@/app/lib/useCart";
 import styles from "./Payment.module.css";
@@ -31,12 +32,8 @@ export default function PaymentPage() {
 
         const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
 
-        const res = await fetch('/api/payment/initiate', {
+        const res = await apiFetch('/api/payment/initiate', {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            ...(token ? { Authorization: `Bearer ${token}` } : {}),
-          },
           body: JSON.stringify({
             amount: Math.round(total * 100), // send paisa to backend consistently
             purchase_order_id: orderId,

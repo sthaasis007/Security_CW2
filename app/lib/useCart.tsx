@@ -1,4 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
+import Cookies from "js-cookie";
+import apiFetch from "@/app/lib/request";
 
 export interface CartItem {
   _id: string;
@@ -32,9 +34,7 @@ export function useCart() {
     }
 
     try {
-      const res = await fetch("/api/cart", {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const res = await apiFetch("/api/cart");
       if (!res.ok) {
         const text = await res.text().catch(() => null);
         console.error("Failed to fetch cart:", res.status, text);
@@ -83,9 +83,8 @@ export function useCart() {
       return;
     }
 
-    const res = await fetch("/api/cart/add", {
+    const res = await apiFetch("/api/cart/add", {
       method: "POST",
-      headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
       body: JSON.stringify({ productId: product.productId || product._id, quantity: 1 }),
     });
     const data = await res.json().catch(() => ({}));
@@ -108,13 +107,8 @@ export function useCart() {
       return;
     }
 
-    const res = await fetch(`/api/cart/remove/${productId}`, {
-      method: "DELETE",
-      headers: { Authorization: `Bearer ${token}` },
-    });
-    if (res.ok) {
-      await syncCart();
-    }
+    const res = await apiFetch(`/api/cart/remove/${productId}`, { method: "DELETE" });
+    if (res.ok) await syncCart();
   };
 
   const updateQuantity = async (productId: string, quantity: number) => {
@@ -133,14 +127,8 @@ export function useCart() {
       return;
     }
 
-    const res = await fetch(`/api/cart/update/${productId}`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
-      body: JSON.stringify({ quantity }),
-    });
-    if (res.ok) {
-      await syncCart();
-    }
+    const res = await apiFetch(`/api/cart/update/${productId}`, { method: "PUT", body: JSON.stringify({ quantity }) });
+    if (res.ok) await syncCart();
   };
 
   const calculateTotal = () => {
@@ -155,10 +143,9 @@ export function useCart() {
       try { localStorage.removeItem("guest_cart"); } catch (e) { console.error('Failed to clear guest cart', e); }
       return;
     }
-    const res = await fetch("/api/cart/clear", { method: "DELETE", headers: { Authorization: `Bearer ${token}` } });
-    if (res.ok) {
-      await syncCart();
-    }
+    // include CSRF header for authenticated requests
+    const res = await apiFetch("/api/cart/clear", { method: "DELETE" });
+    if (res.ok) await syncCart();
   };
 
   const getCartCount = () => {

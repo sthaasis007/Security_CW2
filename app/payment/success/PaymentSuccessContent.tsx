@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
+import apiFetch from "@/app/lib/request";
 import { useSearchParams, useRouter } from "next/navigation";
 import { useCart } from "@/app/lib/useCart";
 import styles from "./Success.module.css";
@@ -20,13 +21,8 @@ export default function PaymentSuccessContent() {
     const run = async () => {
       if (pidx) {
         // verify with backend
-        try {
-          const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
-          const res = await fetch('/api/payment/verify', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json', ...(token ? { Authorization: `Bearer ${token}` } : {}) },
-            body: JSON.stringify({ pidx }),
-          });
+          try {
+          const res = await apiFetch('/api/payment/verify', { method: 'POST', body: JSON.stringify({ pidx }) });
           const body = await res.json().catch(() => ({}));
           if (res.ok && body?.data) {
             const data = body.data;

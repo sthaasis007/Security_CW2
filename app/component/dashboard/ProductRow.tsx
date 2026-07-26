@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useMemo, useState } from "react";
+import apiFetch from "@/app/lib/request";
 import Link from "next/link";
 import { buildImageUrl } from "@/app/lib/imageUrl";
 
@@ -25,7 +26,7 @@ export default function ProductRow() {
     const fetchProducts = async () => {
       setIsLoading(true);
       try {
-        const res = await fetch("/api/products", { cache: "no-store" });
+        const res = await apiFetch("/api/products", { cache: "no-store" } as any);
         const data = await res.json();
         if (data.products) setProducts(data.products);
       } catch (err) {

@@ -1,5 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
+import apiFetch from "@/app/lib/request";
 import { useRouter } from "next/navigation";
 import styles from "./EditUserForm.module.css";
 
@@ -30,9 +31,7 @@ export default function EditUserForm({ userId }: EditUserFormProps) {
           throw new Error("No token found");
         }
 
-        const response = await fetch(`/api/admin/users/${userId}`, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
+        const response = await apiFetch(`/api/admin/users/${userId}`);
 
         if (!response.ok) {
           throw new Error("Failed to fetch user");
@@ -103,11 +102,7 @@ export default function EditUserForm({ userId }: EditUserFormProps) {
       }
       if (image) fd.append("image", image);
 
-      const response = await fetch(`/api/admin/users/${userId}`, {
-        method: "PUT",
-        headers: { Authorization: `Bearer ${token}` },
-        body: fd,
-      });
+      const response = await apiFetch(`/api/admin/users/${userId}`, { method: "PUT", body: fd });
 
       if (!response.ok) {
         throw new Error("Failed to update user");

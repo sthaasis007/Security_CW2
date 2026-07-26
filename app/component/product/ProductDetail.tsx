@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
+import apiFetch from "@/app/lib/request";
 import styles from "./ProductDetail.module.css";
 import { useFavorites } from "@/app/lib/useFavorites";
 import { useCart } from "@/app/lib/useCart";
@@ -38,11 +39,7 @@ export default function ProductDetail({ productId }: ProductDetailProps) {
         const url = `/api/products/${productId}`;
         console.log("Fetch URL:", url);
         
-        const res = await fetch(url, {
-          cache: "no-store",
-        });
-        
-        console.log("Response status:", res.status);
+        const res = await apiFetch(url, { cache: "no-store" } as any);
         const data = await res.json();
         console.log("Response data:", data);
         

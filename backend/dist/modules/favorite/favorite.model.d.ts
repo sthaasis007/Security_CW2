@@ -30,9 +30,9 @@ export declare const FavoriteModel: mongoose.Model<{
     _id: mongoose.Types.ObjectId;
 } & {
     __v: number;
-}, "id"> & {
+}, "id"> & mongoose.HydratedDocumentOverrides<{
     id: string;
-}, mongoose.Schema<any, mongoose.Model<any, any, any, any, any, any, any>, {}, {}, {}, {}, {
+}>, mongoose.Schema<any, mongoose.Model<any, any, any, any, any, any, any>, {}, {}, {}, {}, {
     timestamps: true;
 }, {
     userId: mongoose.Types.ObjectId;
@@ -50,9 +50,9 @@ export declare const FavoriteModel: mongoose.Model<{
     productImage?: string | null;
 } & mongoose.DefaultTimestampProps, {
     id: string;
-}, mongoose.ResolveSchemaOptions<{
+}, Omit<mongoose.DefaultSchemaOptions, "timestamps"> & {
     timestamps: true;
-}>> & Omit<{
+}> & Omit<{
     userId: mongoose.Types.ObjectId;
     productId: mongoose.Types.ObjectId;
     productName?: string | null;
@@ -63,37 +63,9 @@ export declare const FavoriteModel: mongoose.Model<{
     _id: mongoose.Types.ObjectId;
 } & {
     __v: number;
-}, "id"> & {
+}, "id"> & mongoose.HydratedDocumentOverrides<{
     id: string;
-}, {
-    [path: string]: mongoose.SchemaDefinitionProperty<undefined, any, any>;
-} | {
-    [x: string]: mongoose.SchemaDefinitionProperty<any, any, mongoose.Document<unknown, {}, {
-        userId: mongoose.Types.ObjectId;
-        productId: mongoose.Types.ObjectId;
-        productName?: string | null;
-        productPrice?: number | null;
-        productDescription?: string | null;
-        productImage?: string | null;
-    } & mongoose.DefaultTimestampProps, {
-        id: string;
-    }, mongoose.ResolveSchemaOptions<{
-        timestamps: true;
-    }>> & Omit<{
-        userId: mongoose.Types.ObjectId;
-        productId: mongoose.Types.ObjectId;
-        productName?: string | null;
-        productPrice?: number | null;
-        productDescription?: string | null;
-        productImage?: string | null;
-    } & mongoose.DefaultTimestampProps & {
-        _id: mongoose.Types.ObjectId;
-    } & {
-        __v: number;
-    }, "id"> & {
-        id: string;
-    }> | undefined;
-}, {
+}>, unknown, {
     userId: mongoose.Types.ObjectId;
     productId: mongoose.Types.ObjectId;
     productName?: string | null;

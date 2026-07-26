@@ -25,7 +25,7 @@ export const AdminController = {
         ...(image ? { image } : {}),
       } as any);
 
-      return res.status(201).json({ ok: true, message: "User created", user: { id: user._id, email: user.email, role: user.role } });
+      return res.status(201).json({ ok: true, message: "User created", user: { id: (user as any)._id, email: (user as any).email, role: (user as any).role } });
     } catch (err) {
       return res.status(500).json({ ok: false, message: "Server error", err });
     }

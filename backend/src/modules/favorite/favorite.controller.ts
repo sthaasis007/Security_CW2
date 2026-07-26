@@ -1,5 +1,7 @@
 import { Request, Response } from "express";
 import { FavoriteRepository } from "./favorite.repository";
+import { ActivityService } from "../activity/activity.service";
+import { ProductRepository } from "../product/product.repository";
 
 export const FavoriteController = {
   // Get all favorites for the logged-in user
@@ -40,6 +42,7 @@ export const FavoriteController = {
       }
 
       const favorite = await FavoriteRepository.addFavorite(userId, productId);
+      await ActivityService.log("favorite_added", `Added product ${productId} to favorites`, { productId }, { id: userId }, req);
       return res.status(201).json({ ok: true, favorite });
     } catch (err) {
       const message = err instanceof Error ? err.message : "Server error";
@@ -62,6 +65,7 @@ export const FavoriteController = {
       }
 
       const result = await FavoriteRepository.removeFavorite(userId, productId);
+      await ActivityService.log("favorite_removed", `Removed product ${productId} from favorites`, { productId }, { id: userId }, req);
       return res.status(200).json({ ok: true, result });
     } catch (err) {
       return res.status(500).json({ ok: false, message: "Server error", err });

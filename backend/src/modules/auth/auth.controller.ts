@@ -1,9 +1,10 @@
 import { Request, Response } from "express";
-import { registerDto, loginDto, forgotPasswordDto, resetPasswordDto } from "./auth.dto";
+import { registerDto, loginDto } from "./auth.dto";
 import { AuthService } from "./auth.service";
 import bcrypt from "bcryptjs";
 import { AuthRepository } from "./auth.repository";
 import { deleteUploadFile } from "../../utils/file";
+import { ActivityService } from "../activity/activity.service";
 
 export const AuthController = {
   async register(req: Request, res: Response) {
@@ -32,30 +33,18 @@ export const AuthController = {
     return res.status(result.status).json(result);
   },
 
-  async forgotPassword(req: Request, res: Response) {
-    const parsed = forgotPasswordDto.safeParse(req.body);
-    if (!parsed.success) {
-      return res.status(400).json({
-        message: "Validation error",
-        errors: parsed.error.flatten().fieldErrors,
-      });
+  async logout(req: Request, res: Response) {
+    try {
+      const currentUser = (req as any).user as { id?: string; sub?: string } | undefined;
+      if (!currentUser?.id && !currentUser?.sub) {
+        return res.status(401).json({ ok: false, message: "Unauthorized" });
+      }
+
+      const result = await AuthService.logout((currentUser.id || currentUser.sub) as string, req);
+      return res.status(result.status).json(result);
+    } catch (err) {
+      return res.status(500).json({ ok: false, message: "Server error", err });
     }
-
-    const result = await AuthService.requestPasswordReset(parsed.data);
-    return res.status(result.status).json(result);
-  },
-
-  async resetPassword(req: Request, res: Response) {
-    const parsed = resetPasswordDto.safeParse(req.body);
-    if (!parsed.success) {
-      return res.status(400).json({
-        message: "Validation error",
-        errors: parsed.error.flatten().fieldErrors,
-      });
-    }
-
-    const result = await AuthService.resetPassword(parsed.data);
-    return res.status(result.status).json(result);
   },
 
   async createUser(req: Request, res: Response) {
@@ -109,6 +98,19 @@ export const AuthController = {
       }
       const updated = await AuthRepository.updateUser(id as string, body as any);
       if (!updated) return res.status(404).json({ ok: false, message: "User not found" });
+
+      await ActivityService.log(
+        "profile_update",
+        "User profile updated",
+        { updatedFields: Object.keys(body) },
+        {
+          id: updated._id?.toString() || null,
+          email: updated.email || null,
+          username: updated.name || null,
+          role: updated.role || null,
+        },
+        req
+      );
 
       if (body.image && existing?.image && existing.image !== body.image) {
         await deleteUploadFile(existing.image);

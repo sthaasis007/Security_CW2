@@ -1,19 +1,44 @@
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
+import helmet from "helmet";
 import authRoutes from "./modules/auth/auth.route";
 import adminRoutes from "./modules/admin/admin.route";
 import productPublicRoutes from "./modules/product/product.public.route";
 import favoriteRoutes from "./modules/favorite/favorite.route";
+import cartRoutes from "./modules/cart/cart.route";
+import activityRoutes from "./modules/activity/activity.route";
 import paymentRoutes from "./modules/payment/payment.route";
 import path from "path";
 import { connectDB } from "./config/db";
+import { ProductModel } from "./modules/product/product.model";
+import { UserModel } from "./modules/user/user.model";
+import bcrypt from "bcryptjs";
 
-dotenv.config();
+dotenv.config({ path: path.resolve(process.cwd(), "..", ".env.local") });
+dotenv.config({ path: path.resolve(process.cwd(), ".env") });
 
 const app = express();
-app.use(cors());
-app.use(express.json());
+
+// Trust proxy to get real client IP
+app.set("trust proxy", 1);
+
+app.disable("x-powered-by");
+app.use(helmet({
+  contentSecurityPolicy: {
+    directives: {
+      defaultSrc: ["'self'"],
+      imgSrc: ["'self'", "data:", "https:"],
+      scriptSrc: ["'self'"],
+      styleSrc: ["'self'", "'unsafe-inline'"],
+      objectSrc: ["'none'"],
+    },
+  },
+  crossOriginEmbedderPolicy: false,
+}));
+app.use(cors({ origin: process.env.FRONTEND_URL || "http://localhost:3000", credentials: true }));
+app.use(express.json({ limit: "100kb" }));
+app.use(express.urlencoded({ extended: true, limit: "100kb" }));
 
 // serve uploaded images
 app.use("/uploads", express.static(path.join(process.cwd(), "backend", "uploads")));
@@ -24,16 +49,59 @@ app.use("/api/auth", authRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/products", productPublicRoutes);
 app.use("/api/favorites", favoriteRoutes);
+app.use("/api/cart", cartRoutes);
+app.use("/api/activity", activityRoutes);
 app.use("/api/payment", paymentRoutes);
 
-const PORT = process.env.PORT || 5000;
-const MONGO_URI = process.env.MONGO_URI as string;
+app.use((err: any, _req: express.Request, res: express.Response, _next: express.NextFunction) => {
+  console.error("Unhandled error:", err);
+  res.status(err.status || 500).json({ ok: false, message: "Internal server error" });
+});
 
-connectDB(MONGO_URI)
-  .then(() => {
-    app.listen(PORT, () => console.log(`✅ Server running on http://localhost:${PORT}`));
-  })
-  .catch((err) => {
-    console.error("❌ DB connection error:", err);
-    process.exit(1);
-  });
+const PORT = Number(process.env.BACKEND_PORT || 5000);
+const MONGO_URI = (process.env.MONGO_URI || "mongodb://127.0.0.1:27017/everblue") as string;
+
+if (MONGO_URI) {
+  connectDB(MONGO_URI)
+    .then(async () => {
+      console.log("🔍 Checking database for seed data...");
+
+      try {
+        const prodCount = await ProductModel.countDocuments();
+        if (prodCount === 0) {
+          console.log("🌱 Seeding sample products...");
+          await ProductModel.create([
+            { name: "Sample Tee", price: 1999, description: "Comfortable cotton tee", placements: ["current"], displayOrder: 1, image: "sample-tee.jpg" },
+            { name: "Blue Hoodie", price: 3999, description: "Cozy hoodie", placements: ["bestseller"], displayOrder: 2, image: "blue-hoodie.jpg" },
+          ] as any);
+          console.log("✅ Sample products seeded");
+        }
+
+        const adminExists = await UserModel.findOne({ role: "admin" });
+        if (!adminExists) {
+          console.log("🌱 Creating default admin user (email: admin@local.com, password: Admin123!)...");
+          const hashed = await bcrypt.hash("Admin123!", 10);
+          await UserModel.create({ name: "Admin", email: "admin@local.com", password: hashed, role: "admin" } as any);
+          console.log("✅ Admin user created");
+        } else {
+          // If an admin exists but has an invalid email like 'admin@local', update it to a valid address
+          if (!adminExists.email.includes('.')) {
+            console.log("🔧 Updating existing admin email to admin@local.com for compatibility...");
+            await UserModel.findByIdAndUpdate(adminExists._id, { email: 'admin@local.com' });
+            console.log("✅ Admin email updated");
+          }
+        }
+      } catch (seedErr) {
+        console.error("❌ Error during seeding:", seedErr);
+      }
+
+      app.listen(PORT, () => console.log(`✅ Server running on http://localhost:${PORT}`));
+    })
+    .catch((err) => {
+      console.error("❌ DB connection error:", err);
+      process.exit(1);
+    });
+} else {
+  console.warn("⚠️ MONGO_URI not configured. Starting server without a database connection.");
+  app.listen(PORT, () => console.log(`✅ Server running on http://localhost:${PORT}`));
+}

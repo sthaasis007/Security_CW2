@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import axios from "axios";
 import fs from "fs";
+import { ActivityService } from "../activity/activity.service";
 
 const KHALTI_SECRET_KEY = process.env.KHALTI_SECRET_KEY;
 const KHALTI_GATEWAY_URL = "https://khalti.com/api/v2";
@@ -82,6 +83,7 @@ typeof KHALTI_TEST_MODE = ${typeof KHALTI_TEST_MODE}
 
     // Log cart items for tracking (you can store this in database later)
     logToFile("Payment initiated for cart: " + JSON.stringify(cart_items));
+    await ActivityService.log("checkout", "Checkout initiated", { amount, purchaseOrderId: purchase_order_id, itemCount: (cart_items || []).length }, { id: authReq.user?.id || null, email: authReq.user?.email || null, role: authReq.user?.role || null }, req);
     logToFile("🔧 TEST_MODE check: " + KHALTI_TEST_MODE);
 
     // TEST MODE: Simulate successful payment initiation
@@ -215,6 +217,7 @@ export const verifyPayment = async (req: Request, res: Response): Promise<void> 
 
     // Check if payment was successful
     if (paymentData.status === "Completed") {
+      await ActivityService.log("checkout", "Checkout completed", { pidx, amount: paymentData.total_amount }, { id: (req as any).user?.id, email: (req as any).user?.email, role: (req as any).user?.role }, req);
       res.status(200).json({
         success: true,
         message: "Payment verified successfully",

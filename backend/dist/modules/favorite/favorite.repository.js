@@ -17,8 +17,8 @@ exports.FavoriteRepository = {
             productId,
             productName: product.name,
             productPrice: product.price,
-            productDescription: product.description,
-            productImage: product.image,
+            productDescription: product.description || null,
+            productImage: product.image || null,
         });
     },
     // Remove a product from favorites

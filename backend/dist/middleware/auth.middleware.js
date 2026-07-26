@@ -5,7 +5,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.authOnly = void 0;
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
-const authOnly = (req, res, next) => {
+const auth_repository_1 = require("../modules/auth/auth.repository");
+const authOnly = async (req, res, next) => {
     const auth = req.headers.authorization;
     if (!auth || !auth.startsWith("Bearer ")) {
         return res.status(401).json({ ok: false, message: "Unauthorized" });
@@ -14,7 +15,13 @@ const authOnly = (req, res, next) => {
     try {
         const secret = (process.env.JWT_SECRET || "change_me_local_secret");
         const payload = jsonwebtoken_1.default.verify(token, secret);
-        req.user = payload;
+        // Fetch full user data to get username and other fields
+        const user = await auth_repository_1.AuthRepository.findById(payload.sub);
+        req.user = {
+            ...payload,
+            id: payload.sub,
+            username: user?.name || null,
+        };
         next();
     }
     catch (_err) {

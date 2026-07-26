@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.FavoriteController = void 0;
 const favorite_repository_1 = require("./favorite.repository");
+const activity_service_1 = require("../activity/activity.service");
 exports.FavoriteController = {
     // Get all favorites for the logged-in user
     async getFavorites(req, res) {
@@ -36,6 +37,7 @@ exports.FavoriteController = {
                     .json({ ok: false, message: "Product already in favorites" });
             }
             const favorite = await favorite_repository_1.FavoriteRepository.addFavorite(userId, productId);
+            await activity_service_1.ActivityService.log("favorite_added", `Added product ${productId} to favorites`, { productId }, { id: userId }, req);
             return res.status(201).json({ ok: true, favorite });
         }
         catch (err) {
@@ -55,6 +57,7 @@ exports.FavoriteController = {
                 return res.status(400).json({ ok: false, message: "Product ID is required" });
             }
             const result = await favorite_repository_1.FavoriteRepository.removeFavorite(userId, productId);
+            await activity_service_1.ActivityService.log("favorite_removed", `Removed product ${productId} from favorites`, { productId }, { id: userId }, req);
             return res.status(200).json({ ok: true, result });
         }
         catch (err) {
@@ -87,6 +90,9 @@ exports.FavoriteController = {
             const { productId } = req.params;
             if (!userId) {
                 return res.status(401).json({ ok: false, message: "Unauthorized" });
+            }
+            if (!productId) {
+                return res.status(400).json({ ok: false, message: "Product ID is required" });
             }
             const isFav = await favorite_repository_1.FavoriteRepository.isFavorited(userId, productId);
             return res.status(200).json({ ok: true, isFavorited: isFav });

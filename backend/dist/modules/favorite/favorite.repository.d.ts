@@ -36,9 +36,9 @@ export declare const FavoriteRepository: {
         _id: import("mongoose").Types.ObjectId;
     } & {
         __v: number;
-    }, "id"> & {
+    }, "id"> & import("mongoose").HydratedDocumentOverrides<{
         id: string;
-    }, {}, {
+    }>, {}, {
         userId: import("mongoose").Types.ObjectId;
         productId: import("mongoose").Types.ObjectId;
         productName?: string | null;
@@ -54,7 +54,31 @@ export declare const FavoriteRepository: {
     }, "find", {
         id: string;
     }>;
-    addFavorite: (userId: string, productId: string) => Promise<never>;
+    addFavorite: (userId: string, productId: string) => Promise<import("mongoose").Document<unknown, {}, {
+        userId: import("mongoose").Types.ObjectId;
+        productId: import("mongoose").Types.ObjectId;
+        productName?: string | null;
+        productPrice?: number | null;
+        productDescription?: string | null;
+        productImage?: string | null;
+    } & import("mongoose").DefaultTimestampProps, {
+        id: string;
+    }, {
+        timestamps: true;
+    }> & Omit<{
+        userId: import("mongoose").Types.ObjectId;
+        productId: import("mongoose").Types.ObjectId;
+        productName?: string | null;
+        productPrice?: number | null;
+        productDescription?: string | null;
+        productImage?: string | null;
+    } & import("mongoose").DefaultTimestampProps & {
+        _id: import("mongoose").Types.ObjectId;
+    } & {
+        __v: number;
+    }, "id"> & import("mongoose").HydratedDocumentOverrides<{
+        id: string;
+    }>>;
     removeFavorite: (userId: string, productId: string) => import("mongoose").Query<import("mongodb").DeleteResult, import("mongoose").Document<unknown, {}, {
         userId: import("mongoose").Types.ObjectId;
         productId: import("mongoose").Types.ObjectId;
@@ -77,9 +101,9 @@ export declare const FavoriteRepository: {
         _id: import("mongoose").Types.ObjectId;
     } & {
         __v: number;
-    }, "id"> & {
+    }, "id"> & import("mongoose").HydratedDocumentOverrides<{
         id: string;
-    }, {}, {
+    }>, {}, {
         userId: import("mongoose").Types.ObjectId;
         productId: import("mongoose").Types.ObjectId;
         productName?: string | null;
@@ -99,6 +123,33 @@ export declare const FavoriteRepository: {
     toggleFavorite: (userId: string, productId: string) => Promise<{
         action: string;
         result: import("mongodb").DeleteResult;
+    } | {
+        action: string;
+        result: import("mongoose").Document<unknown, {}, {
+            userId: import("mongoose").Types.ObjectId;
+            productId: import("mongoose").Types.ObjectId;
+            productName?: string | null;
+            productPrice?: number | null;
+            productDescription?: string | null;
+            productImage?: string | null;
+        } & import("mongoose").DefaultTimestampProps, {
+            id: string;
+        }, {
+            timestamps: true;
+        }> & Omit<{
+            userId: import("mongoose").Types.ObjectId;
+            productId: import("mongoose").Types.ObjectId;
+            productName?: string | null;
+            productPrice?: number | null;
+            productDescription?: string | null;
+            productImage?: string | null;
+        } & import("mongoose").DefaultTimestampProps & {
+            _id: import("mongoose").Types.ObjectId;
+        } & {
+            __v: number;
+        }, "id"> & import("mongoose").HydratedDocumentOverrides<{
+            id: string;
+        }>;
     }>;
 };
 //# sourceMappingURL=favorite.repository.d.ts.map

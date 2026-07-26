@@ -11,15 +11,30 @@ const uploadDir = path_1.default.join(process.cwd(), "backend", "uploads");
 if (!fs_1.default.existsSync(uploadDir)) {
     fs_1.default.mkdirSync(uploadDir, { recursive: true });
 }
+const allowedMimeTypes = new Set(["image/jpeg", "image/png", "image/webp", "image/gif"]);
+const allowedExtensions = [".jpg", ".jpeg", ".png", ".webp", ".gif"];
 const storage = multer_1.default.diskStorage({
     destination: (_req, _file, cb) => cb(null, uploadDir),
     filename: (_req, file, cb) => {
-        const ext = path_1.default.extname(file.originalname);
-        const name = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}${ext}`;
+        const ext = path_1.default.extname(file.originalname).toLowerCase();
+        const safeExt = allowedExtensions.includes(ext) ? ext : ".bin";
+        const name = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}${safeExt}`;
         cb(null, name);
     },
 });
-const uploadSingle = (fieldName = "image") => (0, multer_1.default)({ storage }).single(fieldName);
+const fileFilter = (_req, file, cb) => {
+    const ext = path_1.default.extname(file.originalname).toLowerCase();
+    if (!allowedMimeTypes.has(file.mimetype) || !allowedExtensions.includes(ext)) {
+        cb(new Error("Unsupported file type"));
+        return;
+    }
+    cb(null, true);
+};
+const uploadSingle = (fieldName = "image") => (0, multer_1.default)({
+    storage,
+    limits: { fileSize: 2 * 1024 * 1024 },
+    fileFilter,
+}).single(fieldName);
 exports.uploadSingle = uploadSingle;
 exports.default = exports.uploadSingle;
 //# sourceMappingURL=upload.middleware.js.map

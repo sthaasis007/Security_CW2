@@ -33,9 +33,9 @@ export declare const ProductModel: mongoose.Model<{
     _id: mongoose.Types.ObjectId;
 } & {
     __v: number;
-}, "id"> & {
+}, "id"> & mongoose.HydratedDocumentOverrides<{
     id: string;
-}, mongoose.Schema<any, mongoose.Model<any, any, any, any, any, any, any>, {}, {}, {}, {}, {
+}>, mongoose.Schema<any, mongoose.Model<any, any, any, any, any, any, any>, {}, {}, {}, {}, {
     timestamps: true;
 }, {
     name: string;
@@ -55,9 +55,9 @@ export declare const ProductModel: mongoose.Model<{
     description?: string | null;
 } & mongoose.DefaultTimestampProps, {
     id: string;
-}, mongoose.ResolveSchemaOptions<{
+}, Omit<mongoose.DefaultSchemaOptions, "timestamps"> & {
     timestamps: true;
-}>> & Omit<{
+}> & Omit<{
     name: string;
     price: number;
     placements: ("bestseller" | "current")[];
@@ -69,39 +69,9 @@ export declare const ProductModel: mongoose.Model<{
     _id: mongoose.Types.ObjectId;
 } & {
     __v: number;
-}, "id"> & {
+}, "id"> & mongoose.HydratedDocumentOverrides<{
     id: string;
-}, {
-    [path: string]: mongoose.SchemaDefinitionProperty<undefined, any, any>;
-} | {
-    [x: string]: mongoose.SchemaDefinitionProperty<any, any, mongoose.Document<unknown, {}, {
-        name: string;
-        price: number;
-        placements: ("bestseller" | "current")[];
-        displayOrder: number;
-        available: boolean;
-        image?: string | null;
-        description?: string | null;
-    } & mongoose.DefaultTimestampProps, {
-        id: string;
-    }, mongoose.ResolveSchemaOptions<{
-        timestamps: true;
-    }>> & Omit<{
-        name: string;
-        price: number;
-        placements: ("bestseller" | "current")[];
-        displayOrder: number;
-        available: boolean;
-        image?: string | null;
-        description?: string | null;
-    } & mongoose.DefaultTimestampProps & {
-        _id: mongoose.Types.ObjectId;
-    } & {
-        __v: number;
-    }, "id"> & {
-        id: string;
-    }> | undefined;
-}, {
+}>, unknown, {
     name: string;
     price: number;
     placements: ("bestseller" | "current")[];

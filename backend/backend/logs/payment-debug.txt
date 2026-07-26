@@ -12,3 +12,66 @@ process.env.KHALTI_TEST_MODE = true
 KHALTI_TEST_MODE constant = false
 typeof KHALTI_TEST_MODE = boolean
 ═══════════════════════════════════════
+
+═══════════════════════════════════════
+PAYMENT INITIATE CALLED AT 2026-07-26T18:48:44.320Z
+process.env.KHALTI_TEST_MODE = true
+KHALTI_TEST_MODE constant = false
+typeof KHALTI_TEST_MODE = boolean
+═══════════════════════════════════════
+
+═══════════════════════════════════════
+PAYMENT INITIATE CALLED AT 2026-07-26T18:49:32.354Z
+process.env.KHALTI_TEST_MODE = true
+KHALTI_TEST_MODE constant = false
+typeof KHALTI_TEST_MODE = boolean
+═══════════════════════════════════════
+
+═══════════════════════════════════════
+PAYMENT INITIATE CALLED AT 2026-07-26T18:50:08.122Z
+process.env.KHALTI_TEST_MODE = true
+KHALTI_TEST_MODE constant = true
+typeof KHALTI_TEST_MODE = boolean
+═══════════════════════════════════════
+
+═══════════════════════════════════════
+PAYMENT INITIATE CALLED AT 2026-07-26T18:57:14.104Z
+process.env.KHALTI_TEST_MODE = true
+KHALTI_TEST_MODE constant = true
+typeof KHALTI_TEST_MODE = boolean
+═══════════════════════════════════════
+
+═══════════════════════════════════════
+PAYMENT INITIATE CALLED AT 2026-07-26T18:57:20.963Z
+process.env.KHALTI_TEST_MODE = true
+KHALTI_TEST_MODE constant = true
+typeof KHALTI_TEST_MODE = boolean
+═══════════════════════════════════════
+
+═══════════════════════════════════════
+PAYMENT INITIATE CALLED AT 2026-07-26T18:58:06.043Z
+process.env.KHALTI_TEST_MODE = true
+KHALTI_TEST_MODE constant = true
+typeof KHALTI_TEST_MODE = boolean
+═══════════════════════════════════════
+
+═══════════════════════════════════════
+PAYMENT INITIATE CALLED AT 2026-07-26T18:58:46.802Z
+process.env.KHALTI_TEST_MODE = true
+KHALTI_TEST_MODE constant = true
+typeof KHALTI_TEST_MODE = boolean
+═══════════════════════════════════════
+
+═══════════════════════════════════════
+PAYMENT INITIATE CALLED AT 2026-07-26T19:00:17.301Z
+process.env.KHALTI_TEST_MODE = true
+KHALTI_TEST_MODE constant = true
+typeof KHALTI_TEST_MODE = boolean
+═══════════════════════════════════════
+
+═══════════════════════════════════════
+PAYMENT INITIATE CALLED AT 2026-07-26T19:01:38.658Z
+process.env.KHALTI_TEST_MODE = true
+KHALTI_TEST_MODE constant = true
+typeof KHALTI_TEST_MODE = boolean
+═══════════════════════════════════════

@@ -15,19 +15,55 @@ export default function PaymentSuccessContent() {
     const orderId = searchParams.get("orderId");
     const transactionId = searchParams.get("transactionId");
     const amount = searchParams.get("amount");
+    const pidx = searchParams.get("pidx");
 
-    if (orderId && transactionId && amount) {
-      setPaymentDetails({
-        orderId,
-        transactionId,
-        amount: parseFloat(amount),
-      });
-
-      if (!hasCleared) {
-        clearCart();
-        setHasCleared(true);
+    const run = async () => {
+      if (pidx) {
+        // verify with backend
+        try {
+          const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
+          const res = await fetch('/api/payment/verify', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', ...(token ? { Authorization: `Bearer ${token}` } : {}) },
+            body: JSON.stringify({ pidx }),
+          });
+          const body = await res.json().catch(() => ({}));
+          if (res.ok && body?.data) {
+            const data = body.data;
+            // Khalti returns total_amount in paisa
+            const paid = (data.total_amount || data.total_amount_in_paisa || 0) / 100;
+            setPaymentDetails({
+              orderId: data.purchase_order_id || pidx,
+              transactionId: data.transaction_id || data.transaction_id || data.transaction || searchParams.get('transaction_id') || '',
+              amount: paid,
+            });
+            if (!hasCleared) {
+              clearCart();
+              setHasCleared(true);
+            }
+            return;
+          }
+          console.error('Payment verify failed', body);
+        } catch (err) {
+          console.error('Payment verify error', err);
+        }
       }
-    }
+
+      if (orderId && transactionId && amount) {
+        setPaymentDetails({
+          orderId,
+          transactionId,
+          amount: parseFloat(amount),
+        });
+
+        if (!hasCleared) {
+          clearCart();
+          setHasCleared(true);
+        }
+      }
+    };
+
+    void run();
   }, [searchParams, hasCleared, clearCart]);
 
   return (

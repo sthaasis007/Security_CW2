@@ -18,7 +18,15 @@ export function useCart() {
     if (typeof window === "undefined") return;
     const token = localStorage.getItem("token");
     if (!token) {
-      setCartItems([]);
+      // Load guest cart from localStorage when not authenticated
+      try {
+        const raw = localStorage.getItem("guest_cart");
+        const parsed = raw ? JSON.parse(raw) : [];
+        setCartItems(Array.isArray(parsed) ? parsed : []);
+      } catch (e) {
+        console.error("Failed to parse guest cart from localStorage", e);
+        setCartItems([]);
+      }
       setIsLoading(false);
       return;
     }
@@ -63,10 +71,14 @@ export function useCart() {
     if (!token) {
       setCartItems((prev) => {
         const existing = prev.find((item) => item._id === product._id);
+        let next;
         if (existing) {
-          return prev.map((item) => item._id === product._id ? { ...item, quantity: item.quantity + 1 } : item);
+          next = prev.map((item) => item._id === product._id ? { ...item, quantity: item.quantity + 1 } : item);
+        } else {
+          next = [...prev, { ...product, quantity: 1 }];
         }
-        return [...prev, { ...product, quantity: 1 }];
+        try { localStorage.setItem("guest_cart", JSON.stringify(next)); } catch (e) { console.error('Failed to save guest cart', e); }
+        return next;
       });
       return;
     }
@@ -88,7 +100,11 @@ export function useCart() {
     if (typeof window === "undefined") return;
     const token = localStorage.getItem("token");
     if (!token) {
-      setCartItems((prev) => prev.filter((item) => item._id !== productId));
+      setCartItems((prev) => {
+        const next = prev.filter((item) => item._id !== productId);
+        try { localStorage.setItem("guest_cart", JSON.stringify(next)); } catch (e) { console.error('Failed to save guest cart', e); }
+        return next;
+      });
       return;
     }
 
@@ -109,7 +125,11 @@ export function useCart() {
     if (typeof window === "undefined") return;
     const token = localStorage.getItem("token");
     if (!token) {
-      setCartItems((prev) => prev.map((item) => item._id === productId ? { ...item, quantity } : item));
+      setCartItems((prev) => {
+        const next = prev.map((item) => item._id === productId ? { ...item, quantity } : item);
+        try { localStorage.setItem("guest_cart", JSON.stringify(next)); } catch (e) { console.error('Failed to save guest cart', e); }
+        return next;
+      });
       return;
     }
 
@@ -132,6 +152,7 @@ export function useCart() {
     const token = localStorage.getItem("token");
     if (!token) {
       setCartItems([]);
+      try { localStorage.removeItem("guest_cart"); } catch (e) { console.error('Failed to clear guest cart', e); }
       return;
     }
     const res = await fetch("/api/cart/clear", { method: "DELETE", headers: { Authorization: `Bearer ${token}` } });

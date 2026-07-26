@@ -6,8 +6,8 @@ import styles from "./Payment.module.css";
 
 export default function PaymentPage() {
   const router = useRouter();
-  const { cartItems, calculateTotal } = useCart();
-  const [isLoading, setIsLoading] = useState(false);
+  const { cartItems, calculateTotal, isLoading } = useCart();
+  const [isProcessing, setIsProcessing] = useState(false);
   const [hydrated, setHydrated] = useState(false);
 
   useEffect(() => {
@@ -15,26 +15,71 @@ export default function PaymentPage() {
   }, []);
 
   useEffect(() => {
-    if (hydrated && cartItems.length === 0) {
+    // Wait for cart to finish loading before deciding to redirect back to cart.
+    if (hydrated && !isLoading && cartItems.length === 0) {
       router.push("/cart");
     }
-  }, [hydrated, cartItems, router]);
+  }, [hydrated, isLoading, cartItems, router]);
 
   const handlePayment = () => {
-    setIsLoading(true);
-    
-    // Simulate payment processing
-    setTimeout(() => {
-      const total = calculateTotal();
-      const orderId = `ORDER-${Date.now()}`;
-      const transactionId = `TXN-${Date.now()}`;
-      
-      // Navigate to success page with payment details
-      router.push(`/payment/success?orderId=${orderId}&transactionId=${transactionId}&amount=${total}`);
-    }, 1000);
+    setIsProcessing(true);
+
+    (async () => {
+      try {
+        const total = calculateTotal();
+        const orderId = `ORDER-${Date.now()}`;
+
+        const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
+
+        const res = await fetch('/api/payment/initiate', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            ...(token ? { Authorization: `Bearer ${token}` } : {}),
+          },
+          body: JSON.stringify({
+            amount: Math.round(total * 100), // send paisa to backend consistently
+            purchase_order_id: orderId,
+            purchase_order_name: `Order ${orderId}`,
+            cart_items: cartItems,
+          }),
+        });
+
+        const body = await res.json().catch(() => ({}));
+        if (!res.ok) {
+          console.error('Failed to initiate payment', res.status, body);
+          alert(body?.message || 'Failed to start payment');
+          setIsProcessing(false);
+          return;
+        }
+
+        // backend returns a payment_url in test mode or Khalti initiate data
+        const paymentUrl = body?.data?.payment_url || body?.data?.payment_url || body?.payment_url || body?.data?.payment_url;
+        const pidx = body?.data?.pidx || body?.pidx || (body?.data && body.data.pidx);
+
+        if (paymentUrl) {
+          // Redirect user to Khalti checkout (or mock URL in test mode)
+          window.location.href = paymentUrl;
+          return;
+        }
+
+        // If no payment url but pidx returned, navigate to success with pidx so we can verify
+        if (pidx) {
+          router.push(`/payment/success?pidx=${encodeURIComponent(pidx)}`);
+          return;
+        }
+
+        alert('Unexpected payment response');
+      } catch (err) {
+        console.error('Payment error', err);
+        alert('Payment failed');
+      } finally {
+        setIsProcessing(false);
+      }
+    })();
   };
 
-  if (!hydrated) {
+  if (!hydrated || isLoading) {
     return null;
   }
 
@@ -76,15 +121,15 @@ export default function PaymentPage() {
         <div className={styles.actions}>
           <button
             onClick={handlePayment}
-            disabled={isLoading}
+            disabled={isProcessing}
             className={styles.payButton}
           >
-            {isLoading ? "Processing..." : "Confirm Payment"}
+            {isProcessing ? "Processing..." : "Confirm Payment"}
           </button>
 
           <button
             onClick={() => router.push("/cart")}
-            disabled={isLoading}
+            disabled={isProcessing}
             className={styles.backButton}
           >
             Back to Cart

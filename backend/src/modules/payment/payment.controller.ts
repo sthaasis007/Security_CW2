@@ -5,8 +5,8 @@ import { ActivityService } from "../activity/activity.service";
 
 const KHALTI_SECRET_KEY = process.env.KHALTI_SECRET_KEY;
 const KHALTI_GATEWAY_URL = "https://khalti.com/api/v2";
-// Set to false to use real Khalti payment page
-const KHALTI_TEST_MODE = process.env.KHALTI_TEST_MODE === "true";
+// Default to test mode in non-production environments to make local dev easier.
+const KHALTI_TEST_MODE = (process.env.KHALTI_TEST_MODE === "true") || (process.env.NODE_ENV !== 'production');
 
 // Debug: Log TEST_MODE on startup
 console.log("🔧 KHALTI_TEST_MODE env var:", process.env.KHALTI_TEST_MODE);
@@ -58,8 +58,8 @@ typeof KHALTI_TEST_MODE = ${typeof KHALTI_TEST_MODE}
     logToFile("Environment - KHALTI_SECRET_KEY exists: " + (!!KHALTI_SECRET_KEY));
     logToFile("Environment - KHALTI_SECRET_KEY length: " + (KHALTI_SECRET_KEY?.length || 0));
     
-    // Check if KHALTI_SECRET_KEY is loaded
-    if (!KHALTI_SECRET_KEY) {
+    // Check if KHALTI_SECRET_KEY is loaded. Allow missing key in TEST_MODE (sandbox).
+    if (!KHALTI_SECRET_KEY && !KHALTI_TEST_MODE) {
       logToFile("❌ KHALTI_SECRET_KEY is not defined in environment variables!");
       res.status(500).json({
         success: false,

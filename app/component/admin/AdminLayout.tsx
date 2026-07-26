@@ -31,6 +31,9 @@ export default function AdminLayout({ children, currentPage = "Users" }: AdminLa
             <Link href="/admin/products" className={`${styles.navItem} ${currentPage === "Products" ? styles.active : ""}`}>
               Products
             </Link>
+            <Link href="/admin/activity-logs" className={`${styles.navItem} ${currentPage === "Activity Logs" ? styles.active : ""}`}>
+              Activity Logs
+            </Link>
           </nav>
         </div>
         <div className={styles.sidebarFooter}>

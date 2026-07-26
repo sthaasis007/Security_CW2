@@ -9,6 +9,7 @@ const auth_service_1 = require("./auth.service");
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const auth_repository_1 = require("./auth.repository");
 const file_1 = require("../../utils/file");
+const activity_service_1 = require("../activity/activity.service");
 exports.AuthController = {
     async register(req, res) {
         const parsed = auth_dto_1.registerDto.safeParse(req.body);
@@ -32,27 +33,18 @@ exports.AuthController = {
         const result = await auth_service_1.AuthService.login(parsed.data);
         return res.status(result.status).json(result);
     },
-    async forgotPassword(req, res) {
-        const parsed = auth_dto_1.forgotPasswordDto.safeParse(req.body);
-        if (!parsed.success) {
-            return res.status(400).json({
-                message: "Validation error",
-                errors: parsed.error.flatten().fieldErrors,
-            });
+    async logout(req, res) {
+        try {
+            const currentUser = req.user;
+            if (!currentUser?.id && !currentUser?.sub) {
+                return res.status(401).json({ ok: false, message: "Unauthorized" });
+            }
+            const result = await auth_service_1.AuthService.logout((currentUser.id || currentUser.sub), req);
+            return res.status(result.status).json(result);
         }
-        const result = await auth_service_1.AuthService.requestPasswordReset(parsed.data);
-        return res.status(result.status).json(result);
-    },
-    async resetPassword(req, res) {
-        const parsed = auth_dto_1.resetPasswordDto.safeParse(req.body);
-        if (!parsed.success) {
-            return res.status(400).json({
-                message: "Validation error",
-                errors: parsed.error.flatten().fieldErrors,
-            });
+        catch (err) {
+            return res.status(500).json({ ok: false, message: "Server error", err });
         }
-        const result = await auth_service_1.AuthService.resetPassword(parsed.data);
-        return res.status(result.status).json(result);
     },
     async createUser(req, res) {
         try {
@@ -104,6 +96,12 @@ exports.AuthController = {
             const updated = await auth_repository_1.AuthRepository.updateUser(id, body);
             if (!updated)
                 return res.status(404).json({ ok: false, message: "User not found" });
+            await activity_service_1.ActivityService.log("profile_update", "User profile updated", { updatedFields: Object.keys(body) }, {
+                id: updated._id?.toString() || null,
+                email: updated.email || null,
+                username: updated.name || null,
+                role: updated.role || null,
+            }, req);
             if (body.image && existing?.image && existing.image !== body.image) {
                 await (0, file_1.deleteUploadFile)(existing.image);
             }

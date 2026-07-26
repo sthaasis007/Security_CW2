@@ -5,8 +5,7 @@ import { useCart } from "@/app/lib/useCart";
 import TopBar from "@/app/component/dashboard/TopBar";
 import Footer from "@/app/component/dashboard/Footer";
 import styles from "./Cart.module.css";
-
-const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+import { buildImageUrl } from "@/app/lib/imageUrl";
 
 export default function CartPage() {
   const router = useRouter();
@@ -57,7 +56,7 @@ export default function CartPage() {
                 <div className={styles.itemImage}>
                   {item.image ? (
                     <img
-                      src={`${API_BASE}/uploads/${item.image}`}
+                      src={buildImageUrl(item.image) || ""}
                       alt={item.name}
                     />
                   ) : (

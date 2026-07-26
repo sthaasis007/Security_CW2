@@ -41,7 +41,17 @@ app.use(express.json({ limit: "100kb" }));
 app.use(express.urlencoded({ extended: true, limit: "100kb" }));
 
 // serve uploaded images
-app.use("/uploads", express.static(path.join(process.cwd(), "backend", "uploads")));
+// Allow these static files to be fetched cross-origin (useful in dev when frontend
+// may request files directly from the backend). Set Cross-Origin-Resource-Policy
+// to 'cross-origin' so browsers won't block them.
+app.use(
+  "/uploads",
+  (req, res, next) => {
+    res.setHeader("Cross-Origin-Resource-Policy", "cross-origin");
+    next();
+  },
+  express.static(path.join(process.cwd(), "backend", "uploads"))
+);
 
 app.get("/", (_req, res) => res.json({ message: "EverBlue API running" }));
 

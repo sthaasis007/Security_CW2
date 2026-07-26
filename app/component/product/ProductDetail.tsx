@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import styles from "./ProductDetail.module.css";
 import { useFavorites } from "@/app/lib/useFavorites";
 import { useCart } from "@/app/lib/useCart";
+import { buildImageUrl } from "@/app/lib/imageUrl";
 
 interface Product {
   _id: string;
@@ -12,8 +13,6 @@ interface Product {
   image?: string;
   available: boolean;
 }
-
-const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
 
 interface ProductDetailProps {
   productId: string;
@@ -116,7 +115,7 @@ export default function ProductDetail({ productId }: ProductDetailProps) {
         <div className={styles.imageContainer}>
           {product.image ? (
             <img
-              src={`${API_BASE}/uploads/${product.image}`}
+              src={buildImageUrl(product.image) || ""}
               alt={product.name}
               className={styles.productImage}
             />

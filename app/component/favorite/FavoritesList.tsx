@@ -3,8 +3,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import styles from "./FavoritesList.module.css";
 import { useFavorites } from "@/app/lib/useFavorites";
-
-const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+import { buildImageUrl } from "@/app/lib/imageUrl";
 
 export default function FavoritesList() {
   const { favorites, isLoading, removeFavorite } = useFavorites();
@@ -60,7 +59,7 @@ export default function FavoritesList() {
             <div className={styles.imageWrapper}>
               {product.image ? (
                 <img
-                  src={`${API_BASE}/uploads/${product.image}`}
+                  src={buildImageUrl(product.image) || ""}
                   alt={product.name}
                   className={styles.productImage}
                 />

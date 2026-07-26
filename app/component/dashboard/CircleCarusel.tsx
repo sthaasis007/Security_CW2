@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import { buildImageUrl } from "@/app/lib/imageUrl";
 
 interface Product {
   _id: string;
@@ -10,8 +11,6 @@ interface Product {
   image?: string;
   available: boolean;
 }
-
-const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
 
 export default function CircleCarousel() {
   const [products, setProducts] = useState<Product[]>([]);
@@ -53,7 +52,7 @@ export default function CircleCarousel() {
             <div key={product._id} className="flex shrink-0 flex-col items-center gap-2">
               {product.image ? (
                 <img
-                  src={`${API_BASE}/uploads/${product.image}`}
+                  src={buildImageUrl(product.image) || ""}
                   alt={product.name}
                   className="h-16 w-16 rounded-full object-cover"
                 />

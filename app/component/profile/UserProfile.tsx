@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import styles from "./UserProfile.module.css";
+import { buildImageUrl } from "@/app/lib/imageUrl";
 
 export default function UserProfile() {
   const router = useRouter();
@@ -24,24 +25,7 @@ export default function UserProfile() {
   useEffect(() => {
     setIsHydrated(true);
     
-    const getApiBase = () => {
-      if (typeof process !== "undefined" && process.env && process.env.NEXT_PUBLIC_API_URL) {
-        return process.env.NEXT_PUBLIC_API_URL;
-      }
-      if (typeof window !== "undefined") {
-        const proto = window.location.protocol;
-        const host = window.location.hostname;
-        return `${proto}//${host}:5000`;
-      }
-      return "";
-    };
-
-    const buildImageUrl = (image?: string | null) => {
-      if (!image) return null;
-      if (image.startsWith("http") || image.startsWith("/")) return image;
-      const base = getApiBase();
-      return `${base}/uploads/${image}`;
-    };
+    const buildUserImageUrl = (image?: string | null) => buildImageUrl(image);
 
     const fetchUserData = async () => {
       try {
@@ -60,7 +44,7 @@ export default function UserProfile() {
                   const user = data.user || data;
                   console.log("User data from API:", user);
                   setFormData({ name: user.name || "", email: user.email || "" });
-                  if (user.image) setCurrentImage(buildImageUrl(user.image));
+                  if (user.image) setCurrentImage(buildUserImageUrl(user.image));
                   // keep localStorage in sync (store raw user object from server)
                   localStorage.setItem("user", JSON.stringify(user));
                 return;
@@ -413,8 +397,5 @@ export default function UserProfile() {
       </div>
     </div>
   );
-}
-function buildImageUrl(filename: any): React.SetStateAction<string | null> {
-  return null;
 }
 

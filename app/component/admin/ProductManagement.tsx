@@ -1,6 +1,7 @@
 "use client";
 import React, { useEffect, useMemo, useState } from "react";
 import styles from "./ProductManagement.module.css";
+import { buildImageUrl } from "@/app/lib/imageUrl";
 
 export type ProductPlacement = "bestseller" | "current";
 
@@ -386,7 +387,7 @@ export default function ProductManagement() {
                     <div className={styles.productCell}>
                       {product.image ? (
                         <img
-                          src={`http://localhost:5000/uploads/${product.image}`}
+                          src={buildImageUrl(product.image) || ""}
                           alt={product.name}
                           className={styles.thumb}
                         />

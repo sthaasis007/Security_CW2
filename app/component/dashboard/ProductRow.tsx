@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
+import { buildImageUrl } from "@/app/lib/imageUrl";
 
 interface Product {
   _id: string;
@@ -13,7 +14,6 @@ interface Product {
   available: boolean;
 }
 
-const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
 const ITEMS_PER_PAGE = 12;
 
 export default function ProductRow() {
@@ -100,7 +100,7 @@ export default function ProductRow() {
             >
               {product.image ? (
                 <img
-                  src={`${API_BASE}/uploads/${product.image}`}
+                  src={buildImageUrl(product.image) || ""}
                   alt={product.name}
                   className="aspect-square w-full rounded-xl object-cover"
                 />

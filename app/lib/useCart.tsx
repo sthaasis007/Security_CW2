@@ -27,7 +27,13 @@ export function useCart() {
       const res = await fetch("/api/cart", {
         headers: { Authorization: `Bearer ${token}` },
       });
-      if (!res.ok) throw new Error("Failed to fetch cart");
+      if (!res.ok) {
+        const text = await res.text().catch(() => null);
+        console.error("Failed to fetch cart:", res.status, text);
+        setCartItems([]);
+        setIsLoading(false);
+        return;
+      }
       const data = await res.json();
       const items = (data.cart?.items || []).map((item: any) => ({
         _id: item.productId?._id || item.productId,

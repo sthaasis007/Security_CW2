@@ -18,7 +18,7 @@ export const AuthRepository = {
   },
   findById: (id: string) => UserModel.findById(id),
   findByResetToken: (tokenHash: string) => UserModel.findOne({ resetPasswordToken: tokenHash }),
-  findAll: () => UserModel.find().select("-password"),
+  findAll: () => UserModel.find().select("-password").lean(),
   updateUser: (id: string, data: Partial<CreateUserData & { image?: string }>) =>
     UserModel.findByIdAndUpdate(id, data, { new: true }).select("-password"),
   setResetToken: (id: string, tokenHash: string, expiresAt: Date) =>

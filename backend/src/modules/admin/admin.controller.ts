@@ -32,7 +32,7 @@ export const AdminController = {
   },
 
   async list(_req: Request, res: Response) {
-    const users = await (AuthRepository.findAll as any)();
+    const users = (await (AuthRepository.findAll as any)()) ?? [];
     return res.status(200).json({ ok: true, users });
   },
 

@@ -4,11 +4,7 @@ import jwt from "jsonwebtoken";
 import { AuthRepository } from "./auth.repository";
 import { LoginDto, RegisterDto } from "./auth.dto";
 import { ActivityService } from "../activity/activity.service";
-
-// Require minimum 12 characters and mixed classes
-const PASSWORD_POLICY = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{12,}$/;
-
-export const isPasswordStrong = (password: string) => PASSWORD_POLICY.test(password);
+import { isPasswordStrong, hashSecret, getPasswordExpiryDays } from "../../utils/security";
 
 const signToken = (payload: object, expiresIn: string) => {
   const secret = process.env.JWT_SECRET || "change_me_local_secret";
@@ -28,7 +24,7 @@ export const AuthService = {
 
     const hashed = await bcrypt.hash(data.password, 12);
     const verificationToken = crypto.randomBytes(32).toString("hex");
-    const verificationTokenHash = crypto.createHash("sha256").update(verificationToken).digest("hex");
+    const verificationTokenHash = hashSecret(verificationToken);
     const expiresAt = new Date(Date.now() + 24 * 60 * 60 * 1000);
 
     const user = await AuthRepository.createUser({
@@ -99,14 +95,18 @@ export const AuthService = {
     }
 
     const accessToken = signToken({ id: (user as any)._id.toString(), sub: (user as any)._id.toString(), email: user.email, role: user.role }, process.env.JWT_EXPIRES_IN || "15m");
+    const passwordExpiryDays = getPasswordExpiryDays();
     const refreshToken = crypto.randomBytes(32).toString("hex");
-    const refreshTokenHash = crypto.createHash("sha256").update(refreshToken).digest("hex");
+    const refreshTokenHash = hashSecret(refreshToken);
     const refreshExpiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
     await AuthRepository.setRefreshToken((user as any)._id.toString(), refreshTokenHash, refreshExpiresAt);
+    if (passwordExpiryDays > 0 && (!user.passwordChangedAt || new Date(user.passwordChangedAt).getTime() < Date.now() - passwordExpiryDays * 24 * 60 * 60 * 1000)) {
+      await ActivityService.log("password_expiry_warning", "Password expires soon", {}, { id: (user as any)._id.toString(), email: (user as any).email || null, username: (user as any).name || null, role: (user as any).role || null });
+    }
 
     // create csrf token and store its hash
     const csrfToken = crypto.randomBytes(24).toString("hex");
-    const csrfHash = crypto.createHash("sha256").update(csrfToken).digest("hex");
+    const csrfHash = hashSecret(csrfToken);
     const csrfExpiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
     await AuthRepository.setCsrfToken((user as any)._id.toString(), csrfHash, csrfExpiresAt);
 
@@ -157,7 +157,7 @@ export const AuthService = {
   async rotateRefreshToken(rawToken: string) {
     try {
       if (!rawToken) return { ok: false, status: 401, message: "Missing refresh token" };
-      const tokenHash = crypto.createHash("sha256").update(rawToken).digest("hex");
+      const tokenHash = hashSecret(rawToken);
       const user = await AuthRepository.findByRefreshTokenHash(tokenHash);
       if (!user) {
         return { ok: false, status: 401, message: "Invalid refresh token" };
@@ -171,13 +171,13 @@ export const AuthService = {
       // generate new tokens
       const accessToken = signToken({ id: (user as any)._id.toString(), sub: (user as any)._id.toString(), email: user.email, role: user.role }, process.env.JWT_EXPIRES_IN || "15m");
       const newRefresh = crypto.randomBytes(32).toString("hex");
-      const newRefreshHash = crypto.createHash("sha256").update(newRefresh).digest("hex");
+      const newRefreshHash = hashSecret(newRefresh);
       const refreshExpiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
       await AuthRepository.setRefreshToken((user as any)._id.toString(), newRefreshHash, refreshExpiresAt);
 
       // rotate csrf token as well
       const csrfToken = crypto.randomBytes(24).toString("hex");
-      const csrfHash = crypto.createHash("sha256").update(csrfToken).digest("hex");
+      const csrfHash = hashSecret(csrfToken);
       const csrfExpiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
       await AuthRepository.setCsrfToken((user as any)._id.toString(), csrfHash, csrfExpiresAt);
 

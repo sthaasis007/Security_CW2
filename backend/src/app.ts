@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import helmet from "helmet";
+import type { NextFunction, Request, Response } from "express";
 import authRoutes from "./modules/auth/auth.route";
 import adminRoutes from "./modules/admin/admin.route";
 import productPublicRoutes from "./modules/product/product.public.route";
@@ -32,10 +33,23 @@ app.use(helmet({
       scriptSrc: ["'self'"],
       styleSrc: ["'self'", "'unsafe-inline'"],
       objectSrc: ["'none'"],
+      baseUri: ["'self'"],
+      frameAncestors: ["'none'"],
+      formAction: ["'self'"],
     },
   },
   crossOriginEmbedderPolicy: false,
+  hsts: { maxAge: 31536000, includeSubDomains: true, preload: true },
+  referrerPolicy: { policy: "no-referrer" },
 }));
+app.use((req, res, next) => {
+  res.setHeader("X-Frame-Options", "DENY");
+  res.setHeader("X-Content-Type-Options", "nosniff");
+  res.setHeader("Strict-Transport-Security", "max-age=31536000; includeSubDomains; preload");
+  res.setHeader("Referrer-Policy", "no-referrer");
+  res.setHeader("Permissions-Policy", "camera=(), microphone=(), geolocation=(), payment=()");
+  next();
+});
 app.use(cors({ origin: process.env.FRONTEND_URL || "http://localhost:3000", credentials: true }));
 app.use(express.json({ limit: "100kb" }));
 app.use(express.urlencoded({ extended: true, limit: "100kb" }));
@@ -76,9 +90,13 @@ app.use("/api/cart", cartRoutes);
 app.use("/api/activity", activityRoutes);
 app.use("/api/payment", paymentRoutes);
 
-app.use((err: any, _req: express.Request, res: express.Response, _next: express.NextFunction) => {
+app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
   console.error("Unhandled error:", err);
-  res.status(err.status || 500).json({ ok: false, message: "Internal server error" });
+  const status = err?.status || err?.statusCode || 500;
+  if (status >= 500) {
+    return res.status(500).json({ ok: false, message: "Internal server error" });
+  }
+  return res.status(status).json({ ok: false, message: err?.message || "Request failed" });
 });
 
 const PORT = Number(process.env.BACKEND_PORT || 5000);

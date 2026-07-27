@@ -5,7 +5,7 @@ import bcrypt from "bcryptjs";
 import { AuthRepository } from "./auth.repository";
 import { deleteUploadFile } from "../../utils/file";
 import { ActivityService } from "../activity/activity.service";
-import crypto from "crypto";
+import { isPasswordStrong, isSafeFilename, isValidObjectId } from "../../utils/security";
 
 export const AuthController = {
   async register(req: Request, res: Response) {
@@ -17,7 +17,12 @@ export const AuthController = {
       });
     }
 
-    const result = await AuthService.register(parsed.data);
+    const { confirmPassword, ...safeData } = parsed.data;
+    if (confirmPassword !== undefined && confirmPassword !== safeData.password) {
+      return res.status(400).json({ ok: false, message: "Passwords do not match" });
+    }
+
+    const result = await AuthService.register(safeData);
     return res.status(result.status).json(result);
   },
 
@@ -105,18 +110,24 @@ export const AuthController = {
       if (!name || !email || !password) {
         return res.status(400).json({ ok: false, message: "Missing fields" });
       }
-
-      const existing = await AuthRepository.findByEmail(email);
-      if (existing) return res.status(409).json({ ok: false, message: "Email exists" });
-
-      // enforce strong password policy
-      const { isPasswordStrong } = await import("./auth.service");
+      if (typeof name !== "string" || typeof email !== "string" || typeof password !== "string") {
+        return res.status(400).json({ ok: false, message: "Invalid fields" });
+      }
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        return res.status(400).json({ ok: false, message: "Invalid email format" });
+      }
       if (!isPasswordStrong(password)) {
         return res.status(400).json({ ok: false, message: "Password does not meet complexity requirements" });
       }
 
+      const existing = await AuthRepository.findByEmail(email);
+      if (existing) return res.status(409).json({ ok: false, message: "Email exists" });
+
       const hashed = await bcrypt.hash(password, 12);
       const image = (req as any).file ? (req as any).file.filename : undefined;
+      if (image && !isSafeFilename(image)) {
+        return res.status(400).json({ ok: false, message: "Invalid upload filename" });
+      }
 
       const user = await AuthRepository.createUser({
         name,
@@ -136,9 +147,22 @@ export const AuthController = {
   async getUser(req: Request, res: Response) {
     try {
       const { id } = req.params;
+      if (!id || typeof id !== "string") {
+        return res.status(400).json({ ok: false, message: "Invalid user id" });
+      }
+
       const user = await AuthRepository.findById(id as string);
       if (!user) return res.status(404).json({ ok: false, message: "User not found" });
-      return res.status(200).json({ ok: true, user });
+
+      const safeUser = {
+        id: user._id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+        image: user.image,
+      };
+
+      return res.status(200).json({ ok: true, user: safeUser });
     } catch (err) {
       console.error('AuthController.getUser error', err);
       return res.status(500).json({ ok: false, message: "Server error" });
@@ -148,7 +172,16 @@ export const AuthController = {
   async updateUser(req: Request, res: Response) {
     try {
       const { id } = req.params;
-      const body = req.body as any;
+      if (!id || typeof id !== "string" || !isValidObjectId(id)) {
+        return res.status(400).json({ ok: false, message: "Invalid user id" });
+      }
+
+      const body = { ...req.body } as any;
+      if (body.password) {
+        if (!isPasswordStrong(body.password)) {
+          return res.status(400).json({ ok: false, message: "Password does not meet complexity requirements" });
+        }
+      }
       const existing = await AuthRepository.findById(id as string);
       if ((req as any).file) {
         body.image = (req as any).file.filename;
@@ -174,6 +207,14 @@ export const AuthController = {
       const updated = await AuthRepository.updateUser(id as string, body as any);
       if (!updated) return res.status(404).json({ ok: false, message: "User not found" });
 
+      const safeUser = {
+        id: updated._id,
+        name: updated.name,
+        email: updated.email,
+        role: updated.role,
+        image: updated.image,
+      };
+
       await ActivityService.log(
         "profile_update",
         "User profile updated",
@@ -191,7 +232,7 @@ export const AuthController = {
         await deleteUploadFile(existing.image);
       }
 
-      return res.status(200).json({ ok: true, user: updated });
+      return res.status(200).json({ ok: true, user: safeUser });
     } catch (err) {
       console.error('AuthController.updateUser error', err);
       return res.status(500).json({ ok: false, message: "Server error" });
@@ -202,6 +243,10 @@ export const AuthController = {
     try {
       const { id } = req.params;
       const currentUser = (req as any).user as { sub?: string; role?: string } | undefined;
+
+      if (!id || typeof id !== "string" || !isValidObjectId(id)) {
+        return res.status(400).json({ ok: false, message: "Invalid user id" });
+      }
 
       if (!currentUser?.sub) {
         return res.status(401).json({ ok: false, message: "Unauthorized" });

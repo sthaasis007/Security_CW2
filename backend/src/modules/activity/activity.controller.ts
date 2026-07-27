@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { ActivityService } from "./activity.service";
+import { sanitizeText } from "../../utils/security";
 
 export const ActivityController = {
   async list(req: Request, res: Response) {
@@ -7,12 +8,18 @@ export const ActivityController = {
       const { action, user, search, from, to } = req.query as Record<string, string | undefined>;
       const filters: Record<string, any> = {};
 
-      if (action) filters.action = action;
+      if (action) {
+        const safeAction = sanitizeText(action);
+        if (safeAction) filters.action = safeAction;
+      }
       if (user) {
-        filters.$or = [
-          { username: { $regex: user, $options: "i" } },
-          { userEmail: { $regex: user, $options: "i" } },
-        ];
+        const safeUser = sanitizeText(user);
+        if (safeUser) {
+          filters.$or = [
+            { username: { $regex: safeUser.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), $options: "i" } },
+            { userEmail: { $regex: safeUser.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), $options: "i" } },
+          ];
+        }
       }
       if (from || to) {
         filters.createdAt = {};
@@ -22,14 +29,15 @@ export const ActivityController = {
 
       let activities;
       if (search) {
-        activities = await ActivityService.search(search);
+        const safeSearch = sanitizeText(search);
+        activities = await ActivityService.search(safeSearch || "");
       } else {
         activities = await ActivityService.list(filters);
       }
 
       return res.status(200).json({ ok: true, activities });
     } catch (err) {
-      return res.status(500).json({ ok: false, message: "Server error", err });
+      return res.status(500).json({ ok: false, message: "Server error" });
     }
   },
 };

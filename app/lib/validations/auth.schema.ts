@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-const passwordPolicy = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,}$/;
+const passwordPolicy = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{12,}$/;
 
 export const loginSchema = z.object({
   email: z.string().trim().email("Invalid email address"),
@@ -11,7 +11,7 @@ export const registerSchema = z
   .object({
     name: z.string().trim().min(1, "Name is required"),
     email: z.string().trim().email("Invalid email address"),
-    password: z.string().min(8, "Password must be at least 8 characters").regex(passwordPolicy, "Password must include uppercase, lowercase, number, and special character"),
+    password: z.string().min(12, "Password must be at least 12 characters").regex(passwordPolicy, "Password must include uppercase, lowercase, number, and special character"),
     confirmPassword: z.string().min(1, "Please confirm your password"),
   })
   .refine((data) => data.password === data.confirmPassword, {
@@ -25,8 +25,8 @@ export const forgotPasswordSchema = z.object({
 
 export const resetPasswordSchema = z
   .object({
-    password: z.string().min(8, "Password must be at least 8 characters"),
-    confirmPassword: z.string().min(8),
+    password: z.string().min(12, "Password must be at least 12 characters").regex(passwordPolicy, "Password must include uppercase, lowercase, number, and special character"),
+    confirmPassword: z.string().min(12),
   })
   .refine((data) => data.password === data.confirmPassword, {
     message: "Passwords do not match",

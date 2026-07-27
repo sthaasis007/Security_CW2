@@ -39,7 +39,7 @@ export default function RegisterForm() {
     setError(null);
     setLoading(true);
     try {
-      const res = await apiFetch(`/api/auth/register`, { method: "POST", body: JSON.stringify({ name: data.name, email: data.email, password: data.password }) });
+      const res = await apiFetch(`/api/auth/register`, { method: "POST", body: JSON.stringify({ name: data.name, email: data.email, password: data.password, confirmPassword: data.confirmPassword }) });
 
       const body = await res.json().catch(() => ({}));
       if (res.ok) {
@@ -84,7 +84,7 @@ export default function RegisterForm() {
           <div className="h-2 w-full rounded bg-gray-200">
             <div className="h-2 rounded bg-blue-600" style={{ width: `${(passwordStrength / 5) * 100}%` }} />
           </div>
-          <p className="mt-1 text-xs text-gray-600">Use 8+ characters with uppercase, lowercase, a number, and a symbol.</p>
+          <p className="mt-1 text-xs text-gray-600">Use 12+ characters with uppercase, lowercase, a number, and a symbol.</p>
         </div>
       ) : null}
 

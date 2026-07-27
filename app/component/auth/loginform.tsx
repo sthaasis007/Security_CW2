@@ -33,8 +33,8 @@ export default function LoginForm() {
 
       const body = await res.json().catch(() => ({}));
       if (res.ok) {
-        const token = body.token || body.accessToken;
-        const refreshToken = body.refreshToken;
+        const token = body.accessToken || body.token || null;
+        const refreshToken = body.refreshToken || null;
 
         // save token and user data in cookies
         if (token) {

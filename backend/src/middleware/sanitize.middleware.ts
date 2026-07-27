@@ -1,29 +1,125 @@
+import fs from "fs";
+import path from "path";
 import { Request, Response, NextFunction } from "express";
 
-// Remove any keys starting with $ or containing dots to prevent NoSQL injection
-const sanitizeObject = (obj: any): any => {
-  if (!obj || typeof obj !== "object") return obj;
-  if (Array.isArray(obj)) return obj.map((v) => sanitizeObject(v));
-  const clean: any = {};
-  for (const key of Object.keys(obj)) {
-    if (key.startsWith("$") || key.includes(".")) continue;
-    const val = obj[key];
-    if (val && typeof val === "object") {
-      clean[key] = sanitizeObject(val);
-    } else {
-      clean[key] = val;
+const FORBIDDEN_KEYS = new Set(["$where", "$gt", "$gte", "$lt", "$lte", "$ne", "$in", "$nin", "$regex", "$options"]);
+
+const DEBUG_LOG = path.resolve(__dirname, "..", "..", "sanitize-debug.log");
+const logDebug = (entry: string) => {
+  try {
+    fs.appendFileSync(DEBUG_LOG, `${new Date().toISOString()} ${entry}\n`);
+  } catch {
+    // ignore logging failures to avoid breaking request processing
+  }
+};
+
+const sanitizeValue = (value: any): any => {
+  if (value === null || value === undefined) return value;
+  if (typeof value === "string") return value.trim();
+  if (typeof value !== "object") return value;
+
+  if (value instanceof Date || (typeof Buffer !== "undefined" && Buffer.isBuffer(value))) {
+    return value;
+  }
+
+  if (Array.isArray(value)) {
+    return value.map((item) => sanitizeValue(item));
+  }
+
+  if (typeof value.toJSON === "function") {
+    try {
+      return sanitizeValue(value.toJSON());
+    } catch {
+      return value;
     }
+  }
+
+  if (typeof value.toObject === "function") {
+    try {
+      return sanitizeValue(value.toObject());
+    } catch {
+      return value;
+    }
+  }
+
+  const clean: Record<string, any> = {};
+  for (const [key, child] of Object.entries(value as Record<string, any>)) {
+    if (key.startsWith("$") || key.includes(".") || FORBIDDEN_KEYS.has(key)) {
+      continue;
+    }
+    clean[key] = sanitizeValue(child);
   }
   return clean;
 };
 
-export default function sanitizeMiddleware(req: Request, _res: Response, next: NextFunction) {
+const safeSanitize = (target: any) => {
+  if (target === undefined || target === null) return target;
   try {
-    req.body = sanitizeObject(req.body);
-    req.query = sanitizeObject(req.query);
-    req.params = sanitizeObject(req.params);
-  } catch (e) {
-    // ignore sanitization errors
+    return sanitizeValue(target);
+  } catch (err) {
+    const error = err instanceof Error ? err : new Error(String(err));
+    logDebug(JSON.stringify({ event: "sanitizeMiddleware sanitize failure", error: error.message, stack: error.stack }));
+    return target;
   }
-  next();
+};
+
+const sanitizeInPlace = (target: any) => {
+  if (target === undefined || target === null) return target;
+  if (typeof target !== "object") return target;
+
+  const sanitized = safeSanitize(target);
+  if (sanitized === target) return target;
+
+  if (Array.isArray(target) && Array.isArray(sanitized)) {
+    target.length = 0;
+    target.push(...sanitized);
+    return target;
+  }
+
+  const keys = Object.keys(target);
+  for (const key of keys) {
+    delete target[key];
+  }
+  Object.assign(target, sanitized);
+  return target;
+};
+
+export default function sanitizeMiddleware(req: Request, res: Response, next: NextFunction) {
+  const debugEntry = {
+    event: "sanitizeMiddleware incoming",
+    method: req.method,
+    path: req.path,
+    bodyType: typeof req.body,
+    body: req.body,
+    query: req.query,
+    params: req.params,
+  };
+  logDebug(JSON.stringify(debugEntry));
+
+  try {
+    if (req.body && typeof req.body === "object") {
+      sanitizeInPlace(req.body);
+    } else {
+      req.body = safeSanitize(req.body);
+    }
+
+    sanitizeInPlace(req.query);
+    sanitizeInPlace(req.params);
+    next();
+  } catch (err) {
+    const error = err instanceof Error ? err : new Error(String(err));
+    const errorEntry = {
+      event: "sanitizeMiddleware error",
+      method: req.method,
+      path: req.path,
+      bodyType: typeof req.body,
+      body: req.body,
+      query: req.query,
+      params: req.params,
+      error: error.message,
+      stack: error.stack,
+    };
+    logDebug(JSON.stringify(errorEntry));
+    return res.status(400).json({ ok: false, message: "Invalid request parameters" });
+  }
 }

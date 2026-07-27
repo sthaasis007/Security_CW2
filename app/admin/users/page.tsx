@@ -19,12 +19,11 @@ export default function AdminUsersPage() {
     setIsLoading(true);
     try {
       const res = await apiFetch("/api/admin/users");
-      const data = await res.json();
-      console.log("Response:", data);
-      if (data.users) {
-        setUsers(data.users);
-      } else {
-        console.error("No users in response:", data);
+      const data = await res.json().catch(() => ({}));
+      const normalizedUsers = Array.isArray(data?.users) ? data.users : [];
+      setUsers(normalizedUsers);
+      if (!Array.isArray(data?.users)) {
+        console.warn("No users array returned by admin endpoint:", data);
       }
     } catch (err) {
       console.error("Fetch error:", err);

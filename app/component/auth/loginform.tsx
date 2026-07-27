@@ -6,6 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { loginSchema, LoginSchema } from "../../lib/validations/auth.schema";
 import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
+import apiFetch from "@/app/lib/request";
 
 import Input from "../ui/input";
 import Button from "../ui/button";

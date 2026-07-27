@@ -82,3 +82,24 @@ process.env.KHALTI_TEST_MODE = true
 KHALTI_TEST_MODE constant = true
 typeof KHALTI_TEST_MODE = boolean
 ═══════════════════════════════════════
+
+═══════════════════════════════════════
+PAYMENT INITIATE CALLED AT 2026-07-27T14:10:31.891Z
+process.env.KHALTI_TEST_MODE = true
+KHALTI_TEST_MODE constant = true
+typeof KHALTI_TEST_MODE = boolean
+═══════════════════════════════════════
+
+═══════════════════════════════════════
+PAYMENT INITIATE CALLED AT 2026-07-27T14:10:32.992Z
+process.env.KHALTI_TEST_MODE = true
+KHALTI_TEST_MODE constant = true
+typeof KHALTI_TEST_MODE = boolean
+═══════════════════════════════════════
+
+═══════════════════════════════════════
+PAYMENT INITIATE CALLED AT 2026-07-27T14:10:43.014Z
+process.env.KHALTI_TEST_MODE = true
+KHALTI_TEST_MODE constant = true
+typeof KHALTI_TEST_MODE = boolean
+═══════════════════════════════════════

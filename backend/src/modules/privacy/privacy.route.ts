@@ -4,6 +4,8 @@ import authOnly from "../../middleware/auth.middleware";
 import csrfMiddleware from "../../middleware/csrf.middleware";
 import rateLimit from "../../middleware/rateLimit.middleware";
 import { PrivacyController } from "./privacy.controller";
+import { validate } from "../../middleware/validation.middleware";
+import { emptyObject, emptyQuery, exportQuery } from "../../validation/api.schemas";
 
 const router = Router();
 const privacyLimit = rateLimit({ windowMs: 60 * 60 * 1000, max: 10, keyPrefix: "privacy" });
@@ -21,8 +23,8 @@ const safeJsonUpload = (req: Request, res: Response, next: NextFunction) =>
     ? res.status(400).json({ ok: false, message: error.code === "LIMIT_FILE_SIZE" ? "Import file is too large" : "Invalid import file" })
     : next());
 
-router.get("/export", privacyLimit, authOnly, PrivacyController.exportData);
-router.post("/import", privacyLimit, authOnly, csrfMiddleware, safeJsonUpload, PrivacyController.importData);
-router.delete("/account", privacyLimit, authOnly, csrfMiddleware, PrivacyController.deleteAccount);
+router.get("/export", privacyLimit, authOnly, validate({ query: exportQuery }), PrivacyController.exportData);
+router.post("/import", privacyLimit, authOnly, csrfMiddleware, validate({ query: emptyQuery }), safeJsonUpload, PrivacyController.importData);
+router.delete("/account", privacyLimit, authOnly, csrfMiddleware, validate({ body: emptyObject, query: emptyQuery }), PrivacyController.deleteAccount);
 
 export default router;

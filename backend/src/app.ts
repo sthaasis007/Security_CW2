@@ -52,7 +52,14 @@ app.use((req, res, next) => {
   res.setHeader("Permissions-Policy", "camera=(), microphone=(), geolocation=(), payment=()");
   next();
 });
-app.use(cors({ origin: process.env.FRONTEND_URL || "http://localhost:3000", credentials: true }));
+const allowedOrigins = (process.env.FRONTEND_URL || "http://localhost:3000")
+  .split(",").map((value) => value.trim()).filter(Boolean);
+app.use(cors({
+  credentials: true,
+  origin(origin, callback) {
+    callback(null, !origin || allowedOrigins.includes(origin));
+  },
+}));
 app.use(express.json({ limit: "100kb" }));
 app.use(express.urlencoded({ extended: true, limit: "100kb" }));
 
@@ -93,10 +100,13 @@ app.use("/api/privacy", privacyRoutes);
 app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
   console.error("Unhandled error:", err);
   const status = err?.status || err?.statusCode || 500;
+  if (status === 413) {
+    return res.status(413).json({ ok: false, message: "Request body is too large" });
+  }
   if (status >= 500) {
     return res.status(500).json({ ok: false, message: "Internal server error" });
   }
-  return res.status(status).json({ ok: false, message: err?.message || "Request failed" });
+  return res.status(status).json({ ok: false, message: "Request failed" });
 });
 
 const PORT = Number(process.env.BACKEND_PORT || 5000);

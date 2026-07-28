@@ -9,6 +9,8 @@ const auth_middleware_1 = __importDefault(require("../../middleware/auth.middlew
 const csrf_middleware_1 = __importDefault(require("../../middleware/csrf.middleware"));
 const rateLimit_middleware_1 = __importDefault(require("../../middleware/rateLimit.middleware"));
 const privacy_controller_1 = require("./privacy.controller");
+const validation_middleware_1 = require("../../middleware/validation.middleware");
+const api_schemas_1 = require("../../validation/api.schemas");
 const router = (0, express_1.Router)();
 const privacyLimit = (0, rateLimit_middleware_1.default)({ windowMs: 60 * 60 * 1000, max: 10, keyPrefix: "privacy" });
 const jsonUpload = (0, multer_1.default)({
@@ -24,8 +26,8 @@ const jsonUpload = (0, multer_1.default)({
 const safeJsonUpload = (req, res, next) => jsonUpload(req, res, (error) => error
     ? res.status(400).json({ ok: false, message: error.code === "LIMIT_FILE_SIZE" ? "Import file is too large" : "Invalid import file" })
     : next());
-router.get("/export", privacyLimit, auth_middleware_1.default, privacy_controller_1.PrivacyController.exportData);
-router.post("/import", privacyLimit, auth_middleware_1.default, csrf_middleware_1.default, safeJsonUpload, privacy_controller_1.PrivacyController.importData);
-router.delete("/account", privacyLimit, auth_middleware_1.default, csrf_middleware_1.default, privacy_controller_1.PrivacyController.deleteAccount);
+router.get("/export", privacyLimit, auth_middleware_1.default, (0, validation_middleware_1.validate)({ query: api_schemas_1.exportQuery }), privacy_controller_1.PrivacyController.exportData);
+router.post("/import", privacyLimit, auth_middleware_1.default, csrf_middleware_1.default, (0, validation_middleware_1.validate)({ query: api_schemas_1.emptyQuery }), safeJsonUpload, privacy_controller_1.PrivacyController.importData);
+router.delete("/account", privacyLimit, auth_middleware_1.default, csrf_middleware_1.default, (0, validation_middleware_1.validate)({ body: api_schemas_1.emptyObject, query: api_schemas_1.emptyQuery }), privacy_controller_1.PrivacyController.deleteAccount);
 exports.default = router;
 //# sourceMappingURL=privacy.route.js.map

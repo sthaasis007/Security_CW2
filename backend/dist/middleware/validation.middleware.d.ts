@@ -1,7 +1,12 @@
 import { Request, Response, NextFunction } from "express";
-import { ZodSchema } from "zod";
-export declare const validateRequest: (schema: ZodSchema, options?: {
-    allowUnknown?: boolean;
-}) => (req: Request, res: Response, next: NextFunction) => Response<any, Record<string, any>> | undefined;
-export declare const validateQuery: (schema: ZodSchema) => (req: Request, res: Response, next: NextFunction) => Response<any, Record<string, any>> | undefined;
+import { ZodType } from "zod";
+type RequestSchemas = {
+    body?: ZodType;
+    params?: ZodType;
+    query?: ZodType;
+};
+export declare const validate: (schemas: RequestSchemas) => (req: Request, res: Response, next: NextFunction) => Response<any, Record<string, any>> | undefined;
+export declare const validateRequest: (schema: ZodType) => (req: Request, res: Response, next: NextFunction) => Response<any, Record<string, any>> | undefined;
+export declare const validateQuery: (schema: ZodType) => (req: Request, res: Response, next: NextFunction) => Response<any, Record<string, any>> | undefined;
+export {};
 //# sourceMappingURL=validation.middleware.d.ts.map

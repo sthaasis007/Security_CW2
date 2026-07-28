@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = sanitizeMiddleware;
-const FORBIDDEN_KEYS = new Set(["$where", "$gt", "$gte", "$lt", "$lte", "$ne", "$in", "$nin", "$regex", "$options"]);
+const FORBIDDEN_KEYS = new Set(["$where", "$gt", "$gte", "$lt", "$lte", "$ne", "$in", "$nin", "$regex", "$options", "__proto__", "prototype", "constructor"]);
 const sanitizeValue = (value) => {
     if (value === null || value === undefined)
         return value;

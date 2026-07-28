@@ -53,7 +53,7 @@ export const AdminController = {
 
       return res.status(201).json({ ok: true, message: "User created", user: { id: (user as any)._id, email: (user as any).email, role: (user as any).role } });
     } catch (err) {
-      return res.status(500).json({ ok: false, message: "Server error", err });
+      return res.status(500).json({ ok: false, message: "Server error" });
     }
   },
 
@@ -147,7 +147,7 @@ export const AdminController = {
 
       return res.status(200).json({ ok: true, user: updated });
     } catch (err) {
-      return res.status(500).json({ ok: false, message: "Server error", err });
+      return res.status(500).json({ ok: false, message: "Server error" });
     }
   },
 

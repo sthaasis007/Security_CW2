@@ -1,10 +1,10 @@
 export declare const ProductRepository: {
     findById: (id: string) => import("mongoose").Query<({
         name: string;
-        price: number;
         placements: ("bestseller" | "current")[];
-        displayOrder: number;
         available: boolean;
+        price: number;
+        displayOrder: number;
         image?: string | null;
         description?: string | null;
         createdAt: NativeDate;
@@ -17,10 +17,10 @@ export declare const ProductRepository: {
         _id: import("mongoose").Types.ObjectId;
     }>) | null, import("mongoose").Document<unknown, {}, {
         name: string;
-        price: number;
         placements: ("bestseller" | "current")[];
-        displayOrder: number;
         available: boolean;
+        price: number;
+        displayOrder: number;
         image?: string | null;
         description?: string | null;
     } & import("mongoose").DefaultTimestampProps, {
@@ -29,10 +29,10 @@ export declare const ProductRepository: {
         timestamps: true;
     }> & Omit<{
         name: string;
-        price: number;
         placements: ("bestseller" | "current")[];
-        displayOrder: number;
         available: boolean;
+        price: number;
+        displayOrder: number;
         image?: string | null;
         description?: string | null;
     } & import("mongoose").DefaultTimestampProps & {
@@ -43,10 +43,10 @@ export declare const ProductRepository: {
         id: string;
     }>, {}, {
         name: string;
-        price: number;
         placements: ("bestseller" | "current")[];
-        displayOrder: number;
         available: boolean;
+        price: number;
+        displayOrder: number;
         image?: string | null;
         description?: string | null;
         createdAt: NativeDate;
@@ -60,10 +60,10 @@ export declare const ProductRepository: {
     }>;
     findAll: (filters?: Record<string, any>) => import("mongoose").Query<({
         name: string;
-        price: number;
         placements: ("bestseller" | "current")[];
-        displayOrder: number;
         available: boolean;
+        price: number;
+        displayOrder: number;
         image?: string | null;
         description?: string | null;
         createdAt: NativeDate;
@@ -76,10 +76,10 @@ export declare const ProductRepository: {
         _id: import("mongoose").Types.ObjectId;
     }>)[], import("mongoose").Document<unknown, {}, {
         name: string;
-        price: number;
         placements: ("bestseller" | "current")[];
-        displayOrder: number;
         available: boolean;
+        price: number;
+        displayOrder: number;
         image?: string | null;
         description?: string | null;
     } & import("mongoose").DefaultTimestampProps, {
@@ -88,10 +88,10 @@ export declare const ProductRepository: {
         timestamps: true;
     }> & Omit<{
         name: string;
-        price: number;
         placements: ("bestseller" | "current")[];
-        displayOrder: number;
         available: boolean;
+        price: number;
+        displayOrder: number;
         image?: string | null;
         description?: string | null;
     } & import("mongoose").DefaultTimestampProps & {
@@ -102,10 +102,10 @@ export declare const ProductRepository: {
         id: string;
     }>, {}, {
         name: string;
-        price: number;
         placements: ("bestseller" | "current")[];
-        displayOrder: number;
         available: boolean;
+        price: number;
+        displayOrder: number;
         image?: string | null;
         description?: string | null;
         createdAt: NativeDate;
@@ -119,10 +119,10 @@ export declare const ProductRepository: {
     }>;
     create: (data: Record<string, any>) => Promise<import("mongoose").Document<unknown, {}, {
         name: string;
-        price: number;
         placements: ("bestseller" | "current")[];
-        displayOrder: number;
         available: boolean;
+        price: number;
+        displayOrder: number;
         image?: string | null;
         description?: string | null;
     } & import("mongoose").DefaultTimestampProps, {
@@ -131,10 +131,10 @@ export declare const ProductRepository: {
         timestamps: true;
     }> & Omit<{
         name: string;
-        price: number;
         placements: ("bestseller" | "current")[];
-        displayOrder: number;
         available: boolean;
+        price: number;
+        displayOrder: number;
         image?: string | null;
         description?: string | null;
     } & import("mongoose").DefaultTimestampProps & {
@@ -146,10 +146,10 @@ export declare const ProductRepository: {
     }>>;
     update: (id: string, data: Record<string, any>) => import("mongoose").Query<({
         name: string;
-        price: number;
         placements: ("bestseller" | "current")[];
-        displayOrder: number;
         available: boolean;
+        price: number;
+        displayOrder: number;
         image?: string | null;
         description?: string | null;
         createdAt: NativeDate;
@@ -162,10 +162,10 @@ export declare const ProductRepository: {
         _id: import("mongoose").Types.ObjectId;
     }>) | null, import("mongoose").Document<unknown, {}, {
         name: string;
-        price: number;
         placements: ("bestseller" | "current")[];
-        displayOrder: number;
         available: boolean;
+        price: number;
+        displayOrder: number;
         image?: string | null;
         description?: string | null;
     } & import("mongoose").DefaultTimestampProps, {
@@ -174,10 +174,10 @@ export declare const ProductRepository: {
         timestamps: true;
     }> & Omit<{
         name: string;
-        price: number;
         placements: ("bestseller" | "current")[];
-        displayOrder: number;
         available: boolean;
+        price: number;
+        displayOrder: number;
         image?: string | null;
         description?: string | null;
     } & import("mongoose").DefaultTimestampProps & {
@@ -188,10 +188,10 @@ export declare const ProductRepository: {
         id: string;
     }>, {}, {
         name: string;
-        price: number;
         placements: ("bestseller" | "current")[];
-        displayOrder: number;
         available: boolean;
+        price: number;
+        displayOrder: number;
         image?: string | null;
         description?: string | null;
         createdAt: NativeDate;
@@ -205,10 +205,10 @@ export declare const ProductRepository: {
     }>;
     delete: (id: string) => import("mongoose").Query<(import("mongoose").Document<unknown, {}, {
         name: string;
-        price: number;
         placements: ("bestseller" | "current")[];
-        displayOrder: number;
         available: boolean;
+        price: number;
+        displayOrder: number;
         image?: string | null;
         description?: string | null;
     } & import("mongoose").DefaultTimestampProps, {
@@ -217,10 +217,10 @@ export declare const ProductRepository: {
         timestamps: true;
     }> & Omit<{
         name: string;
-        price: number;
         placements: ("bestseller" | "current")[];
-        displayOrder: number;
         available: boolean;
+        price: number;
+        displayOrder: number;
         image?: string | null;
         description?: string | null;
     } & import("mongoose").DefaultTimestampProps & {
@@ -231,10 +231,10 @@ export declare const ProductRepository: {
         id: string;
     }>) | null, import("mongoose").Document<unknown, {}, {
         name: string;
-        price: number;
         placements: ("bestseller" | "current")[];
-        displayOrder: number;
         available: boolean;
+        price: number;
+        displayOrder: number;
         image?: string | null;
         description?: string | null;
     } & import("mongoose").DefaultTimestampProps, {
@@ -243,10 +243,10 @@ export declare const ProductRepository: {
         timestamps: true;
     }> & Omit<{
         name: string;
-        price: number;
         placements: ("bestseller" | "current")[];
-        displayOrder: number;
         available: boolean;
+        price: number;
+        displayOrder: number;
         image?: string | null;
         description?: string | null;
     } & import("mongoose").DefaultTimestampProps & {
@@ -257,10 +257,10 @@ export declare const ProductRepository: {
         id: string;
     }>, {}, {
         name: string;
-        price: number;
         placements: ("bestseller" | "current")[];
-        displayOrder: number;
         available: boolean;
+        price: number;
+        displayOrder: number;
         image?: string | null;
         description?: string | null;
         createdAt: NativeDate;

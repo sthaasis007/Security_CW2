@@ -14,7 +14,7 @@ exports.CartController = {
             return res.status(200).json({ ok: true, cart });
         }
         catch (err) {
-            return res.status(500).json({ ok: false, message: "Server error", err });
+            return res.status(500).json({ ok: false, message: "Server error" });
         }
     },
     async addItem(req, res) {
@@ -32,7 +32,7 @@ exports.CartController = {
         }
         catch (err) {
             const message = err instanceof Error ? err.message : "Server error";
-            return res.status(500).json({ ok: false, message, err });
+            return res.status(500).json({ ok: false, message });
         }
     },
     async updateItem(req, res) {
@@ -50,7 +50,7 @@ exports.CartController = {
             return res.status(200).json({ ok: true, cart });
         }
         catch (err) {
-            return res.status(500).json({ ok: false, message: "Server error", err });
+            return res.status(500).json({ ok: false, message: "Server error" });
         }
     },
     async removeItem(req, res) {
@@ -67,7 +67,7 @@ exports.CartController = {
             return res.status(200).json({ ok: true, cart });
         }
         catch (err) {
-            return res.status(500).json({ ok: false, message: "Server error", err });
+            return res.status(500).json({ ok: false, message: "Server error" });
         }
     },
     async clearCart(req, res) {
@@ -79,7 +79,7 @@ exports.CartController = {
             return res.status(200).json({ ok: true, cart });
         }
         catch (err) {
-            return res.status(500).json({ ok: false, message: "Server error", err });
+            return res.status(500).json({ ok: false, message: "Server error" });
         }
     },
 };

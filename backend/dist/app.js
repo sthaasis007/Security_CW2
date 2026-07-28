@@ -52,7 +52,14 @@ app.use((req, res, next) => {
     res.setHeader("Permissions-Policy", "camera=(), microphone=(), geolocation=(), payment=()");
     next();
 });
-app.use((0, cors_1.default)({ origin: process.env.FRONTEND_URL || "http://localhost:3000", credentials: true }));
+const allowedOrigins = (process.env.FRONTEND_URL || "http://localhost:3000")
+    .split(",").map((value) => value.trim()).filter(Boolean);
+app.use((0, cors_1.default)({
+    credentials: true,
+    origin(origin, callback) {
+        callback(null, !origin || allowedOrigins.includes(origin));
+    },
+}));
 app.use(express_1.default.json({ limit: "100kb" }));
 app.use(express_1.default.urlencoded({ extended: true, limit: "100kb" }));
 const sanitize_middleware_1 = __importDefault(require("./middleware/sanitize.middleware"));
@@ -82,10 +89,13 @@ app.use("/api/privacy", privacy_route_1.default);
 app.use((err, _req, res, _next) => {
     console.error("Unhandled error:", err);
     const status = err?.status || err?.statusCode || 500;
+    if (status === 413) {
+        return res.status(413).json({ ok: false, message: "Request body is too large" });
+    }
     if (status >= 500) {
         return res.status(500).json({ ok: false, message: "Internal server error" });
     }
-    return res.status(status).json({ ok: false, message: err?.message || "Request failed" });
+    return res.status(status).json({ ok: false, message: "Request failed" });
 });
 const PORT = Number(process.env.BACKEND_PORT || 5000);
 const MONGO_URI = (process.env.MONGO_URI || "mongodb://127.0.0.1:27017/everblue");

@@ -1,38 +1,34 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.validateQuery = exports.validateRequest = void 0;
-const validateRequest = (schema, options) => {
-    return (req, res, next) => {
-        try {
-            const parsed = schema.safeParse(req.body);
-            if (!parsed.success) {
-                return res.status(400).json({ ok: false, message: "Validation error", errors: parsed.error.flatten().fieldErrors });
+exports.validateQuery = exports.validateRequest = exports.validate = void 0;
+const fs_1 = __importDefault(require("fs"));
+const validate = (schemas) => (req, res, next) => {
+    for (const [target, schema] of Object.entries(schemas)) {
+        const parsed = schema.safeParse(req[target]);
+        if (!parsed.success) {
+            const uploadedPath = req.file?.path;
+            if (uploadedPath) {
+                try {
+                    fs_1.default.unlinkSync(uploadedPath);
+                }
+                catch { /* best-effort cleanup */ }
             }
-            if (!options?.allowUnknown) {
-                req.body = parsed.data;
-            }
-            next();
+            return res.status(400).json({ ok: false, message: `Invalid request ${target}` });
         }
-        catch (error) {
-            return res.status(400).json({ ok: false, message: "Validation error" });
+        // Express 5 exposes req.query through a getter, so it cannot be replaced.
+        // Query values are validated here and controllers read the original values.
+        if (target !== "query") {
+            req[target] = parsed.data;
         }
-    };
+    }
+    next();
 };
+exports.validate = validate;
+const validateRequest = (schema) => (0, exports.validate)({ body: schema });
 exports.validateRequest = validateRequest;
-const validateQuery = (schema) => {
-    return (req, res, next) => {
-        try {
-            const parsed = schema.safeParse(req.query);
-            if (!parsed.success) {
-                return res.status(400).json({ ok: false, message: "Validation error", errors: parsed.error.flatten().fieldErrors });
-            }
-            req.query = parsed.data;
-            next();
-        }
-        catch (error) {
-            return res.status(400).json({ ok: false, message: "Validation error" });
-        }
-    };
-};
+const validateQuery = (schema) => (0, exports.validate)({ query: schema });
 exports.validateQuery = validateQuery;
 //# sourceMappingURL=validation.middleware.js.map

@@ -1,34 +1,32 @@
 import { Request, Response, NextFunction } from "express";
-import { z, ZodSchema } from "zod";
+import { ZodType } from "zod";
+import fs from "fs";
 
-export const validateRequest = (schema: ZodSchema, options?: { allowUnknown?: boolean }) => {
-  return (req: Request, res: Response, next: NextFunction) => {
-    try {
-      const parsed = schema.safeParse(req.body);
-      if (!parsed.success) {
-        return res.status(400).json({ ok: false, message: "Validation error", errors: parsed.error.flatten().fieldErrors });
-      }
-      if (!options?.allowUnknown) {
-        req.body = parsed.data;
-      }
-      next();
-    } catch (error) {
-      return res.status(400).json({ ok: false, message: "Validation error" });
-    }
-  };
+type RequestSchemas = {
+  body?: ZodType;
+  params?: ZodType;
+  query?: ZodType;
 };
 
-export const validateQuery = (schema: ZodSchema) => {
-  return (req: Request, res: Response, next: NextFunction) => {
-    try {
-      const parsed = schema.safeParse(req.query);
+export const validate = (schemas: RequestSchemas) =>
+  (req: Request, res: Response, next: NextFunction) => {
+    for (const [target, schema] of Object.entries(schemas) as [keyof RequestSchemas, ZodType][]) {
+      const parsed = schema.safeParse((req as any)[target]);
       if (!parsed.success) {
-        return res.status(400).json({ ok: false, message: "Validation error", errors: parsed.error.flatten().fieldErrors });
+        const uploadedPath = (req as any).file?.path;
+        if (uploadedPath) {
+          try { fs.unlinkSync(uploadedPath); } catch { /* best-effort cleanup */ }
+        }
+        return res.status(400).json({ ok: false, message: `Invalid request ${target}` });
       }
-      req.query = parsed.data as any;
-      next();
-    } catch (error) {
-      return res.status(400).json({ ok: false, message: "Validation error" });
+      // Express 5 exposes req.query through a getter, so it cannot be replaced.
+      // Query values are validated here and controllers read the original values.
+      if (target !== "query") {
+        (req as any)[target] = parsed.data;
+      }
     }
+    next();
   };
-};
+
+export const validateRequest = (schema: ZodType) => validate({ body: schema });
+export const validateQuery = (schema: ZodType) => validate({ query: schema });

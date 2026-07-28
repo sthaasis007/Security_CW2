@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 
-const FORBIDDEN_KEYS = new Set(["$where", "$gt", "$gte", "$lt", "$lte", "$ne", "$in", "$nin", "$regex", "$options"]);
+const FORBIDDEN_KEYS = new Set(["$where", "$gt", "$gte", "$lt", "$lte", "$ne", "$in", "$nin", "$regex", "$options", "__proto__", "prototype", "constructor"]);
 
 const sanitizeValue = (value: any): any => {
   if (value === null || value === undefined) return value;

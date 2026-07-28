@@ -1,20 +1,20 @@
 import mongoose from "mongoose";
 export declare const ProductModel: mongoose.Model<{
     name: string;
-    price: number;
     placements: ("bestseller" | "current")[];
-    displayOrder: number;
     available: boolean;
+    price: number;
+    displayOrder: number;
     image?: string | null;
     description?: string | null;
 } & mongoose.DefaultTimestampProps, {}, {}, {
     id: string;
 }, mongoose.Document<unknown, {}, {
     name: string;
-    price: number;
     placements: ("bestseller" | "current")[];
-    displayOrder: number;
     available: boolean;
+    price: number;
+    displayOrder: number;
     image?: string | null;
     description?: string | null;
 } & mongoose.DefaultTimestampProps, {
@@ -23,10 +23,10 @@ export declare const ProductModel: mongoose.Model<{
     timestamps: true;
 }> & Omit<{
     name: string;
-    price: number;
     placements: ("bestseller" | "current")[];
-    displayOrder: number;
     available: boolean;
+    price: number;
+    displayOrder: number;
     image?: string | null;
     description?: string | null;
 } & mongoose.DefaultTimestampProps & {
@@ -39,18 +39,18 @@ export declare const ProductModel: mongoose.Model<{
     timestamps: true;
 }, {
     name: string;
-    price: number;
     placements: ("bestseller" | "current")[];
-    displayOrder: number;
     available: boolean;
+    price: number;
+    displayOrder: number;
     image?: string | null;
     description?: string | null;
 } & mongoose.DefaultTimestampProps, mongoose.Document<unknown, {}, {
     name: string;
-    price: number;
     placements: ("bestseller" | "current")[];
-    displayOrder: number;
     available: boolean;
+    price: number;
+    displayOrder: number;
     image?: string | null;
     description?: string | null;
 } & mongoose.DefaultTimestampProps, {
@@ -59,10 +59,10 @@ export declare const ProductModel: mongoose.Model<{
     timestamps: true;
 }> & Omit<{
     name: string;
-    price: number;
     placements: ("bestseller" | "current")[];
-    displayOrder: number;
     available: boolean;
+    price: number;
+    displayOrder: number;
     image?: string | null;
     description?: string | null;
 } & mongoose.DefaultTimestampProps & {
@@ -73,10 +73,10 @@ export declare const ProductModel: mongoose.Model<{
     id: string;
 }>, unknown, {
     name: string;
-    price: number;
     placements: ("bestseller" | "current")[];
-    displayOrder: number;
     available: boolean;
+    price: number;
+    displayOrder: number;
     image?: string | null;
     description?: string | null;
     createdAt: NativeDate;
@@ -87,10 +87,10 @@ export declare const ProductModel: mongoose.Model<{
     __v: number;
 }>, {
     name: string;
-    price: number;
     placements: ("bestseller" | "current")[];
-    displayOrder: number;
     available: boolean;
+    price: number;
+    displayOrder: number;
     image?: string | null;
     description?: string | null;
     createdAt: NativeDate;

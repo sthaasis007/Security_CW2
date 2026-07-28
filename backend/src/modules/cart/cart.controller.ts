@@ -12,7 +12,7 @@ export const CartController = {
       const cart = await CartRepository.getUserCart(userId);
       return res.status(200).json({ ok: true, cart });
     } catch (err) {
-      return res.status(500).json({ ok: false, message: "Server error", err });
+      return res.status(500).json({ ok: false, message: "Server error" });
     }
   },
 
@@ -36,7 +36,7 @@ export const CartController = {
       return res.status(200).json({ ok: true, cart });
     } catch (err) {
       const message = err instanceof Error ? err.message : "Server error";
-      return res.status(500).json({ ok: false, message, err });
+      return res.status(500).json({ ok: false, message });
     }
   },
 
@@ -60,7 +60,7 @@ export const CartController = {
       );
       return res.status(200).json({ ok: true, cart });
     } catch (err) {
-      return res.status(500).json({ ok: false, message: "Server error", err });
+      return res.status(500).json({ ok: false, message: "Server error" });
     }
   },
 
@@ -83,7 +83,7 @@ export const CartController = {
       );
       return res.status(200).json({ ok: true, cart });
     } catch (err) {
-      return res.status(500).json({ ok: false, message: "Server error", err });
+      return res.status(500).json({ ok: false, message: "Server error" });
     }
   },
 
@@ -95,7 +95,7 @@ export const CartController = {
       const cart = await CartRepository.clearCart(userId);
       return res.status(200).json({ ok: true, cart });
     } catch (err) {
-      return res.status(500).json({ ok: false, message: "Server error", err });
+      return res.status(500).json({ ok: false, message: "Server error" });
     }
   },
 };

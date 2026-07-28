@@ -15,7 +15,7 @@ exports.FavoriteController = {
             return res.status(200).json({ ok: true, favorites });
         }
         catch (err) {
-            return res.status(500).json({ ok: false, message: "Server error", err });
+            return res.status(500).json({ ok: false, message: "Server error" });
         }
     },
     // Add a product to favorites
@@ -42,7 +42,7 @@ exports.FavoriteController = {
         }
         catch (err) {
             const message = err instanceof Error ? err.message : "Server error";
-            return res.status(500).json({ ok: false, message, err });
+            return res.status(500).json({ ok: false, message });
         }
     },
     // Remove a product from favorites
@@ -61,7 +61,7 @@ exports.FavoriteController = {
             return res.status(200).json({ ok: true, result });
         }
         catch (err) {
-            return res.status(500).json({ ok: false, message: "Server error", err });
+            return res.status(500).json({ ok: false, message: "Server error" });
         }
     },
     // Toggle favorite
@@ -80,7 +80,7 @@ exports.FavoriteController = {
         }
         catch (err) {
             const message = err instanceof Error ? err.message : "Server error";
-            return res.status(500).json({ ok: false, message, err });
+            return res.status(500).json({ ok: false, message });
         }
     },
     // Check if a product is favorited
@@ -98,7 +98,7 @@ exports.FavoriteController = {
             return res.status(200).json({ ok: true, isFavorited: isFav });
         }
         catch (err) {
-            return res.status(500).json({ ok: false, message: "Server error", err });
+            return res.status(500).json({ ok: false, message: "Server error" });
         }
     },
 };

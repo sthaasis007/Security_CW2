@@ -49,7 +49,7 @@ exports.AdminController = {
             return res.status(201).json({ ok: true, message: "User created", user: { id: user._id, email: user.email, role: user.role } });
         }
         catch (err) {
-            return res.status(500).json({ ok: false, message: "Server error", err });
+            return res.status(500).json({ ok: false, message: "Server error" });
         }
     },
     async list(_req, res) {
@@ -142,7 +142,7 @@ exports.AdminController = {
             return res.status(200).json({ ok: true, user: updated });
         }
         catch (err) {
-            return res.status(500).json({ ok: false, message: "Server error", err });
+            return res.status(500).json({ ok: false, message: "Server error" });
         }
     },
     async remove(req, res) {

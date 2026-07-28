@@ -15,7 +15,7 @@ export const FavoriteController = {
       const favorites = await FavoriteRepository.getUserFavorites(userId);
       return res.status(200).json({ ok: true, favorites });
     } catch (err) {
-      return res.status(500).json({ ok: false, message: "Server error", err });
+      return res.status(500).json({ ok: false, message: "Server error" });
     }
   },
 
@@ -46,7 +46,7 @@ export const FavoriteController = {
       return res.status(201).json({ ok: true, favorite });
     } catch (err) {
       const message = err instanceof Error ? err.message : "Server error";
-      return res.status(500).json({ ok: false, message, err });
+      return res.status(500).json({ ok: false, message });
     }
   },
 
@@ -68,7 +68,7 @@ export const FavoriteController = {
       await ActivityService.log("favorite_removed", `Removed product ${productId} from favorites`, { productId }, { id: userId }, req);
       return res.status(200).json({ ok: true, result });
     } catch (err) {
-      return res.status(500).json({ ok: false, message: "Server error", err });
+      return res.status(500).json({ ok: false, message: "Server error" });
     }
   },
 
@@ -90,7 +90,7 @@ export const FavoriteController = {
       return res.status(200).json({ ok: true, ...result });
     } catch (err) {
       const message = err instanceof Error ? err.message : "Server error";
-      return res.status(500).json({ ok: false, message, err });
+      return res.status(500).json({ ok: false, message });
     }
   },
 
@@ -111,7 +111,7 @@ export const FavoriteController = {
       const isFav = await FavoriteRepository.isFavorited(userId, productId);
       return res.status(200).json({ ok: true, isFavorited: isFav });
     } catch (err) {
-      return res.status(500).json({ ok: false, message: "Server error", err });
+      return res.status(500).json({ ok: false, message: "Server error" });
     }
   },
 };

@@ -1,5 +1,8 @@
 import type { NextConfig } from "next";
 
+const isDevelopment = process.env.NODE_ENV !== "production";
+const scriptSources = `script-src 'self' 'unsafe-inline'${isDevelopment ? " 'unsafe-eval'" : ""}`;
+
 const nextConfig: NextConfig = {
   allowedDevOrigins: ["http://192.168.137.1", "http://192.168.88.1", "http://localhost", "http://127.0.0.1"],
   rewrites: async () => {
@@ -21,7 +24,7 @@ const nextConfig: NextConfig = {
     headers: [
       {
         key: "Content-Security-Policy",
-        value: "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; form-action 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https:; font-src 'self' data:; connect-src 'self'",
+        value: `default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; form-action 'self'; ${scriptSources}; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https:; font-src 'self' data:; connect-src 'self'`,
       },
       { key: "Strict-Transport-Security", value: "max-age=31536000; includeSubDomains; preload" },
       { key: "X-Content-Type-Options", value: "nosniff" },

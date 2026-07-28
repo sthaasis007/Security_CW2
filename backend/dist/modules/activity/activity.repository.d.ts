@@ -1,8 +1,21 @@
+export type ActivityPage = {
+    page: number;
+    limit: number;
+    total: number;
+    pages: number;
+    activities: any[];
+};
 export declare const ActivityRepository: {
     create: (data: Record<string, any>) => Promise<import("mongoose").Document<unknown, {}, {
         action: string;
+        category: string;
+        outcome: "success" | "failure" | "denied" | "unknown";
+        severity: "info" | "warning" | "critical";
         metadata: any;
         timestamp: NativeDate;
+        alert: boolean;
+        integrityHash: string;
+        expiresAt: NativeDate;
         role?: string | null;
         description?: string | null;
         userId?: import("mongoose").Types.ObjectId | null;
@@ -14,10 +27,17 @@ export declare const ActivityRepository: {
         id: string;
     }, {
         timestamps: true;
+        bufferCommands: false;
     }> & Omit<{
         action: string;
+        category: string;
+        outcome: "success" | "failure" | "denied" | "unknown";
+        severity: "info" | "warning" | "critical";
         metadata: any;
         timestamp: NativeDate;
+        alert: boolean;
+        integrityHash: string;
+        expiresAt: NativeDate;
         role?: string | null;
         description?: string | null;
         userId?: import("mongoose").Types.ObjectId | null;
@@ -32,29 +52,16 @@ export declare const ActivityRepository: {
     }, "id"> & import("mongoose").HydratedDocumentOverrides<{
         id: string;
     }>>;
-    list: (filters?: Record<string, any>) => import("mongoose").Query<({
+    countRecent: (action: string, userId: string | null, since: Date) => import("mongoose").Query<number, import("mongoose").Document<unknown, {}, {
         action: string;
+        category: string;
+        outcome: "success" | "failure" | "denied" | "unknown";
+        severity: "info" | "warning" | "critical";
         metadata: any;
         timestamp: NativeDate;
-        role?: string | null;
-        description?: string | null;
-        userId?: import("mongoose").Types.ObjectId | null;
-        username?: string | null;
-        userEmail?: string | null;
-        ipAddress?: string | null;
-        userAgent?: string | null;
-        createdAt: NativeDate;
-        updatedAt: NativeDate;
-    } & {
-        _id: import("mongoose").Types.ObjectId;
-    } & {
-        __v: number;
-    } & Required<{
-        _id: import("mongoose").Types.ObjectId;
-    }>)[], import("mongoose").Document<unknown, {}, {
-        action: string;
-        metadata: any;
-        timestamp: NativeDate;
+        alert: boolean;
+        integrityHash: string;
+        expiresAt: NativeDate;
         role?: string | null;
         description?: string | null;
         userId?: import("mongoose").Types.ObjectId | null;
@@ -66,10 +73,17 @@ export declare const ActivityRepository: {
         id: string;
     }, {
         timestamps: true;
+        bufferCommands: false;
     }> & Omit<{
         action: string;
+        category: string;
+        outcome: "success" | "failure" | "denied" | "unknown";
+        severity: "info" | "warning" | "critical";
         metadata: any;
         timestamp: NativeDate;
+        alert: boolean;
+        integrityHash: string;
+        expiresAt: NativeDate;
         role?: string | null;
         description?: string | null;
         userId?: import("mongoose").Types.ObjectId | null;
@@ -85,8 +99,14 @@ export declare const ActivityRepository: {
         id: string;
     }>, {}, {
         action: string;
+        category: string;
+        outcome: "success" | "failure" | "denied" | "unknown";
+        severity: "info" | "warning" | "critical";
         metadata: any;
         timestamp: NativeDate;
+        alert: boolean;
+        integrityHash: string;
+        expiresAt: NativeDate;
         role?: string | null;
         description?: string | null;
         userId?: import("mongoose").Types.ObjectId | null;
@@ -94,34 +114,9 @@ export declare const ActivityRepository: {
         userEmail?: string | null;
         ipAddress?: string | null;
         userAgent?: string | null;
-        createdAt: NativeDate;
-        updatedAt: NativeDate;
-    } & {
-        _id: import("mongoose").Types.ObjectId;
-    } & {
-        __v: number;
-    }, "find", {
+    } & import("mongoose").DefaultTimestampProps, "countDocuments", {
         id: string;
     }>;
-    search: (query: string) => Promise<({
-        action: string;
-        metadata: any;
-        timestamp: NativeDate;
-        role?: string | null;
-        description?: string | null;
-        userId?: import("mongoose").Types.ObjectId | null;
-        username?: string | null;
-        userEmail?: string | null;
-        ipAddress?: string | null;
-        userAgent?: string | null;
-        createdAt: NativeDate;
-        updatedAt: NativeDate;
-    } & {
-        _id: import("mongoose").Types.ObjectId;
-    } & {
-        __v: number;
-    } & Required<{
-        _id: import("mongoose").Types.ObjectId;
-    }>)[]>;
+    list(filters: Record<string, any>, page: number, limit: number): Promise<ActivityPage>;
 };
 //# sourceMappingURL=activity.repository.d.ts.map

@@ -22,6 +22,9 @@ export const validateSecurityConfiguration = (): void => {
     if (!process.env.CAPTCHA_SECRET?.trim()) {
       throw new Error("CAPTCHA_SECRET is required in production");
     }
+    if (!process.env.AUDIT_LOG_HMAC_KEY?.trim() || process.env.AUDIT_LOG_HMAC_KEY!.trim().length < 32) {
+      throw new Error("AUDIT_LOG_HMAC_KEY of at least 32 characters is required in production");
+    }
     const hops = Number(process.env.TRUST_PROXY_HOPS || 0);
     if (!Number.isInteger(hops) || hops < 0) {
       throw new Error("TRUST_PROXY_HOPS must be a non-negative integer");

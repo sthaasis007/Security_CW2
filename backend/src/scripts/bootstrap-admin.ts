@@ -5,6 +5,7 @@ import mongoose from "mongoose";
 import { connectDB } from "../config/db";
 import { AuthRepository } from "../modules/auth/auth.repository";
 import { isPasswordStrong } from "../utils/security";
+import { ActivityService } from "../modules/activity/activity.service";
 
 dotenv.config({ path: path.resolve(process.cwd(), ".env") });
 
@@ -28,10 +29,19 @@ const run = async () => {
   }
 
   const hashedPassword = await bcrypt.hash(password, 12);
-  await AuthRepository.createUser({
+  const administrator = await AuthRepository.createUser({
     name,
     email,
     password: hashedPassword,
+    role: "admin",
+  });
+  await ActivityService.log("admin_created", "Administrator created through explicit bootstrap", {
+    targetUserId: administrator._id.toString(),
+    assignedRole: "admin",
+  }, {
+    id: administrator._id.toString(),
+    email,
+    username: name,
     role: "admin",
   });
   console.log(`Administrator created for ${email}`);

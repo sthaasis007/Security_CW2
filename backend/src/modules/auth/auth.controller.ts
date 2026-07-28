@@ -335,6 +335,10 @@ export const AuthController = {
       if ((deleted as any).image) {
         await deleteUploadFile((deleted as any).image);
       }
+      await ActivityService.log("account_deleted", "Account deleted", { targetUserId: id }, {
+        id: currentUser.sub,
+        role: currentUser.role || null,
+      }, req);
 
       return res.status(200).json({ ok: true, message: "User deleted" });
     } catch (err) {

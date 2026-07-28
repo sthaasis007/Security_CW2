@@ -10,6 +10,7 @@ const mongoose_1 = __importDefault(require("mongoose"));
 const db_1 = require("../config/db");
 const auth_repository_1 = require("../modules/auth/auth.repository");
 const security_1 = require("../utils/security");
+const activity_service_1 = require("../modules/activity/activity.service");
 dotenv_1.default.config({ path: path_1.default.resolve(process.cwd(), ".env") });
 const run = async () => {
     const email = process.env.BOOTSTRAP_ADMIN_EMAIL?.trim().toLowerCase();
@@ -28,10 +29,19 @@ const run = async () => {
         throw new Error("A user with the bootstrap email already exists");
     }
     const hashedPassword = await bcryptjs_1.default.hash(password, 12);
-    await auth_repository_1.AuthRepository.createUser({
+    const administrator = await auth_repository_1.AuthRepository.createUser({
         name,
         email,
         password: hashedPassword,
+        role: "admin",
+    });
+    await activity_service_1.ActivityService.log("admin_created", "Administrator created through explicit bootstrap", {
+        targetUserId: administrator._id.toString(),
+        assignedRole: "admin",
+    }, {
+        id: administrator._id.toString(),
+        email,
+        username: name,
         role: "admin",
     });
     console.log(`Administrator created for ${email}`);

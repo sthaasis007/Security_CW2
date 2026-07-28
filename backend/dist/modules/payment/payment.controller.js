@@ -45,6 +45,9 @@ const verifyPayment = async (req, res) => {
     }
     catch (error) {
         const status = Number(error?.status);
+        await activity_service_1.ActivityService.log("payment_anomaly", "Payment verification anomaly", {
+            reason: typeof error?.message === "string" ? error.message : "verification_failed",
+        }, { id: user.id, email: user.email, role: user.role }, req).catch(() => undefined);
         return res.status([400, 404, 409].includes(status) ? status : 502).json({
             ok: false,
             message: status === 404 ? "Payment reference not found." :

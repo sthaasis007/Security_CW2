@@ -1,3 +1,4 @@
+export declare const redactAuditValue: (value: any, key?: string) => any;
 export declare const ActivityService: {
     log(action: string, description?: string, metadata?: Record<string, any>, user?: {
         id?: string | null;
@@ -6,8 +7,14 @@ export declare const ActivityService: {
         role?: string | null;
     }, req?: any): Promise<import("mongoose").Document<unknown, {}, {
         action: string;
+        category: string;
+        outcome: "success" | "failure" | "denied" | "unknown";
+        severity: "info" | "warning" | "critical";
         metadata: any;
         timestamp: NativeDate;
+        alert: boolean;
+        integrityHash: string;
+        expiresAt: NativeDate;
         role?: string | null;
         description?: string | null;
         userId?: import("mongoose").Types.ObjectId | null;
@@ -19,10 +26,17 @@ export declare const ActivityService: {
         id: string;
     }, {
         timestamps: true;
+        bufferCommands: false;
     }> & Omit<{
         action: string;
+        category: string;
+        outcome: "success" | "failure" | "denied" | "unknown";
+        severity: "info" | "warning" | "critical";
         metadata: any;
         timestamp: NativeDate;
+        alert: boolean;
+        integrityHash: string;
+        expiresAt: NativeDate;
         role?: string | null;
         description?: string | null;
         userId?: import("mongoose").Types.ObjectId | null;
@@ -37,45 +51,6 @@ export declare const ActivityService: {
     }, "id"> & import("mongoose").HydratedDocumentOverrides<{
         id: string;
     }>>;
-    list(filters?: Record<string, any>): Promise<({
-        action: string;
-        metadata: any;
-        timestamp: NativeDate;
-        role?: string | null;
-        description?: string | null;
-        userId?: import("mongoose").Types.ObjectId | null;
-        username?: string | null;
-        userEmail?: string | null;
-        ipAddress?: string | null;
-        userAgent?: string | null;
-        createdAt: NativeDate;
-        updatedAt: NativeDate;
-    } & {
-        _id: import("mongoose").Types.ObjectId;
-    } & {
-        __v: number;
-    } & Required<{
-        _id: import("mongoose").Types.ObjectId;
-    }>)[]>;
-    search(query: string): Promise<({
-        action: string;
-        metadata: any;
-        timestamp: NativeDate;
-        role?: string | null;
-        description?: string | null;
-        userId?: import("mongoose").Types.ObjectId | null;
-        username?: string | null;
-        userEmail?: string | null;
-        ipAddress?: string | null;
-        userAgent?: string | null;
-        createdAt: NativeDate;
-        updatedAt: NativeDate;
-    } & {
-        _id: import("mongoose").Types.ObjectId;
-    } & {
-        __v: number;
-    } & Required<{
-        _id: import("mongoose").Types.ObjectId;
-    }>)[]>;
+    list(filters: Record<string, any>, page: number, limit: number): Promise<import("./activity.repository").ActivityPage>;
 };
 //# sourceMappingURL=activity.service.d.ts.map

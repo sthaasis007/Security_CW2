@@ -49,3 +49,9 @@ export const sendPasswordChangedNotice = (email: string) =>
 
 export const sendSuspiciousLoginNotice = (email: string) =>
   sendSecurityMail(email, "Suspicious EverBlue login attempts", "Several unsuccessful login attempts were detected for your account. Your password has not been disclosed. Reset it if you do not recognize this activity.");
+
+export const sendSecurityAlert = (action: string, description: string) => {
+  const recipient = process.env.SECURITY_ALERT_EMAIL?.trim();
+  if (!recipient) return Promise.resolve();
+  return sendSecurityMail(recipient, `EverBlue security alert: ${action}`, description);
+};

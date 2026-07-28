@@ -4,6 +4,18 @@ import { AuthRepository } from "../modules/auth/auth.repository";
 import { isValidObjectId } from "../utils/security";
 import { getJwtSecret } from "../config/security";
 import { ACCESS_COOKIE, readCookie } from "../utils/cookie";
+import { ActivityService } from "../modules/activity/activity.service";
+
+const deny = async (req: Request, res: Response, status: 401 | 403, reason: string, user?: any) => {
+  await ActivityService.log(
+    "authorization_denied",
+    "Administrative access denied",
+    { reason, method: req.method, path: req.path },
+    user ? { id: user._id?.toString(), email: user.email, username: user.name, role: user.role } : undefined,
+    req,
+  ).catch(() => undefined);
+  return res.status(status).json({ ok: false, message: status === 403 ? "Forbidden: admin only" : "Unauthorized" });
+};
 
 export interface JwtPayloadExtended {
   sub: string;
@@ -16,22 +28,22 @@ export const adminOnly = async (req: Request, res: Response, next: NextFunction)
   const auth = req.headers.authorization;
   const token = auth?.startsWith("Bearer ") ? auth.slice(7) : readCookie(req, ACCESS_COOKIE);
   if (!token) {
-    return res.status(401).json({ ok: false, message: "Unauthorized" });
+    return deny(req, res, 401, "missing_session");
   }
   try {
     const payload = jwt.verify(token, getJwtSecret()) as unknown as JwtPayloadExtended;
     if (!payload.sub || !isValidObjectId(payload.sub)) {
-      return res.status(401).json({ ok: false, message: "Unauthorized" });
+      return deny(req, res, 401, "invalid_subject");
     }
     const user = await AuthRepository.findById(payload.sub);
     if (!user) {
-      return res.status(401).json({ ok: false, message: "Unauthorized" });
+      return deny(req, res, 401, "unknown_user");
     }
     if ((payload.sv || 0) !== ((user as any).sessionVersion || 0)) {
-      return res.status(401).json({ ok: false, message: "Unauthorized" });
+      return deny(req, res, 401, "invalidated_session", user);
     }
     if (user.role !== "admin") {
-      return res.status(403).json({ ok: false, message: "Forbidden: admin only" });
+      return deny(req, res, 403, "insufficient_role", user);
     }
     (req as any).user = {
       id: payload.sub,
@@ -42,7 +54,7 @@ export const adminOnly = async (req: Request, res: Response, next: NextFunction)
     };
     next();
   } catch (_err) {
-    return res.status(401).json({ ok: false, message: "Unauthorized" });
+    return deny(req, res, 401, "invalid_session");
   }
 };
 

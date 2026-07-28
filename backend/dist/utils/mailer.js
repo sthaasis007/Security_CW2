@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.sendSuspiciousLoginNotice = exports.sendPasswordChangedNotice = exports.sendPasswordReset = exports.sendEmailVerification = exports.sendMfaCode = void 0;
+exports.sendSecurityAlert = exports.sendSuspiciousLoginNotice = exports.sendPasswordChangedNotice = exports.sendPasswordReset = exports.sendEmailVerification = exports.sendMfaCode = void 0;
 const nodemailer_1 = __importDefault(require("nodemailer"));
 const isConfigured = () => {
     const user = process.env.EMAIL_USER?.trim();
@@ -52,4 +52,11 @@ const sendPasswordChangedNotice = (email) => sendSecurityMail(email, "Your EverB
 exports.sendPasswordChangedNotice = sendPasswordChangedNotice;
 const sendSuspiciousLoginNotice = (email) => sendSecurityMail(email, "Suspicious EverBlue login attempts", "Several unsuccessful login attempts were detected for your account. Your password has not been disclosed. Reset it if you do not recognize this activity.");
 exports.sendSuspiciousLoginNotice = sendSuspiciousLoginNotice;
+const sendSecurityAlert = (action, description) => {
+    const recipient = process.env.SECURITY_ALERT_EMAIL?.trim();
+    if (!recipient)
+        return Promise.resolve();
+    return sendSecurityMail(recipient, `EverBlue security alert: ${action}`, description);
+};
+exports.sendSecurityAlert = sendSecurityAlert;
 //# sourceMappingURL=mailer.js.map

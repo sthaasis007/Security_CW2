@@ -5,6 +5,7 @@ import { deleteUploadFile } from "../../utils/file";
 import { isPasswordStrong, isValidObjectId } from "../../utils/security";
 import { clearSessionCookies } from "../../utils/cookie";
 import { AuthService } from "../auth/auth.service";
+import { ActivityService } from "../activity/activity.service";
 
 export const AdminController = {
   async create(req: Request, res: Response) {
@@ -40,6 +41,14 @@ export const AdminController = {
         ...(image ? { image } : {}),
       } as any);
       void AuthService.resendVerification({ email: normalizedEmail });
+      const actor = (req as any).user;
+      await ActivityService.log(
+        role === "admin" ? "admin_created" : "account_created_by_admin",
+        "Administrator created an account",
+        { targetUserId: user._id.toString(), assignedRole: role || "user" },
+        actor,
+        req,
+      );
 
       return res.status(201).json({ ok: true, message: "User created", user: { id: (user as any)._id, email: (user as any).email, role: (user as any).role } });
     } catch (err) {
@@ -117,6 +126,19 @@ export const AdminController = {
         await AuthRepository.invalidateSessions(id);
         void AuthService.resendVerification({ email: body.email });
       }
+      const actor = (req as any).user;
+      if (body.role && body.role !== existing?.role) {
+        await ActivityService.log("role_changed", "Administrator changed an account role", {
+          targetUserId: id,
+          previousRole: existing?.role,
+          newRole: body.role,
+        }, actor, req);
+      }
+      await ActivityService.log("account_updated_by_admin", "Administrator updated an account", {
+        targetUserId: id,
+        updatedFields: Object.keys(body),
+        passwordChanged: Boolean(req.body?.password),
+      }, actor, req);
 
       if (body.image && existing?.image && existing.image !== body.image) {
         await deleteUploadFile(existing.image);
@@ -139,6 +161,10 @@ export const AdminController = {
     if ((deleted as any).image) {
       await deleteUploadFile((deleted as any).image);
     }
+    await ActivityService.log("account_deleted_by_admin", "Administrator deleted an account", {
+      targetUserId: id,
+      deletedRole: (deleted as any).role,
+    }, (req as any).user, req);
 
     return res.status(200).json({ ok: true, message: "User deleted" });
   },

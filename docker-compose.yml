@@ -1,0 +1,109 @@
+name: everblue
+
+services:
+  mongo:
+    image: mongo:8.0
+    restart: unless-stopped
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_ROOT_USERNAME:?Set MONGO_ROOT_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_ROOT_PASSWORD:?Set MONGO_ROOT_PASSWORD}
+    volumes:
+      - mongo_data:/data/db
+    healthcheck:
+      test: ["CMD-SHELL", "mongosh --quiet --username \"$$MONGO_INITDB_ROOT_USERNAME\" --password \"$$MONGO_INITDB_ROOT_PASSWORD\" --authenticationDatabase admin --eval \"quit(db.adminCommand('ping').ok ? 0 : 2)\""]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 20s
+    deploy:
+      resources:
+        limits:
+          cpus: "1.0"
+          memory: 768M
+    security_opt:
+      - no-new-privileges:true
+    networks: [private]
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    env_file:
+      - path: ${BACKEND_ENV_FILE:-.env.docker}
+        required: true
+    environment:
+      NODE_ENV: production
+      BACKEND_PORT: 5000
+      MONGO_URI: mongodb://${MONGO_ROOT_USERNAME}:${MONGO_ROOT_PASSWORD}@mongo:27017/everblue?authSource=admin
+      FRONTEND_URL: http://localhost:3000
+      TRUST_PROXY_HOPS: 0
+      KHALTI_TEST_MODE: "false"
+    depends_on:
+      mongo:
+        condition: service_healthy
+    volumes:
+      - uploads_data:/app/backend/uploads
+    read_only: true
+    tmpfs:
+      - /tmp:size=32M,noexec,nosuid,nodev
+    security_opt:
+      - no-new-privileges:true
+    cap_drop: [ALL]
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://127.0.0.1:5000/healthz"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+    deploy:
+      resources:
+        limits:
+          cpus: "1.0"
+          memory: 512M
+          pids: 200
+    networks: [private]
+
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        BACKEND_INTERNAL_URL: http://backend:5000
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      BACKEND_INTERNAL_URL: http://backend:5000
+    depends_on:
+      backend:
+        condition: service_healthy
+    ports:
+      - "3000:3000"
+    read_only: true
+    tmpfs:
+      - /tmp:size=32M,noexec,nosuid,nodev
+      - /app/.next/cache:size=64M,nosuid,nodev
+    security_opt:
+      - no-new-privileges:true
+    cap_drop: [ALL]
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://127.0.0.1:3000/healthz"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+    deploy:
+      resources:
+        limits:
+          cpus: "1.0"
+          memory: 512M
+          pids: 200
+    networks: [private]
+
+volumes:
+  mongo_data:
+  uploads_data:
+
+networks:
+  private:
+    driver: bridge

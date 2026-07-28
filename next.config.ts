@@ -4,17 +4,19 @@ const isDevelopment = process.env.NODE_ENV !== "production";
 const scriptSources = `script-src 'self' 'unsafe-inline'${isDevelopment ? " 'unsafe-eval'" : ""}`;
 
 const nextConfig: NextConfig = {
+  output: "standalone",
   allowedDevOrigins: ["http://192.168.137.1", "http://192.168.88.1", "http://localhost", "http://127.0.0.1"],
   rewrites: async () => {
+    const backendUrl = process.env.BACKEND_INTERNAL_URL || "http://localhost:5000";
     return {
       beforeFiles: [
         {
           source: "/api/:path*",
-          destination: "http://localhost:5000/api/:path*",
+          destination: `${backendUrl}/api/:path*`,
         },
         {
           source: "/uploads/:path*",
-          destination: "http://localhost:5000/uploads/:path*",
+          destination: `${backendUrl}/uploads/:path*`,
         },
       ],
     };

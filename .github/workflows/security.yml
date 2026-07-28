@@ -26,6 +26,10 @@ jobs:
         run: npm ci
       - name: Audit frontend production dependencies
         run: npm run audit:prod
+      - name: Lint frontend
+        run: npm run lint
+      - name: Type-check frontend
+        run: npm run typecheck
       - name: Build frontend
         run: npm run build
       - name: Install backend from lockfile
@@ -34,12 +38,30 @@ jobs:
       - name: Audit backend production dependencies
         working-directory: backend
         run: npm run audit:prod
+      - name: Type-check backend
+        working-directory: backend
+        run: npm run typecheck
       - name: Test backend
         working-directory: backend
         run: npm test -- --runInBand
       - name: Build backend
         working-directory: backend
         run: npm run build
+
+  container-build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate Compose configuration
+        env:
+          BACKEND_ENV_FILE: .env.docker.example
+          MONGO_ROOT_USERNAME: ci-user
+          MONGO_ROOT_PASSWORD: ci-password-with-32-safe-characters
+        run: docker compose config --quiet
+      - name: Build frontend image
+        run: docker build --build-arg BACKEND_INTERNAL_URL=http://backend:5000 -t everblue-frontend:ci .
+      - name: Build backend image
+        run: docker build -t everblue-backend:ci ./backend
 
   secret-scan:
     runs-on: ubuntu-latest

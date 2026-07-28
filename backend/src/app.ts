@@ -15,6 +15,7 @@ import path from "path";
 import { connectDB } from "./config/db";
 import { ProductModel } from "./modules/product/product.model";
 import { validateSecurityConfiguration } from "./config/security";
+import mongoose from "mongoose";
 
 dotenv.config({ path: path.resolve(process.cwd(), ".env") });
 dotenv.config({ path: path.resolve(process.cwd(), "..", ".env.local") });
@@ -85,6 +86,10 @@ app.use(
 );
 
 app.get("/", (_req, res) => res.json({ message: "EverBlue API running" }));
+app.get("/healthz", (_req, res) => {
+  const healthy = mongoose.connection.readyState === 1;
+  return res.status(healthy ? 200 : 503).json({ ok: healthy });
+});
 
 app.use("/api/auth", authRoutes);
 // Apply CSRF protection to authenticated state-changing requests for API routes

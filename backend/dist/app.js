@@ -19,6 +19,7 @@ const path_1 = __importDefault(require("path"));
 const db_1 = require("./config/db");
 const product_model_1 = require("./modules/product/product.model");
 const security_1 = require("./config/security");
+const mongoose_1 = __importDefault(require("mongoose"));
 dotenv_1.default.config({ path: path_1.default.resolve(process.cwd(), ".env") });
 dotenv_1.default.config({ path: path_1.default.resolve(process.cwd(), "..", ".env.local") });
 (0, security_1.validateSecurityConfiguration)();
@@ -76,6 +77,10 @@ app.use("/uploads", (req, res, next) => {
     next();
 }, express_1.default.static(path_1.default.join(process.cwd(), "backend", "uploads")));
 app.get("/", (_req, res) => res.json({ message: "EverBlue API running" }));
+app.get("/healthz", (_req, res) => {
+    const healthy = mongoose_1.default.connection.readyState === 1;
+    return res.status(healthy ? 200 : 503).json({ ok: healthy });
+});
 app.use("/api/auth", auth_route_1.default);
 // Apply CSRF protection to authenticated state-changing requests for API routes
 app.use("/api", csrf_middleware_1.default);

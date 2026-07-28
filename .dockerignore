@@ -1,0 +1,11 @@
+.git
+.github
+.next
+node_modules
+backend
+.env
+.env.*
+*.log
+coverage
+MCP_DOCUMENTATION.md
+ST6005CEM*

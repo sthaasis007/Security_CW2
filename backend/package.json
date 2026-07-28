@@ -10,6 +10,7 @@
     "start": "node dist/app.js",
     "test": "jest --verbose --detectOpenHandles",
     "bootstrap:admin": "ts-node src/scripts/bootstrap-admin.ts",
+    "typecheck": "tsc --noEmit",
     "audit:prod": "npm audit --omit=dev --audit-level=high"
   },
   "keywords": [],

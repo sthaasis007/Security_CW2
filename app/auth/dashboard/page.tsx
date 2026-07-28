@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import Cookies from "js-cookie";
+import { getSession } from "../../lib/request";
 import TopBar from "../../component/dashboard/TopBar";
 import Hero from "../../component/dashboard/hero";
 import CircleCarousel from "../../component/dashboard/CircleCarusel";
@@ -14,12 +14,10 @@ export default function DashboardPage() {
   const [isChecking, setIsChecking] = useState(true);
 
   useEffect(() => {
-    // Check both cookies and localStorage for token
-    const token = Cookies.get("token") || (typeof window !== "undefined" ? localStorage.getItem("token") : null);
-    if (!token) {
-      router.push("/login");
-    }
-    setIsChecking(false);
+    void getSession().then((user) => {
+      if (!user) router.push("/login");
+      else setIsChecking(false);
+    });
   }, [router]);
 
   if (isChecking) {

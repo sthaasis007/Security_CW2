@@ -4,14 +4,14 @@ import type { JwtPayloadExtended } from "./admin.middleware";
 import { AuthRepository } from "../modules/auth/auth.repository";
 import { isValidObjectId } from "../utils/security";
 import { getJwtSecret } from "../config/security";
+import { ACCESS_COOKIE, readCookie } from "../utils/cookie";
 
 export const authOnly = async (req: Request, res: Response, next: NextFunction) => {
   const auth = req.headers.authorization;
-  if (!auth || !auth.startsWith("Bearer ")) {
+  const token = auth?.startsWith("Bearer ") ? auth.slice(7) : readCookie(req, ACCESS_COOKIE);
+  if (!token) {
     return res.status(401).json({ ok: false, message: "Unauthorized" });
   }
-
-  const token = auth.split(" ")[1] as string;
   try {
     const payload = jwt.verify(token, getJwtSecret()) as unknown as JwtPayloadExtended;
 
@@ -21,6 +21,9 @@ export const authOnly = async (req: Request, res: Response, next: NextFunction) 
 
     const user = await AuthRepository.findById(payload.sub);
     if (!user) {
+      return res.status(401).json({ ok: false, message: "Unauthorized" });
+    }
+    if ((payload.sv || 0) !== ((user as any).sessionVersion || 0)) {
       return res.status(401).json({ ok: false, message: "Unauthorized" });
     }
 

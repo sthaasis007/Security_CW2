@@ -15,6 +15,7 @@ export declare const UserModel: mongoose.Model<{
     role: "user" | "admin";
     resetPasswordUsed: boolean;
     emailVerified: boolean;
+    sessionVersion: number;
     loginAttempts: number;
     mfaEnabled: boolean;
     mfaMethod: "email" | "none";
@@ -26,6 +27,7 @@ export declare const UserModel: mongoose.Model<{
     emailVerificationToken?: string | null;
     emailVerificationExpires?: NativeDate | null;
     refreshTokenHash?: string | null;
+    previousRefreshTokenHash?: string | null;
     refreshTokenExpiresAt?: NativeDate | null;
     csrfTokenHash?: string | null;
     csrfTokenExpiresAt?: NativeDate | null;
@@ -51,6 +53,7 @@ export declare const UserModel: mongoose.Model<{
     role: "user" | "admin";
     resetPasswordUsed: boolean;
     emailVerified: boolean;
+    sessionVersion: number;
     loginAttempts: number;
     mfaEnabled: boolean;
     mfaMethod: "email" | "none";
@@ -62,6 +65,7 @@ export declare const UserModel: mongoose.Model<{
     emailVerificationToken?: string | null;
     emailVerificationExpires?: NativeDate | null;
     refreshTokenHash?: string | null;
+    previousRefreshTokenHash?: string | null;
     refreshTokenExpiresAt?: NativeDate | null;
     csrfTokenHash?: string | null;
     csrfTokenExpiresAt?: NativeDate | null;
@@ -89,6 +93,7 @@ export declare const UserModel: mongoose.Model<{
     role: "user" | "admin";
     resetPasswordUsed: boolean;
     emailVerified: boolean;
+    sessionVersion: number;
     loginAttempts: number;
     mfaEnabled: boolean;
     mfaMethod: "email" | "none";
@@ -100,6 +105,7 @@ export declare const UserModel: mongoose.Model<{
     emailVerificationToken?: string | null;
     emailVerificationExpires?: NativeDate | null;
     refreshTokenHash?: string | null;
+    previousRefreshTokenHash?: string | null;
     refreshTokenExpiresAt?: NativeDate | null;
     csrfTokenHash?: string | null;
     csrfTokenExpiresAt?: NativeDate | null;
@@ -131,6 +137,7 @@ export declare const UserModel: mongoose.Model<{
     role: "user" | "admin";
     resetPasswordUsed: boolean;
     emailVerified: boolean;
+    sessionVersion: number;
     loginAttempts: number;
     mfaEnabled: boolean;
     mfaMethod: "email" | "none";
@@ -142,6 +149,7 @@ export declare const UserModel: mongoose.Model<{
     emailVerificationToken?: string | null;
     emailVerificationExpires?: NativeDate | null;
     refreshTokenHash?: string | null;
+    previousRefreshTokenHash?: string | null;
     refreshTokenExpiresAt?: NativeDate | null;
     csrfTokenHash?: string | null;
     csrfTokenExpiresAt?: NativeDate | null;
@@ -165,6 +173,7 @@ export declare const UserModel: mongoose.Model<{
     role: "user" | "admin";
     resetPasswordUsed: boolean;
     emailVerified: boolean;
+    sessionVersion: number;
     loginAttempts: number;
     mfaEnabled: boolean;
     mfaMethod: "email" | "none";
@@ -176,6 +185,7 @@ export declare const UserModel: mongoose.Model<{
     emailVerificationToken?: string | null;
     emailVerificationExpires?: NativeDate | null;
     refreshTokenHash?: string | null;
+    previousRefreshTokenHash?: string | null;
     refreshTokenExpiresAt?: NativeDate | null;
     csrfTokenHash?: string | null;
     csrfTokenExpiresAt?: NativeDate | null;
@@ -203,6 +213,7 @@ export declare const UserModel: mongoose.Model<{
     role: "user" | "admin";
     resetPasswordUsed: boolean;
     emailVerified: boolean;
+    sessionVersion: number;
     loginAttempts: number;
     mfaEnabled: boolean;
     mfaMethod: "email" | "none";
@@ -214,6 +225,7 @@ export declare const UserModel: mongoose.Model<{
     emailVerificationToken?: string | null;
     emailVerificationExpires?: NativeDate | null;
     refreshTokenHash?: string | null;
+    previousRefreshTokenHash?: string | null;
     refreshTokenExpiresAt?: NativeDate | null;
     csrfTokenHash?: string | null;
     csrfTokenExpiresAt?: NativeDate | null;
@@ -243,6 +255,7 @@ export declare const UserModel: mongoose.Model<{
     role: "user" | "admin";
     resetPasswordUsed: boolean;
     emailVerified: boolean;
+    sessionVersion: number;
     loginAttempts: number;
     mfaEnabled: boolean;
     mfaMethod: "email" | "none";
@@ -254,6 +267,7 @@ export declare const UserModel: mongoose.Model<{
     emailVerificationToken?: string | null;
     emailVerificationExpires?: NativeDate | null;
     refreshTokenHash?: string | null;
+    previousRefreshTokenHash?: string | null;
     refreshTokenExpiresAt?: NativeDate | null;
     csrfTokenHash?: string | null;
     csrfTokenExpiresAt?: NativeDate | null;
@@ -283,6 +297,7 @@ export declare const UserModel: mongoose.Model<{
     role: "user" | "admin";
     resetPasswordUsed: boolean;
     emailVerified: boolean;
+    sessionVersion: number;
     loginAttempts: number;
     mfaEnabled: boolean;
     mfaMethod: "email" | "none";
@@ -294,6 +309,7 @@ export declare const UserModel: mongoose.Model<{
     emailVerificationToken?: string | null;
     emailVerificationExpires?: NativeDate | null;
     refreshTokenHash?: string | null;
+    previousRefreshTokenHash?: string | null;
     refreshTokenExpiresAt?: NativeDate | null;
     csrfTokenHash?: string | null;
     csrfTokenExpiresAt?: NativeDate | null;

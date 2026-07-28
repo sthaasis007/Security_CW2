@@ -3,6 +3,7 @@ import bcrypt from "bcryptjs";
 import { AuthRepository } from "../auth/auth.repository";
 import { deleteUploadFile } from "../../utils/file";
 import { isPasswordStrong, isValidObjectId } from "../../utils/security";
+import { clearSessionCookies } from "../../utils/cookie";
 
 export const AdminController = {
   async create(req: Request, res: Response) {
@@ -103,6 +104,10 @@ export const AdminController = {
 
       const updated = await AuthRepository.updateUser(id as string, body as any);
       if (!updated) return res.status(404).json({ ok: false, message: "User not found" });
+      if (body.password || (body.role && body.role !== existing?.role)) {
+        await AuthRepository.invalidateSessions(id);
+        if ((req as any).user?.id === id) clearSessionCookies(res);
+      }
 
       if (body.image && existing?.image && existing.image !== body.image) {
         await deleteUploadFile(existing.image);

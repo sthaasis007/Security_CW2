@@ -11,11 +11,6 @@ export default function AdminUsersPage() {
   const [isLoading, setIsLoading] = useState(false);
 
   const fetchUsers = async () => {
-    const token = localStorage.getItem("token");
-    if (!token) {
-      alert("No token found");
-      return;
-    }
     setIsLoading(true);
     try {
       const res = await apiFetch("/api/admin/users");
@@ -33,12 +28,6 @@ export default function AdminUsersPage() {
   };
 
   const handleDeleteUser = async (userId: string) => {
-    const token = localStorage.getItem("token");
-    if (!token) {
-      alert("No token found");
-      return;
-    }
-
     try {
       const res = await apiFetch(`/api/admin/users/${userId}`, { method: "DELETE" });
       if (res.ok) {

@@ -8,6 +8,7 @@ const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const auth_repository_1 = require("../auth/auth.repository");
 const file_1 = require("../../utils/file");
 const security_1 = require("../../utils/security");
+const cookie_1 = require("../../utils/cookie");
 exports.AdminController = {
     async create(req, res) {
         try {
@@ -103,6 +104,11 @@ exports.AdminController = {
             const updated = await auth_repository_1.AuthRepository.updateUser(id, body);
             if (!updated)
                 return res.status(404).json({ ok: false, message: "User not found" });
+            if (body.password || (body.role && body.role !== existing?.role)) {
+                await auth_repository_1.AuthRepository.invalidateSessions(id);
+                if (req.user?.id === id)
+                    (0, cookie_1.clearSessionCookies)(res);
+            }
             if (body.image && existing?.image && existing.image !== body.image) {
                 await (0, file_1.deleteUploadFile)(existing.image);
             }

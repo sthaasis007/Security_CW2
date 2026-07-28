@@ -43,7 +43,7 @@ export declare const AuthService: {
         status: number;
         message: string;
     }>;
-    rotateRefreshToken(rawToken: string): Promise<{
+    rotateRefreshToken(rawToken: string | null): Promise<{
         ok: boolean;
         status: number;
         message: string;

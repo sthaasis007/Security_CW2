@@ -42,9 +42,6 @@ export default function ProductManagement() {
 
   useEffect(() => {
     const fetchProducts = async () => {
-      const token = localStorage.getItem("token");
-      if (!token) return;
-
       setIsLoading(true);
       try {
         const res = await apiFetch("/api/admin/products");
@@ -144,12 +141,6 @@ export default function ProductManagement() {
       return;
     }
 
-    const token = localStorage.getItem("token");
-    if (!token) {
-      setError("No token found.");
-      return;
-    }
-
     setIsSaving(true);
     try {
       const fd = new FormData();
@@ -189,12 +180,6 @@ export default function ProductManagement() {
 
   const handleDelete = async (id: string) => {
     if (!confirm("Delete this product?")) return;
-    const token = localStorage.getItem("token");
-    if (!token) {
-      setError("No token found.");
-      return;
-    }
-
     try {
       const res = await apiFetch(`/api/admin/products/${id}`, { method: "DELETE" });
       if (!res.ok) {

@@ -11,8 +11,6 @@ export default function AdminUserView() {
 
   useEffect(() => {
     if (!ready) return;
-    const token = localStorage.getItem("token");
-    if (!token) return;
     apiFetch(`/api/admin/users/${id}`)
       .then((r) => r.json())
       .then((data) => setUser(data.user))

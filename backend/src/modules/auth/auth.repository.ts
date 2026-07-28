@@ -73,15 +73,32 @@ export const AuthRepository = {
       refreshTokenHash: tokenHash,
       refreshTokenExpiresAt: expiresAt,
     }),
+  rotateRefreshToken: (id: string, currentHash: string, nextHash: string, expiresAt: Date) =>
+    UserModel.findByIdAndUpdate(id, {
+      previousRefreshTokenHash: currentHash,
+      refreshTokenHash: nextHash,
+      refreshTokenExpiresAt: expiresAt,
+    }),
   clearCsrfToken: (id: string) =>
     UserModel.findByIdAndUpdate(id, { csrfTokenHash: null, csrfTokenExpiresAt: null }),
   setCsrfToken: (id: string, csrfHash: string, expiresAt: Date) =>
     UserModel.findByIdAndUpdate(id, { csrfTokenHash: csrfHash, csrfTokenExpiresAt: expiresAt }),
   findByRefreshTokenHash: (tokenHash: string) => UserModel.findOne({ refreshTokenHash: tokenHash }),
+  findByPreviousRefreshTokenHash: (tokenHash: string) => UserModel.findOne({ previousRefreshTokenHash: tokenHash }),
   clearRefreshToken: (id: string) =>
     UserModel.findByIdAndUpdate(id, {
       refreshTokenHash: null,
+      previousRefreshTokenHash: null,
       refreshTokenExpiresAt: null,
+    }),
+  invalidateSessions: (id: string) =>
+    UserModel.findByIdAndUpdate(id, {
+      $inc: { sessionVersion: 1 },
+      refreshTokenHash: null,
+      previousRefreshTokenHash: null,
+      refreshTokenExpiresAt: null,
+      csrfTokenHash: null,
+      csrfTokenExpiresAt: null,
     }),
   incrementLoginAttempts: (id: string) =>
     UserModel.findByIdAndUpdate(id, { $inc: { loginAttempts: 1 } }, { new: true }),

@@ -26,11 +26,6 @@ export default function EditUserForm({ userId }: EditUserFormProps) {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const token = localStorage.getItem("token");
-        if (!token) {
-          throw new Error("No token found");
-        }
-
         const response = await apiFetch(`/api/admin/users/${userId}`);
 
         if (!response.ok) {
@@ -89,11 +84,6 @@ export default function EditUserForm({ userId }: EditUserFormProps) {
     setIsSaving(true);
 
     try {
-      const token = localStorage.getItem("token");
-      if (!token) {
-        throw new Error("No token found");
-      }
-
       const fd = new FormData();
       fd.append("name", formData.name);
       fd.append("email", formData.email);

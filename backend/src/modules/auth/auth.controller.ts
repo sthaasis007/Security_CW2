@@ -6,6 +6,7 @@ import { AuthRepository } from "./auth.repository";
 import { deleteUploadFile } from "../../utils/file";
 import { ActivityService } from "../activity/activity.service";
 import { isPasswordStrong, isValidObjectId } from "../../utils/security";
+import { clearSessionCookies, readCookie, REFRESH_COOKIE, setSessionCookies } from "../../utils/cookie";
 
 export const AuthController = {
   async register(req: Request, res: Response) {
@@ -36,21 +37,22 @@ export const AuthController = {
     }
 
     const result = await AuthService.login(parsed.data);
-    // Set refresh token as secure httpOnly cookie for session management (backwards compatible: still return tokens in body)
-    if (result.ok && result.refreshToken) {
-      const secureFlag = process.env.NODE_ENV === "production";
-      res.cookie("refreshToken", result.refreshToken, {
-        httpOnly: true,
-        secure: secureFlag,
-        sameSite: "strict",
-        maxAge: 7 * 24 * 60 * 60 * 1000,
-      });
-      if (result.csrfToken) {
-        // set readable csrf cookie for double-submit pattern
-        res.cookie("XSRF-TOKEN", result.csrfToken, { httpOnly: false, secure: secureFlag, sameSite: "strict", maxAge: 7 * 24 * 60 * 60 * 1000 });
+    if (result.ok && result.accessToken && result.refreshToken && result.csrfToken) {
+      if (!result.accessToken || !result.refreshToken || !result.csrfToken) {
+        clearSessionCookies(res);
+        return res.status(500).json({ ok: false, message: "Session creation failed" });
       }
+      setSessionCookies(res, {
+        accessToken: result.accessToken,
+        refreshToken: result.refreshToken,
+        csrfToken: result.csrfToken,
+      });
     }
-    return res.status(result.status).json(result);
+    return res.status(result.status).json({
+      ok: result.ok,
+      message: result.message,
+      user: result.user,
+    });
   },
 
   async logout(req: Request, res: Response) {
@@ -61,10 +63,7 @@ export const AuthController = {
       }
 
       const result = await AuthService.logout((currentUser.id || currentUser.sub) as string, req);
-      // clear refresh token cookie on logout
-      const secureFlag = process.env.NODE_ENV === 'production';
-      res.clearCookie('refreshToken', { httpOnly: true, secure: secureFlag, sameSite: 'strict' });
-      res.clearCookie('XSRF-TOKEN', { httpOnly: false, secure: secureFlag, sameSite: 'strict' });
+      clearSessionCookies(res);
       return res.status(result.status).json(result);
     } catch (err) {
       console.error('AuthController.logout error', err);
@@ -74,34 +73,49 @@ export const AuthController = {
 
   async refreshToken(req: Request, res: Response) {
     try {
-      // read refresh token from cookie if present, otherwise fall back to body
-      const cookieHeader = req.headers.cookie || "";
-      const parseCookie = (header: string, name: string) => {
-        if (!header) return null;
-        const parts = header.split(';').map(p => p.trim());
-        for (const p of parts) {
-          const [k, v] = p.split('=');
-          if (k === name) return decodeURIComponent(v || '');
-        }
-        return null;
-      };
-      const raw = parseCookie(cookieHeader, 'refreshToken') || (req.body && req.body.refreshToken) || null;
+      const raw = readCookie(req, REFRESH_COOKIE);
       const result = await AuthService.rotateRefreshToken(raw);
       if (!result.ok) {
+        clearSessionCookies(res);
         return res.status(result.status).json(result);
       }
-      // set new refresh token in secure httpOnly cookie
-      const secureFlag = process.env.NODE_ENV === 'production';
-      res.cookie('refreshToken', result.refreshToken, { httpOnly: true, secure: secureFlag, sameSite: 'strict', maxAge: 7 * 24 * 60 * 60 * 1000 });
-      if (result.csrfToken) {
-        res.cookie('XSRF-TOKEN', result.csrfToken, { httpOnly: false, secure: secureFlag, sameSite: 'strict', maxAge: 7 * 24 * 60 * 60 * 1000 });
+      if (!result.accessToken || !result.refreshToken || !result.csrfToken) {
+        clearSessionCookies(res);
+        return res.status(500).json({ ok: false, message: "Session creation failed" });
       }
-      // return access token and user
-      return res.status(200).json({ ok: true, accessToken: result.accessToken, user: result.user });
+      setSessionCookies(res, {
+        accessToken: result.accessToken,
+        refreshToken: result.refreshToken,
+        csrfToken: result.csrfToken,
+      });
+      return res.status(200).json({ ok: true, user: result.user });
     } catch (err) {
       console.error('AuthController.refreshToken error', err);
       return res.status(500).json({ ok: false, message: 'Server error' });
     }
+  },
+
+  async session(req: Request, res: Response) {
+    res.setHeader("Cache-Control", "no-store");
+    const currentUser = (req as any).user;
+    return res.status(200).json({
+      ok: true,
+      user: {
+        id: currentUser.id,
+        name: currentUser.username,
+        email: currentUser.email,
+        role: currentUser.role,
+      },
+    });
+  },
+
+  async logoutAll(req: Request, res: Response) {
+    const currentUser = (req as any).user as { id?: string; sub?: string };
+    const userId = currentUser.id || currentUser.sub;
+    if (!userId) return res.status(401).json({ ok: false, message: "Unauthorized" });
+    await AuthRepository.invalidateSessions(userId);
+    clearSessionCookies(res);
+    return res.status(200).json({ ok: true, message: "All sessions invalidated" });
   },
 
   async getUser(req: Request, res: Response) {
@@ -216,6 +230,10 @@ export const AuthController = {
       if (body.image && existing?.image && existing.image !== body.image) {
         await deleteUploadFile(existing.image);
       }
+      if (body.password) {
+        await AuthRepository.invalidateSessions(id);
+        clearSessionCookies(res);
+      }
 
       return res.status(200).json({ ok: true, user: safeUser });
     } catch (err) {
@@ -243,6 +261,7 @@ export const AuthController = {
 
       const deleted = await AuthRepository.deleteUser(id as string);
       if (!deleted) return res.status(404).json({ ok: false, message: "User not found" });
+      if (currentUser.sub === id) clearSessionCookies(res);
 
       if ((deleted as any).image) {
         await deleteUploadFile((deleted as any).image);

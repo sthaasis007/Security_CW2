@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import apiFetch from "@/app/lib/request";
+import apiFetch, { getSession } from "@/app/lib/request";
 import { useRouter } from "next/navigation";
 import styles from "./UserProfile.module.css";
 import { buildImageUrl } from "@/app/lib/imageUrl";
@@ -21,6 +21,7 @@ export default function UserProfile() {
   const [editingField, setEditingField] = useState<string | null>(null);
   const [editValue, setEditValue] = useState("");
   const [isHydrated, setIsHydrated] = useState(false);
+  const [userId, setUserId] = useState<string | null>(null);
 
   // Fetch user data on mount
   useEffect(() => {
@@ -30,41 +31,15 @@ export default function UserProfile() {
 
     const fetchUserData = async () => {
       try {
-        const stored = localStorage.getItem("user");
-        const token = localStorage.getItem("token");
-
-        // If token is available and we have a user id, fetch fresh data from server
-        if (token && stored) {
-          const parsedStored = JSON.parse(stored);
-          const userId = parsedStored._id || parsedStored.id;
-          if (userId) {
-            try {
-              const res = await apiFetch(`/api/auth/${userId}`);
-              if (res.ok) {
-                const data = await res.json();
-                  const user = data.user || data;
-                  console.log("User data from API:", user);
-                  setFormData({ name: user.name || "", email: user.email || "" });
-                  if (user.image) setCurrentImage(buildUserImageUrl(user.image));
-                  // keep localStorage in sync (store raw user object from server)
-                  localStorage.setItem("user", JSON.stringify(user));
-                return;
-              }
-            } catch (err) {
-              console.warn("Failed to fetch user from API, falling back to localStorage", err);
-            }
-          }
-        }
-
-        // Fallback to localStorage
-        if (stored) {
-          const user = JSON.parse(stored);
-          console.log("User data from localStorage:", user);
-          setFormData({ name: user.name || "", email: user.email || "" });
-          if (user.image) setCurrentImage(buildImageUrl(user.image));
-        } else {
-          setError("No user data found. Please log in again.");
-        }
+        const sessionUser = await getSession();
+        if (!sessionUser?.id) throw new Error("Please log in again");
+        setUserId(sessionUser.id);
+        const res = await apiFetch(`/api/auth/${sessionUser.id}`);
+        if (!res.ok) throw new Error("Failed to load profile");
+        const data = await res.json();
+        const user = data.user || data;
+        setFormData({ name: user.name || "", email: user.email || "" });
+        if (user.image) setCurrentImage(buildUserImageUrl(user.image));
       } catch (err) {
         setError("Failed to load profile data");
         console.error("Error loading profile:", err);
@@ -101,13 +76,6 @@ export default function UserProfile() {
 
     setIsSaving(true);
     try {
-      const token = localStorage.getItem("token");
-      if (!token) {
-        throw new Error("No token found");
-      }
-
-      const stored = localStorage.getItem("user");
-      const userId = stored ? JSON.parse(stored)._id || JSON.parse(stored).id : null;
       if (!userId) {
         throw new Error("User ID not found");
       }
@@ -127,12 +95,6 @@ export default function UserProfile() {
         [field]: editValue,
       }));
 
-      // Update localStorage
-      if (stored) {
-        const updatedUser = { ...JSON.parse(stored), [field]: editValue };
-        localStorage.setItem("user", JSON.stringify(updatedUser));
-      }
-
       setSuccess("Profile updated successfully!");
       setEditingField(null);
 
@@ -150,13 +112,6 @@ export default function UserProfile() {
 
     setIsSaving(true);
     try {
-      const token = localStorage.getItem("token");
-      if (!token) {
-        throw new Error("No token found");
-      }
-
-      const stored = localStorage.getItem("user");
-      const userId = stored ? JSON.parse(stored)._id || JSON.parse(stored).id : null;
       if (!userId) {
         throw new Error("User ID not found");
       }
@@ -172,13 +127,8 @@ export default function UserProfile() {
 
       const responseData = await response.json();
       
-      // Update localStorage with new image path from server
-      if (stored) {
-        const filename = responseData.user?.image || responseData.image;
-        const updatedUser = { ...JSON.parse(stored), image: filename };
-        localStorage.setItem("user", JSON.stringify(updatedUser));
-        setCurrentImage(buildImageUrl(filename));
-      }
+      const filename = responseData.user?.image || responseData.image;
+      setCurrentImage(buildImageUrl(filename));
 
       setSuccess("Profile image updated successfully!");
       setImage(null);
@@ -201,13 +151,6 @@ export default function UserProfile() {
 
     setIsSaving(true);
     try {
-      const token = localStorage.getItem("token");
-      if (!token) {
-        throw new Error("No token found");
-      }
-
-      const stored = localStorage.getItem("user");
-      const userId = stored ? JSON.parse(stored)._id || JSON.parse(stored).id : null;
       if (!userId) {
         throw new Error("User ID not found");
       }
@@ -219,6 +162,23 @@ export default function UserProfile() {
       }
 
       localStorage.removeItem("token");
+      localStorage.removeItem("refreshToken");
+      localStorage.removeItem("user");
+      router.push("/login");
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "An error occurred");
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
+  const handleLogoutAll = async () => {
+    setIsSaving(true);
+    try {
+      const response = await apiFetch("/api/auth/logout-all", { method: "POST" });
+      if (!response.ok) throw new Error("Failed to invalidate sessions");
+      localStorage.removeItem("token");
+      localStorage.removeItem("refreshToken");
       localStorage.removeItem("user");
       router.push("/login");
     } catch (err) {
@@ -380,6 +340,9 @@ export default function UserProfile() {
 
         {/* Delete Account */}
         <div className={styles.deleteSection}>
+          <button className={styles.deleteBtn} onClick={handleLogoutAll} disabled={isSaving}>
+            Log Out All Devices
+          </button>
           <button className={styles.deleteBtn} onClick={handleDeleteAccount} disabled={isSaving}>
             Delete Account
           </button>

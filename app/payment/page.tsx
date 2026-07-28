@@ -30,8 +30,6 @@ export default function PaymentPage() {
         const total = calculateTotal();
         const orderId = `ORDER-${Date.now()}`;
 
-        const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
-
         const res = await apiFetch('/api/payment/initiate', {
           method: 'POST',
           body: JSON.stringify({

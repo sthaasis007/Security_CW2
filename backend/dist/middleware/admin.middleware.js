@@ -8,12 +8,13 @@ const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const auth_repository_1 = require("../modules/auth/auth.repository");
 const security_1 = require("../utils/security");
 const security_2 = require("../config/security");
+const cookie_1 = require("../utils/cookie");
 const adminOnly = async (req, res, next) => {
     const auth = req.headers.authorization;
-    if (!auth || !auth.startsWith("Bearer ")) {
+    const token = auth?.startsWith("Bearer ") ? auth.slice(7) : (0, cookie_1.readCookie)(req, cookie_1.ACCESS_COOKIE);
+    if (!token) {
         return res.status(401).json({ ok: false, message: "Unauthorized" });
     }
-    const token = auth.split(" ")[1];
     try {
         const payload = jsonwebtoken_1.default.verify(token, (0, security_2.getJwtSecret)());
         if (!payload.sub || !(0, security_1.isValidObjectId)(payload.sub)) {
@@ -21,6 +22,9 @@ const adminOnly = async (req, res, next) => {
         }
         const user = await auth_repository_1.AuthRepository.findById(payload.sub);
         if (!user) {
+            return res.status(401).json({ ok: false, message: "Unauthorized" });
+        }
+        if ((payload.sv || 0) !== (user.sessionVersion || 0)) {
             return res.status(401).json({ ok: false, message: "Unauthorized" });
         }
         if (user.role !== "admin") {

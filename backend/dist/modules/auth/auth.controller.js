@@ -11,6 +11,7 @@ const auth_repository_1 = require("./auth.repository");
 const file_1 = require("../../utils/file");
 const activity_service_1 = require("../activity/activity.service");
 const security_1 = require("../../utils/security");
+const cookie_1 = require("../../utils/cookie");
 exports.AuthController = {
     async register(req, res) {
         const parsed = auth_dto_1.registerDto.safeParse(req.body);
@@ -36,21 +37,22 @@ exports.AuthController = {
             });
         }
         const result = await auth_service_1.AuthService.login(parsed.data);
-        // Set refresh token as secure httpOnly cookie for session management (backwards compatible: still return tokens in body)
-        if (result.ok && result.refreshToken) {
-            const secureFlag = process.env.NODE_ENV === "production";
-            res.cookie("refreshToken", result.refreshToken, {
-                httpOnly: true,
-                secure: secureFlag,
-                sameSite: "strict",
-                maxAge: 7 * 24 * 60 * 60 * 1000,
-            });
-            if (result.csrfToken) {
-                // set readable csrf cookie for double-submit pattern
-                res.cookie("XSRF-TOKEN", result.csrfToken, { httpOnly: false, secure: secureFlag, sameSite: "strict", maxAge: 7 * 24 * 60 * 60 * 1000 });
+        if (result.ok && result.accessToken && result.refreshToken && result.csrfToken) {
+            if (!result.accessToken || !result.refreshToken || !result.csrfToken) {
+                (0, cookie_1.clearSessionCookies)(res);
+                return res.status(500).json({ ok: false, message: "Session creation failed" });
             }
+            (0, cookie_1.setSessionCookies)(res, {
+                accessToken: result.accessToken,
+                refreshToken: result.refreshToken,
+                csrfToken: result.csrfToken,
+            });
         }
-        return res.status(result.status).json(result);
+        return res.status(result.status).json({
+            ok: result.ok,
+            message: result.message,
+            user: result.user,
+        });
     },
     async logout(req, res) {
         try {
@@ -59,10 +61,7 @@ exports.AuthController = {
                 return res.status(401).json({ ok: false, message: "Unauthorized" });
             }
             const result = await auth_service_1.AuthService.logout((currentUser.id || currentUser.sub), req);
-            // clear refresh token cookie on logout
-            const secureFlag = process.env.NODE_ENV === 'production';
-            res.clearCookie('refreshToken', { httpOnly: true, secure: secureFlag, sameSite: 'strict' });
-            res.clearCookie('XSRF-TOKEN', { httpOnly: false, secure: secureFlag, sameSite: 'strict' });
+            (0, cookie_1.clearSessionCookies)(res);
             return res.status(result.status).json(result);
         }
         catch (err) {
@@ -72,37 +71,49 @@ exports.AuthController = {
     },
     async refreshToken(req, res) {
         try {
-            // read refresh token from cookie if present, otherwise fall back to body
-            const cookieHeader = req.headers.cookie || "";
-            const parseCookie = (header, name) => {
-                if (!header)
-                    return null;
-                const parts = header.split(';').map(p => p.trim());
-                for (const p of parts) {
-                    const [k, v] = p.split('=');
-                    if (k === name)
-                        return decodeURIComponent(v || '');
-                }
-                return null;
-            };
-            const raw = parseCookie(cookieHeader, 'refreshToken') || (req.body && req.body.refreshToken) || null;
+            const raw = (0, cookie_1.readCookie)(req, cookie_1.REFRESH_COOKIE);
             const result = await auth_service_1.AuthService.rotateRefreshToken(raw);
             if (!result.ok) {
+                (0, cookie_1.clearSessionCookies)(res);
                 return res.status(result.status).json(result);
             }
-            // set new refresh token in secure httpOnly cookie
-            const secureFlag = process.env.NODE_ENV === 'production';
-            res.cookie('refreshToken', result.refreshToken, { httpOnly: true, secure: secureFlag, sameSite: 'strict', maxAge: 7 * 24 * 60 * 60 * 1000 });
-            if (result.csrfToken) {
-                res.cookie('XSRF-TOKEN', result.csrfToken, { httpOnly: false, secure: secureFlag, sameSite: 'strict', maxAge: 7 * 24 * 60 * 60 * 1000 });
+            if (!result.accessToken || !result.refreshToken || !result.csrfToken) {
+                (0, cookie_1.clearSessionCookies)(res);
+                return res.status(500).json({ ok: false, message: "Session creation failed" });
             }
-            // return access token and user
-            return res.status(200).json({ ok: true, accessToken: result.accessToken, user: result.user });
+            (0, cookie_1.setSessionCookies)(res, {
+                accessToken: result.accessToken,
+                refreshToken: result.refreshToken,
+                csrfToken: result.csrfToken,
+            });
+            return res.status(200).json({ ok: true, user: result.user });
         }
         catch (err) {
             console.error('AuthController.refreshToken error', err);
             return res.status(500).json({ ok: false, message: 'Server error' });
         }
+    },
+    async session(req, res) {
+        res.setHeader("Cache-Control", "no-store");
+        const currentUser = req.user;
+        return res.status(200).json({
+            ok: true,
+            user: {
+                id: currentUser.id,
+                name: currentUser.username,
+                email: currentUser.email,
+                role: currentUser.role,
+            },
+        });
+    },
+    async logoutAll(req, res) {
+        const currentUser = req.user;
+        const userId = currentUser.id || currentUser.sub;
+        if (!userId)
+            return res.status(401).json({ ok: false, message: "Unauthorized" });
+        await auth_repository_1.AuthRepository.invalidateSessions(userId);
+        (0, cookie_1.clearSessionCookies)(res);
+        return res.status(200).json({ ok: true, message: "All sessions invalidated" });
     },
     async getUser(req, res) {
         try {
@@ -205,6 +216,10 @@ exports.AuthController = {
             if (body.image && existing?.image && existing.image !== body.image) {
                 await (0, file_1.deleteUploadFile)(existing.image);
             }
+            if (body.password) {
+                await auth_repository_1.AuthRepository.invalidateSessions(id);
+                (0, cookie_1.clearSessionCookies)(res);
+            }
             return res.status(200).json({ ok: true, user: safeUser });
         }
         catch (err) {
@@ -228,6 +243,8 @@ exports.AuthController = {
             const deleted = await auth_repository_1.AuthRepository.deleteUser(id);
             if (!deleted)
                 return res.status(404).json({ ok: false, message: "User not found" });
+            if (currentUser.sub === id)
+                (0, cookie_1.clearSessionCookies)(res);
             if (deleted.image) {
                 await (0, file_1.deleteUploadFile)(deleted.image);
             }

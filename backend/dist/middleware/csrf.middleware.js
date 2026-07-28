@@ -7,6 +7,7 @@ exports.default = csrfMiddleware;
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const auth_repository_1 = require("../modules/auth/auth.repository");
 const security_1 = require("../config/security");
+const cookie_1 = require("../utils/cookie");
 // Validate CSRF token for authenticated state-changing requests.
 async function csrfMiddleware(req, res, next) {
     const method = req.method.toUpperCase();
@@ -17,12 +18,10 @@ async function csrfMiddleware(req, res, next) {
     const auth = req.headers.authorization;
     let userId = null;
     try {
-        if (auth && auth.startsWith("Bearer ")) {
-            const raw = auth.split(" ")[1];
-            if (raw) {
-                const payload = jsonwebtoken_1.default.verify(raw, (0, security_1.getJwtSecret)());
-                userId = payload.sub || payload.id || null;
-            }
+        const raw = auth?.startsWith("Bearer ") ? auth.slice(7) : (0, cookie_1.readCookie)(req, cookie_1.ACCESS_COOKIE);
+        if (raw) {
+            const payload = jsonwebtoken_1.default.verify(raw, (0, security_1.getJwtSecret)());
+            userId = payload.sub || null;
         }
     }
     catch (e) {

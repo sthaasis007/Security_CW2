@@ -23,9 +23,6 @@ export default function ActivityLog() {
   const [loading, setLoading] = useState(true);
 
   const fetchActivities = async () => {
-    const token = localStorage.getItem("token");
-    if (!token) return;
-
     setLoading(true);
     const query = new URLSearchParams();
     if (search) query.set("search", search);

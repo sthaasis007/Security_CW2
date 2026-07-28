@@ -1,32 +1,34 @@
 "use client";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { getSession } from "./request";
 
 export function useAuth({ requireAdmin = false, requireLogin = false }: { requireAdmin?: boolean; requireLogin?: boolean }) {
   const router = useRouter();
   const [ready, setReady] = useState(false);
 
   useEffect(() => {
-    const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
-    if (requireLogin && !token) {
-      router.replace("/login");
-      return;
-    }
-
-    if (requireAdmin && token) {
-      try {
-        const payload = JSON.parse(atob(token.split(".")[1]));
-        if (payload.role !== "admin") {
-          router.replace("/");
-          return;
-        }
-      } catch (e) {
+    let active = true;
+    void (async () => {
+      const user = await getSession();
+      if (!active) return;
+      if (requireLogin && !user) {
         router.replace("/login");
         return;
       }
-    }
-
-    setReady(true);
+      if (requireAdmin && user?.role !== "admin") {
+        if (user) {
+          router.replace("/");
+        } else {
+          router.replace("/login");
+        }
+        return;
+      }
+      setReady(true);
+    })();
+    return () => {
+      active = false;
+    };
   }, [requireAdmin, requireLogin, router]);
 
   return { ready };

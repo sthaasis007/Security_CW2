@@ -75,7 +75,10 @@ exports.AuthService = {
         if (!user.emailVerified) {
             await auth_repository_1.AuthRepository.verifyEmail(user._id.toString());
         }
-        const accessToken = signToken({ id: user._id.toString(), sub: user._id.toString(), email: user.email, role: user.role }, process.env.JWT_EXPIRES_IN || "15m");
+        const accessToken = signToken({
+            sub: user._id.toString(),
+            sv: user.sessionVersion || 0,
+        }, "15m");
         const passwordExpiryDays = (0, security_1.getPasswordExpiryDays)();
         const refreshToken = crypto_1.default.randomBytes(32).toString("hex");
         const refreshTokenHash = (0, security_1.hashSecret)(refreshToken);
@@ -126,6 +129,10 @@ exports.AuthService = {
             const tokenHash = (0, security_1.hashSecret)(rawToken);
             const user = await auth_repository_1.AuthRepository.findByRefreshTokenHash(tokenHash);
             if (!user) {
+                const replayedUser = await auth_repository_1.AuthRepository.findByPreviousRefreshTokenHash(tokenHash);
+                if (replayedUser) {
+                    await auth_repository_1.AuthRepository.invalidateSessions(replayedUser._id.toString());
+                }
                 return { ok: false, status: 401, message: "Invalid refresh token" };
             }
             if (user.refreshTokenExpiresAt && new Date(user.refreshTokenExpiresAt) < new Date()) {
@@ -133,11 +140,14 @@ exports.AuthService = {
                 return { ok: false, status: 401, message: "Refresh token expired" };
             }
             // generate new tokens
-            const accessToken = signToken({ id: user._id.toString(), sub: user._id.toString(), email: user.email, role: user.role }, process.env.JWT_EXPIRES_IN || "15m");
+            const accessToken = signToken({
+                sub: user._id.toString(),
+                sv: user.sessionVersion || 0,
+            }, "15m");
             const newRefresh = crypto_1.default.randomBytes(32).toString("hex");
             const newRefreshHash = (0, security_1.hashSecret)(newRefresh);
             const refreshExpiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
-            await auth_repository_1.AuthRepository.setRefreshToken(user._id.toString(), newRefreshHash, refreshExpiresAt);
+            await auth_repository_1.AuthRepository.rotateRefreshToken(user._id.toString(), tokenHash, newRefreshHash, refreshExpiresAt);
             // rotate csrf token as well
             const csrfToken = crypto_1.default.randomBytes(24).toString("hex");
             const csrfHash = (0, security_1.hashSecret)(csrfToken);

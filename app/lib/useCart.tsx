@@ -1,6 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
-import Cookies from "js-cookie";
-import apiFetch from "@/app/lib/request";
+import apiFetch, { getSession } from "@/app/lib/request";
 
 export interface CartItem {
   _id: string;
@@ -18,8 +17,8 @@ export function useCart() {
 
   const syncCart = useCallback(async () => {
     if (typeof window === "undefined") return;
-    const token = localStorage.getItem("token");
-    if (!token) {
+    const session = await getSession();
+    if (!session) {
       // Load guest cart from localStorage when not authenticated
       try {
         const raw = localStorage.getItem("guest_cart");
@@ -67,8 +66,8 @@ export function useCart() {
 
   const addToCart = async (product: Omit<CartItem, "quantity">) => {
     if (typeof window === "undefined") return;
-    const token = localStorage.getItem("token");
-    if (!token) {
+    const session = await getSession();
+    if (!session) {
       setCartItems((prev) => {
         const existing = prev.find((item) => item._id === product._id);
         let next;
@@ -97,8 +96,8 @@ export function useCart() {
 
   const removeFromCart = async (productId: string) => {
     if (typeof window === "undefined") return;
-    const token = localStorage.getItem("token");
-    if (!token) {
+    const session = await getSession();
+    if (!session) {
       setCartItems((prev) => {
         const next = prev.filter((item) => item._id !== productId);
         try { localStorage.setItem("guest_cart", JSON.stringify(next)); } catch (e) { console.error('Failed to save guest cart', e); }
@@ -117,8 +116,8 @@ export function useCart() {
       return;
     }
     if (typeof window === "undefined") return;
-    const token = localStorage.getItem("token");
-    if (!token) {
+    const session = await getSession();
+    if (!session) {
       setCartItems((prev) => {
         const next = prev.map((item) => item._id === productId ? { ...item, quantity } : item);
         try { localStorage.setItem("guest_cart", JSON.stringify(next)); } catch (e) { console.error('Failed to save guest cart', e); }
@@ -137,8 +136,8 @@ export function useCart() {
 
   const clearCart = async () => {
     if (typeof window === "undefined") return;
-    const token = localStorage.getItem("token");
-    if (!token) {
+    const session = await getSession();
+    if (!session) {
       setCartItems([]);
       try { localStorage.removeItem("guest_cart"); } catch (e) { console.error('Failed to clear guest cart', e); }
       return;

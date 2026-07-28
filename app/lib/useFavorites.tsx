@@ -1,6 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
-import Cookies from "js-cookie";
-import apiFetch from "@/app/lib/request";
+import apiFetch, { getSession } from "@/app/lib/request";
 
 interface FavoriteProduct {
   _id: string;
@@ -16,8 +15,8 @@ export function useFavorites() {
 
   const syncFavorites = useCallback(async () => {
     if (typeof window === "undefined") return;
-    const token = localStorage.getItem("token");
-    if (!token) {
+    const session = await getSession();
+    if (!session) {
       setFavorites([]);
       setIsLoading(false);
       return;
@@ -49,8 +48,8 @@ export function useFavorites() {
 
   const addFavorite = async (product: FavoriteProduct) => {
     if (typeof window === "undefined") return;
-    const token = localStorage.getItem("token");
-    if (!token) {
+    const session = await getSession();
+    if (!session) {
       setFavorites((prev) => (prev.some((p) => p._id === product._id) ? prev : [...prev, product]));
       return;
     }
@@ -61,8 +60,8 @@ export function useFavorites() {
 
   const removeFavorite = async (productId: string) => {
     if (typeof window === "undefined") return;
-    const token = localStorage.getItem("token");
-    if (!token) {
+    const session = await getSession();
+    if (!session) {
       setFavorites((prev) => prev.filter((p) => p._id !== productId));
       return;
     }

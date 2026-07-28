@@ -1,9 +1,8 @@
 "use client";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import Cookies from "js-cookie";
 import { useEffect, useState } from "react";
-import apiFetch from "@/app/lib/request";
+import apiFetch, { getSession } from "@/app/lib/request";
 import { useCart } from "@/app/lib/useCart";
 
 export default function TopBar() {
@@ -14,10 +13,10 @@ export default function TopBar() {
 
   // Set isLoggedIn only after client-side hydration
   useEffect(() => {
-    // Check both cookies and localStorage for token
-    const token = Cookies.get("token") || (typeof window !== "undefined" ? localStorage.getItem("token") : null);
-    setIsLoggedIn(!!token);
-    setHydrated(true);
+    void getSession().then((user) => {
+      setIsLoggedIn(Boolean(user));
+      setHydrated(true);
+    });
   }, []);
 
   const handleProfileClick = () => {
@@ -53,13 +52,9 @@ export default function TopBar() {
           {hydrated && isLoggedIn && (
             <button 
               onClick={async () => {
-                const token = Cookies.get("token") || (typeof window !== "undefined" ? localStorage.getItem("token") : null);
-                  if (token) {
-                    await apiFetch("/api/auth/logout", { method: "POST" });
-                  }
-                Cookies.remove("token");
-                Cookies.remove("user");
+                await apiFetch("/api/auth/logout", { method: "POST" });
                 localStorage.removeItem("token");
+                localStorage.removeItem("refreshToken");
                 localStorage.removeItem("user");
                 setIsLoggedIn(false);
                 router.push("/login");

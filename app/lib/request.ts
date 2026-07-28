@@ -1,32 +1,33 @@
 "use client";
 import Cookies from "js-cookie";
 
-async function tryRefreshAccess(): Promise<string | null> {
-  try {
-    const r = await fetch(`/api/auth/refresh`, { method: "POST", credentials: "include" });
-    if (!r.ok) return null;
-    const body = await r.json().catch(() => null);
-    const access = body?.accessToken || body?.token || null;
-    if (access) {
-      try { localStorage.setItem("token", access); } catch (e) {}
+let refreshInFlight: Promise<boolean> | null = null;
+
+async function tryRefreshSession(): Promise<boolean> {
+  if (refreshInFlight) return refreshInFlight;
+  refreshInFlight = (async () => {
+    try {
+      const r = await fetch(`/api/auth/refresh`, {
+        method: "POST",
+        credentials: "include",
+        cache: "no-store",
+      });
+      return r.ok;
+    } catch {
+      return false;
+    } finally {
+      refreshInFlight = null;
     }
-    return access;
-  } catch (e) {
-    return null;
-  }
+  })();
+  return refreshInFlight;
 }
 
 export async function apiFetch(input: RequestInfo, init: RequestInit = {}, retry = true): Promise<Response> {
   const opts: RequestInit = { ...init };
+  opts.cache = "no-store";
   const method = (opts.method || "GET").toUpperCase();
 
   const headers = new Headers(opts.headers || {});
-
-  // Attach Authorization from localStorage if present
-  if (typeof window !== "undefined") {
-    const token = localStorage.getItem("token");
-    if (token && !headers.has("Authorization")) headers.set("Authorization", `Bearer ${token}`);
-  }
 
   // Attach CSRF token for mutating requests (double-submit cookie)
   if (!["GET", "HEAD"].includes(method)) {
@@ -47,10 +48,10 @@ export async function apiFetch(input: RequestInfo, init: RequestInit = {}, retry
   let res = await fetch(input, opts);
 
   if (res.status === 401 && retry) {
-    const newAccess = await tryRefreshAccess();
-    if (newAccess) {
-      // update header and retry once
-      headers.set("Authorization", `Bearer ${newAccess}`);
+    const refreshed = await tryRefreshSession();
+    if (refreshed) {
+      const xsrf = Cookies.get("XSRF-TOKEN");
+      if (xsrf && !["GET", "HEAD"].includes(method)) headers.set("X-CSRF-Token", xsrf);
       opts.headers = headers;
       res = await fetch(input, opts);
     }
@@ -62,9 +63,10 @@ export async function apiFetch(input: RequestInfo, init: RequestInit = {}, retry
       const body = await res.clone().json().catch(() => ({}));
       const msg = (body && body.message) || "";
       if (msg && /(csrf|missing csrf|token not set|invalid csrf)/i.test(msg)) {
-        const newAccess = await tryRefreshAccess();
-        if (newAccess) {
-          headers.set("Authorization", `Bearer ${newAccess}`);
+        const refreshed = await tryRefreshSession();
+        if (refreshed) {
+          const xsrf = Cookies.get("XSRF-TOKEN");
+          if (xsrf) headers.set("X-CSRF-Token", xsrf);
           opts.headers = headers;
           // retry original request once after refresh sets XSRF cookie
           res = await fetch(input, opts);
@@ -76,6 +78,13 @@ export async function apiFetch(input: RequestInfo, init: RequestInit = {}, retry
   }
 
   return res;
+}
+
+export async function getSession() {
+  const response = await apiFetch("/api/auth/session");
+  if (!response.ok) return null;
+  const body = await response.json().catch(() => null);
+  return body?.user || null;
 }
 
 export default apiFetch;

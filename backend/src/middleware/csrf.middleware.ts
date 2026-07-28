@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
 import { AuthRepository } from "../modules/auth/auth.repository";
 import { getJwtSecret } from "../config/security";
+import { ACCESS_COOKIE, readCookie } from "../utils/cookie";
 
 // Validate CSRF token for authenticated state-changing requests.
 export default async function csrfMiddleware(req: Request, res: Response, next: NextFunction) {
@@ -14,12 +15,10 @@ export default async function csrfMiddleware(req: Request, res: Response, next: 
   const auth = req.headers.authorization;
   let userId: string | null = null;
   try {
-    if (auth && auth.startsWith("Bearer ")) {
-      const raw = auth.split(" ")[1];
-      if (raw) {
-        const payload: any = jwt.verify(raw, getJwtSecret() as jwt.Secret);
-        userId = payload.sub || payload.id || null;
-      }
+    const raw = auth?.startsWith("Bearer ") ? auth.slice(7) : readCookie(req, ACCESS_COOKIE);
+    if (raw) {
+      const payload: any = jwt.verify(raw, getJwtSecret() as jwt.Secret);
+      userId = payload.sub || null;
     }
   } catch (e) {
     return res.status(401).json({ ok: false, message: "Invalid token" });

@@ -5,8 +5,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { loginSchema, LoginSchema } from "../../lib/validations/auth.schema";
 import { useRouter } from "next/navigation";
-import Cookies from "js-cookie";
-import apiFetch from "@/app/lib/request";
+import apiFetch, { getSession } from "@/app/lib/request";
 
 import Input from "../ui/input";
 import Button from "../ui/button";
@@ -33,38 +32,15 @@ export default function LoginForm() {
 
       const body = await res.json().catch(() => ({}));
       if (res.ok) {
-        const token = body.accessToken || body.token || null;
-        const refreshToken = body.refreshToken || null;
-
-        // save token and user data in cookies
-        if (token) {
-          Cookies.set("token", token, { expires: 1 }); // expires in 1 day
+        localStorage.removeItem("token");
+        localStorage.removeItem("refreshToken");
+        localStorage.removeItem("user");
+        const sessionUser = await getSession();
+        if (!sessionUser) {
+          setError("Login succeeded, but the secure session cookie was not accepted. Restart both development servers and try again.");
+          return;
         }
-        if (refreshToken) {
-          Cookies.set("refreshToken", refreshToken, { expires: 7 });
-        }
-        if (body.user) {
-          Cookies.set("user", JSON.stringify(body.user), { expires: 1 });
-        }
-
-        // also set localStorage so client-side hooks can read token/user
-        try {
-          if (token) localStorage.setItem("token", token);
-          if (refreshToken) localStorage.setItem("refreshToken", refreshToken);
-          if (body.user) localStorage.setItem("user", JSON.stringify(body.user));
-        } catch (e) {
-          // ignore (SSR or disabled storage)
-        }
-
-        const role = body?.user?.role || (() => {
-          if (!token) return undefined;
-          try {
-            const payload = JSON.parse(atob(token.split(".")[1]));
-            return payload?.role;
-          } catch {
-            return undefined;
-          }
-        })();
+        const role = sessionUser.role;
 
         if (role === "admin") {
           router.push("/admin/users");

@@ -15,8 +15,8 @@ import { connectDB } from "./config/db";
 import { ProductModel } from "./modules/product/product.model";
 import { validateSecurityConfiguration } from "./config/security";
 
-dotenv.config({ path: path.resolve(process.cwd(), "..", ".env.local") });
 dotenv.config({ path: path.resolve(process.cwd(), ".env") });
+dotenv.config({ path: path.resolve(process.cwd(), "..", ".env.local") });
 validateSecurityConfiguration();
 
 const app = express();

@@ -1,20 +1,9 @@
-import { LoginDto, RegisterDto } from "./auth.dto";
+import { ForgotPasswordDto, LoginDto, RegisterDto, ResetPasswordDto } from "./auth.dto";
 export declare const AuthService: {
     register(data: RegisterDto): Promise<{
         ok: boolean;
         status: number;
         message: string;
-        user?: never;
-    } | {
-        ok: boolean;
-        status: number;
-        message: string;
-        user: {
-            id: any;
-            name: any;
-            email: any;
-            role: any;
-        };
     }>;
     login(data: LoginDto): Promise<{
         ok: boolean;
@@ -33,6 +22,14 @@ export declare const AuthService: {
         ok: boolean;
         status: number;
         message: string;
+        code?: never;
+        mfaRequired?: never;
+        challengeToken?: never;
+    } | {
+        ok: boolean;
+        status: number;
+        message: string;
+        code: string;
         mfaRequired?: never;
         challengeToken?: never;
     } | {
@@ -40,6 +37,32 @@ export declare const AuthService: {
         status: number;
         mfaRequired: boolean;
         challengeToken: string;
+        message: string;
+        code?: never;
+    }>;
+    forgotPassword(data: ForgotPasswordDto): Promise<{
+        ok: boolean;
+        status: number;
+        message: string;
+    }>;
+    resetPassword(data: ResetPasswordDto): Promise<{
+        ok: boolean;
+        status: number;
+        message: string;
+    }>;
+    verifyEmail(rawToken: string): Promise<{
+        ok: boolean;
+        status: number;
+        message: string;
+    }>;
+    resendVerification(data: ForgotPasswordDto): Promise<{
+        ok: boolean;
+        status: number;
+        message: string;
+    }>;
+    changePassword: (user: any, password: string) => Promise<{
+        ok: boolean;
+        status: number;
         message: string;
     }>;
     verifyLoginMfa(challengeToken: string, code: string): Promise<{

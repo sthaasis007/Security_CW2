@@ -2,11 +2,35 @@ import bcrypt from "bcryptjs";
 import crypto from "crypto";
 import jwt from "jsonwebtoken";
 import { AuthRepository } from "./auth.repository";
-import { LoginDto, RegisterDto } from "./auth.dto";
+import { ForgotPasswordDto, LoginDto, RegisterDto, ResetPasswordDto } from "./auth.dto";
 import { ActivityService } from "../activity/activity.service";
 import { isPasswordStrong, hashSecret, getPasswordExpiryDays } from "../../utils/security";
 import { getJwtSecret } from "../../config/security";
-import { sendMfaCode } from "../../utils/mailer";
+import { sendEmailVerification, sendMfaCode, sendPasswordChangedNotice, sendPasswordReset, sendSuspiciousLoginNotice } from "../../utils/mailer";
+
+const PUBLIC_EMAIL_MESSAGE = "If the address is eligible, an email will be sent shortly.";
+const RESET_TOKEN_MS = 15 * 60 * 1000;
+const VERIFY_TOKEN_MS = 24 * 60 * 60 * 1000;
+
+const passwordWasUsed = async (user: any, password: string) => {
+  const hashes = [user.password, ...((user.passwordHistory || []).slice(0, 5).map((item: any) => item?.hash))].filter(Boolean);
+  const matches = await Promise.all(hashes.map((hash: string) => bcrypt.compare(password, hash)));
+  return matches.some(Boolean);
+};
+
+const changePassword = async (user: any, password: string) => {
+  if (!isPasswordStrong(password)) {
+    return { ok: false, status: 400, message: "Password does not meet complexity requirements" };
+  }
+  if (await passwordWasUsed(user, password)) {
+    return { ok: false, status: 400, message: "New password must not match recent passwords" };
+  }
+  const updated = await AuthRepository.updatePassword(user._id.toString(), await bcrypt.hash(password, 12));
+  if (!updated) return { ok: false, status: 404, message: "User not found" };
+  await AuthRepository.invalidateSessions(user._id.toString());
+  void sendPasswordChangedNotice(user.email).catch(() => undefined);
+  return { ok: true, status: 200, message: "Password changed. Please sign in again." };
+};
 
 const signToken = (payload: object, expiresIn: string) => {
   return jwt.sign(payload, getJwtSecret(), { expiresIn } as jwt.SignOptions);
@@ -120,9 +144,10 @@ export const AuthService = {
       return { ok: false, status: 400, message: "Password must be at least 12 characters and include uppercase, lowercase, number, and special character" };
     }
 
-    const existing = await AuthRepository.findByEmail(data.email);
+    const email = data.email.trim().toLowerCase();
+    const existing = await AuthRepository.findByEmail(email);
     if (existing) {
-      return { ok: false, status: 409, message: "Email already exists" };
+      return { ok: true, status: 202, message: PUBLIC_EMAIL_MESSAGE };
     }
 
     const hashed = await bcrypt.hash(data.password, 12);
@@ -132,13 +157,18 @@ export const AuthService = {
 
     const user = await AuthRepository.createUser({
       name: data.name,
-      email: data.email,
+      email,
       password: hashed,
       role: "user",
-      emailVerified: true,
+      emailVerified: false,
     } as any);
 
     await AuthRepository.setEmailVerificationToken((user as any)._id.toString(), verificationTokenHash, expiresAt);
+    try {
+      await sendEmailVerification(email, verificationToken);
+    } catch {
+      return { ok: true, status: 202, message: PUBLIC_EMAIL_MESSAGE };
+    }
 
     await ActivityService.log(
       "register",
@@ -154,9 +184,8 @@ export const AuthService = {
 
     return {
       ok: true,
-      status: 201,
-      message: "User registered successfully.",
-      user: { id: (user as any)._id, name: (user as any).name, email: (user as any).email, role: (user as any).role },
+      status: 202,
+      message: PUBLIC_EMAIL_MESSAGE,
     };
   },
 
@@ -177,6 +206,9 @@ export const AuthService = {
       if ((updated as any).loginAttempts >= 5) {
         await AuthRepository.lockAccount((user as any)._id.toString(), new Date(Date.now() + 15 * 60 * 1000));
       }
+      if ((updated as any).loginAttempts === 3) {
+        void sendSuspiciousLoginNotice(user.email).catch(() => undefined);
+      }
       await ActivityService.log(
         "failed_login",
         `Failed login attempt for ${data.email}`,
@@ -191,10 +223,14 @@ export const AuthService = {
       return { ok: false, status: 401, message: "Invalid credentials" };
     }
 
+    if (!user.emailVerified) {
+      return { ok: false, status: 403, message: "Verify your email before signing in.", code: "EMAIL_NOT_VERIFIED" };
+    }
     await AuthRepository.resetLoginAttempts((user as any)._id.toString());
 
-    if (!user.emailVerified) {
-      await AuthRepository.verifyEmail((user as any)._id.toString());
+    const passwordExpiryDays = getPasswordExpiryDays();
+    if (passwordExpiryDays > 0 && (!user.passwordChangedAt || new Date(user.passwordChangedAt).getTime() < Date.now() - passwordExpiryDays * 24 * 60 * 60 * 1000)) {
+      return { ok: false, status: 403, message: "Password expired. Use password reset to choose a new password.", code: "PASSWORD_EXPIRED" };
     }
 
     if ((user as any).mfaEnabled) {
@@ -212,12 +248,47 @@ export const AuthService = {
       }
     }
 
-    const passwordExpiryDays = getPasswordExpiryDays();
-    if (passwordExpiryDays > 0 && (!user.passwordChangedAt || new Date(user.passwordChangedAt).getTime() < Date.now() - passwordExpiryDays * 24 * 60 * 60 * 1000)) {
-      await ActivityService.log("password_expiry_warning", "Password expires soon", {}, { id: (user as any)._id.toString(), email: (user as any).email || null, username: (user as any).name || null, role: (user as any).role || null });
-    }
     return issueSession(user);
   },
+
+  async forgotPassword(data: ForgotPasswordDto) {
+    const user = await AuthRepository.findByEmail(data.email.trim().toLowerCase());
+    if (user) {
+      const token = crypto.randomBytes(32).toString("hex");
+      await AuthRepository.setResetToken(user._id.toString(), hashSecret(token), new Date(Date.now() + RESET_TOKEN_MS));
+      void sendPasswordReset(user.email, token).catch(() => undefined);
+    }
+    return { ok: true, status: 202, message: PUBLIC_EMAIL_MESSAGE };
+  },
+
+  async resetPassword(data: ResetPasswordDto) {
+    const user = await AuthRepository.findByResetToken(hashSecret(data.token));
+    if (!user || user.resetPasswordUsed || !user.resetPasswordExpires || new Date(user.resetPasswordExpires).getTime() <= Date.now()) {
+      return { ok: false, status: 400, message: "Invalid or expired reset link" };
+    }
+    return changePassword(user, data.password);
+  },
+
+  async verifyEmail(rawToken: string) {
+    const user = await AuthRepository.findByEmailVerificationToken(hashSecret(rawToken));
+    if (!user || !user.emailVerificationExpires || new Date(user.emailVerificationExpires).getTime() <= Date.now()) {
+      return { ok: false, status: 400, message: "Invalid or expired verification link" };
+    }
+    await AuthRepository.verifyEmail(user._id.toString());
+    return { ok: true, status: 200, message: "Email verified. You can now sign in." };
+  },
+
+  async resendVerification(data: ForgotPasswordDto) {
+    const user = await AuthRepository.findByEmail(data.email.trim().toLowerCase());
+    if (user && !user.emailVerified) {
+      const token = crypto.randomBytes(32).toString("hex");
+      await AuthRepository.setEmailVerificationToken(user._id.toString(), hashSecret(token), new Date(Date.now() + VERIFY_TOKEN_MS));
+      void sendEmailVerification(user.email, token).catch(() => undefined);
+    }
+    return { ok: true, status: 202, message: PUBLIC_EMAIL_MESSAGE };
+  },
+
+  changePassword,
 
   async verifyLoginMfa(challengeToken: string, code: string) {
     try {

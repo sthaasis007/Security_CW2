@@ -8,11 +8,13 @@ exports.AuthRepository = {
         const toCreate = { ...data };
         if (toCreate.password) {
             toCreate.passwordHistory = [{ hash: toCreate.password, changedAt: new Date() }];
+            toCreate.passwordChangedAt = new Date();
         }
         return user_model_1.UserModel.create(toCreate);
     },
     findById: (id) => user_model_1.UserModel.findById(id),
     findByResetToken: (tokenHash) => user_model_1.UserModel.findOne({ resetPasswordToken: tokenHash }),
+    findByEmailVerificationToken: (tokenHash) => user_model_1.UserModel.findOne({ emailVerificationToken: tokenHash }),
     findAll: () => user_model_1.UserModel.find().select("-password").lean(),
     updateUser: (id, data) => user_model_1.UserModel.findByIdAndUpdate(id, data, { new: true }).select("-password"),
     setResetToken: (id, tokenHash, expiresAt) => user_model_1.UserModel.findByIdAndUpdate(id, {
@@ -44,6 +46,24 @@ exports.AuthRepository = {
             passwordHistory: nextHistory,
         }, { new: true });
     })(),
+    updatePassword: (id, hashedPassword) => (async () => {
+        const user = await user_model_1.UserModel.findById(id);
+        if (!user)
+            return null;
+        const history = Array.isArray(user.passwordHistory) ? [...user.passwordHistory] : [];
+        if (user.password)
+            history.unshift({ hash: user.password, changedAt: new Date() });
+        return user_model_1.UserModel.findByIdAndUpdate(id, {
+            password: hashedPassword,
+            passwordHistory: history.slice(0, 5),
+            passwordChangedAt: new Date(),
+            resetPasswordToken: null,
+            resetPasswordExpires: null,
+            resetPasswordUsed: true,
+            loginAttempts: 0,
+            lockUntil: null,
+        }, { new: true });
+    })(),
     setEmailVerificationToken: (id, tokenHash, expiresAt) => user_model_1.UserModel.findByIdAndUpdate(id, {
         emailVerificationToken: tokenHash,
         emailVerificationExpires: expiresAt,
@@ -53,6 +73,12 @@ exports.AuthRepository = {
         emailVerificationToken: null,
         emailVerificationExpires: null,
         emailVerifiedAt: new Date(),
+    }),
+    markEmailUnverified: (id) => user_model_1.UserModel.findByIdAndUpdate(id, {
+        emailVerified: false,
+        emailVerifiedAt: null,
+        emailVerificationToken: null,
+        emailVerificationExpires: null,
     }),
     setRefreshToken: (id, tokenHash, expiresAt) => user_model_1.UserModel.findByIdAndUpdate(id, {
         refreshTokenHash: tokenHash,

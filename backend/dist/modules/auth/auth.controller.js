@@ -1,12 +1,8 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AuthController = void 0;
 const auth_dto_1 = require("./auth.dto");
 const auth_service_1 = require("./auth.service");
-const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const auth_repository_1 = require("./auth.repository");
 const file_1 = require("../../utils/file");
 const activity_service_1 = require("../activity/activity.service");
@@ -59,8 +55,39 @@ exports.AuthController = {
         return res.status(result.status).json({
             ok: result.ok,
             message: result.message,
+            code: result.code,
             user: result.user,
         });
+    },
+    async forgotPassword(req, res) {
+        const parsed = auth_dto_1.forgotPasswordDto.safeParse(req.body);
+        if (!parsed.success)
+            return res.status(202).json({ ok: true, message: "If the address is eligible, an email will be sent shortly." });
+        const result = await auth_service_1.AuthService.forgotPassword(parsed.data);
+        return res.status(result.status).json(result);
+    },
+    async resetPassword(req, res) {
+        const parsed = auth_dto_1.resetPasswordDto.safeParse(req.body);
+        if (!parsed.success)
+            return res.status(400).json({ ok: false, message: "Invalid reset request" });
+        const result = await auth_service_1.AuthService.resetPassword(parsed.data);
+        if (result.ok)
+            (0, cookie_1.clearSessionCookies)(res);
+        return res.status(result.status).json(result);
+    },
+    async verifyEmail(req, res) {
+        const parsed = auth_dto_1.tokenDto.safeParse(req.body);
+        if (!parsed.success)
+            return res.status(400).json({ ok: false, message: "Invalid verification link" });
+        const result = await auth_service_1.AuthService.verifyEmail(parsed.data.token);
+        return res.status(result.status).json(result);
+    },
+    async resendVerification(req, res) {
+        const parsed = auth_dto_1.forgotPasswordDto.safeParse(req.body);
+        if (!parsed.success)
+            return res.status(202).json({ ok: true, message: "If the address is eligible, an email will be sent shortly." });
+        const result = await auth_service_1.AuthService.resendVerification(parsed.data);
+        return res.status(result.status).json(result);
     },
     async logout(req, res) {
         try {
@@ -224,27 +251,16 @@ exports.AuthController = {
                 }
             }
             const existing = await auth_repository_1.AuthRepository.findById(id);
+            if (!existing)
+                return res.status(404).json({ ok: false, message: "User not found" });
             if (req.file) {
                 body.image = req.file.filename;
             }
             if (body.password) {
-                // Prevent reuse of recent passwords
-                const existingUser = await auth_repository_1.AuthRepository.findById(id);
-                if (existingUser) {
-                    const history = existingUser.passwordHistory || [];
-                    // compare new password against current and history
-                    const reuseChecks = [];
-                    reuseChecks.push(bcryptjs_1.default.compare(body.password, existingUser.password));
-                    for (const h of history.slice(0, 5)) {
-                        if (h && h.hash)
-                            reuseChecks.push(bcryptjs_1.default.compare(body.password, h.hash));
-                    }
-                    const results = await Promise.all(reuseChecks);
-                    if (results.some((r) => r)) {
-                        return res.status(400).json({ ok: false, message: "New password must not match recent passwords" });
-                    }
-                }
-                body.password = await bcryptjs_1.default.hash(body.password, 12);
+                const passwordResult = await auth_service_1.AuthService.changePassword(existing, body.password);
+                if (!passwordResult.ok)
+                    return res.status(passwordResult.status).json(passwordResult);
+                delete body.password;
             }
             const updated = await auth_repository_1.AuthRepository.updateUser(id, body);
             if (!updated)
@@ -266,9 +282,14 @@ exports.AuthController = {
             if (body.image && existing?.image && existing.image !== body.image) {
                 await (0, file_1.deleteUploadFile)(existing.image);
             }
-            if (body.password) {
+            if (req.body?.password) {
+                (0, cookie_1.clearSessionCookies)(res);
+            }
+            if (body.email && body.email !== existing?.email) {
+                await auth_repository_1.AuthRepository.markEmailUnverified(id);
                 await auth_repository_1.AuthRepository.invalidateSessions(id);
                 (0, cookie_1.clearSessionCookies)(res);
+                void auth_service_1.AuthService.resendVerification({ email: body.email });
             }
             return res.status(200).json({ ok: true, user: safeUser });
         }

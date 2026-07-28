@@ -23,6 +23,10 @@ export const resetPasswordDto = z.object({
   password: z.string().min(12, "Password must be at least 12 characters").regex(passwordPolicy, "Password must include uppercase, lowercase, number, and special character"),
 }).strict();
 
+export const tokenDto = z.object({
+  token: z.string().trim().min(32, "Invalid token").max(256, "Invalid token"),
+}).strict();
+
 export const mfaVerifyDto = z.object({
   challengeToken: z.string().min(1).max(2048),
   code: z.string().trim().min(6).max(20),

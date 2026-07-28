@@ -14,11 +14,13 @@ export const AuthRepository = {
     const toCreate: any = { ...data };
     if (toCreate.password) {
       toCreate.passwordHistory = [{ hash: toCreate.password, changedAt: new Date() }];
+      toCreate.passwordChangedAt = new Date();
     }
     return UserModel.create(toCreate as any);
   },
   findById: (id: string) => UserModel.findById(id),
   findByResetToken: (tokenHash: string) => UserModel.findOne({ resetPasswordToken: tokenHash }),
+  findByEmailVerificationToken: (tokenHash: string) => UserModel.findOne({ emailVerificationToken: tokenHash }),
   findAll: () => UserModel.find().select("-password").lean(),
   updateUser: (id: string, data: Partial<CreateUserData>) =>
     UserModel.findByIdAndUpdate(id, data, { new: true }).select("-password"),
@@ -56,6 +58,23 @@ export const AuthRepository = {
         { new: true }
       );
     })(),
+  updatePassword: (id: string, hashedPassword: string) =>
+    (async () => {
+      const user = await UserModel.findById(id);
+      if (!user) return null;
+      const history = Array.isArray((user as any).passwordHistory) ? [...(user as any).passwordHistory] : [];
+      if ((user as any).password) history.unshift({ hash: (user as any).password, changedAt: new Date() });
+      return UserModel.findByIdAndUpdate(id, {
+        password: hashedPassword,
+        passwordHistory: history.slice(0, 5),
+        passwordChangedAt: new Date(),
+        resetPasswordToken: null,
+        resetPasswordExpires: null,
+        resetPasswordUsed: true,
+        loginAttempts: 0,
+        lockUntil: null,
+      }, { new: true });
+    })(),
   setEmailVerificationToken: (id: string, tokenHash: string, expiresAt: Date) =>
     UserModel.findByIdAndUpdate(id, {
       emailVerificationToken: tokenHash,
@@ -67,6 +86,13 @@ export const AuthRepository = {
       emailVerificationToken: null,
       emailVerificationExpires: null,
       emailVerifiedAt: new Date(),
+    }),
+  markEmailUnverified: (id: string) =>
+    UserModel.findByIdAndUpdate(id, {
+      emailVerified: false,
+      emailVerifiedAt: null,
+      emailVerificationToken: null,
+      emailVerificationExpires: null,
     }),
   setRefreshToken: (id: string, tokenHash: string, expiresAt: Date) =>
     UserModel.findByIdAndUpdate(id, {

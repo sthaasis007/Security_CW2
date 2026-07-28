@@ -135,6 +135,11 @@ export default function LoginForm() {
       />
 
       <Button type="submit" disabled={loading}>{loading ? "Signing in..." : "Login"}</Button>
+      <p className="text-center text-sm">
+        <a href="/forgot-password" className="font-medium text-blue-600 hover:underline">Forgot password?</a>
+        {" · "}
+        <a href="/verify-email" className="font-medium text-blue-600 hover:underline">Resend verification</a>
+      </p>
       <p className="text-center text-sm text-slate-600">
         Don’t have an account?{" "}
         <a href="/register" className="font-medium text-blue-600 hover:underline">

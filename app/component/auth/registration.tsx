@@ -43,8 +43,7 @@ export default function RegisterForm() {
 
       const body = await res.json().catch(() => ({}));
       if (res.ok) {
-        // successful registration -> go to login
-        router.push("/login");
+        router.push("/verify-email?registered=1");
       } else {
         setError(body?.message || `Registration failed (status ${res.status})`);
       }

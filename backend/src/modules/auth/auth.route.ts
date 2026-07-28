@@ -10,11 +10,17 @@ const router = Router();
 const authAttemptRateLimit = rateLimit({ windowMs: 15 * 60 * 1000, max: 6, keyPrefix: "auth-attempt", progressiveDelayMs: 1000, captchaAfter: 4, countFailuresOnly: true });
 const registrationRateLimit = rateLimit({ windowMs: 60 * 60 * 1000, max: 5, keyPrefix: "registration", progressiveDelayMs: 5000, captchaAfter: 2, countFailuresOnly: true });
 const refreshRateLimit = rateLimit({ windowMs: 60 * 1000, max: 20, keyPrefix: "refresh" });
+const identityMailRateLimit = rateLimit({ windowMs: 60 * 60 * 1000, max: 5, keyPrefix: "identity-mail", progressiveDelayMs: 5000 });
+const tokenVerificationRateLimit = rateLimit({ windowMs: 15 * 60 * 1000, max: 10, keyPrefix: "identity-token" });
 const profileUploadRateLimit = rateLimit({ windowMs: 60 * 60 * 1000, max: 10, keyPrefix: "profile-upload" });
 const mfaRateLimit = rateLimit({ windowMs: 10 * 60 * 1000, max: 5, keyPrefix: "mfa" });
 
 router.post("/register", registrationRateLimit, AuthController.register);
 router.post("/login", authAttemptRateLimit, AuthController.login);
+router.post("/forgot-password", identityMailRateLimit, AuthController.forgotPassword);
+router.post("/reset-password", tokenVerificationRateLimit, AuthController.resetPassword);
+router.post("/verify-email", tokenVerificationRateLimit, AuthController.verifyEmail);
+router.post("/resend-verification", identityMailRateLimit, AuthController.resendVerification);
 router.post("/mfa/login/verify", mfaRateLimit, AuthController.verifyLoginMfa);
 router.post("/mfa/setup", mfaRateLimit, authOnly, csrfMiddleware, AuthController.beginMfaSetup);
 router.post("/mfa/setup/verify", mfaRateLimit, authOnly, csrfMiddleware, AuthController.confirmMfaSetup);

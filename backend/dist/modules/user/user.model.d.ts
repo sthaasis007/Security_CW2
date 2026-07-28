@@ -26,6 +26,7 @@ export declare const UserModel: mongoose.Model<{
     passwordChangedAt?: NativeDate | null;
     resetPasswordToken?: string | null;
     resetPasswordExpires?: NativeDate | null;
+    emailVerifiedAt?: NativeDate | null;
     emailVerificationToken?: string | null;
     emailVerificationExpires?: NativeDate | null;
     refreshTokenHash?: string | null;
@@ -68,6 +69,7 @@ export declare const UserModel: mongoose.Model<{
     passwordChangedAt?: NativeDate | null;
     resetPasswordToken?: string | null;
     resetPasswordExpires?: NativeDate | null;
+    emailVerifiedAt?: NativeDate | null;
     emailVerificationToken?: string | null;
     emailVerificationExpires?: NativeDate | null;
     refreshTokenHash?: string | null;
@@ -112,6 +114,7 @@ export declare const UserModel: mongoose.Model<{
     passwordChangedAt?: NativeDate | null;
     resetPasswordToken?: string | null;
     resetPasswordExpires?: NativeDate | null;
+    emailVerifiedAt?: NativeDate | null;
     emailVerificationToken?: string | null;
     emailVerificationExpires?: NativeDate | null;
     refreshTokenHash?: string | null;
@@ -160,6 +163,7 @@ export declare const UserModel: mongoose.Model<{
     passwordChangedAt?: NativeDate | null;
     resetPasswordToken?: string | null;
     resetPasswordExpires?: NativeDate | null;
+    emailVerifiedAt?: NativeDate | null;
     emailVerificationToken?: string | null;
     emailVerificationExpires?: NativeDate | null;
     refreshTokenHash?: string | null;
@@ -200,6 +204,7 @@ export declare const UserModel: mongoose.Model<{
     passwordChangedAt?: NativeDate | null;
     resetPasswordToken?: string | null;
     resetPasswordExpires?: NativeDate | null;
+    emailVerifiedAt?: NativeDate | null;
     emailVerificationToken?: string | null;
     emailVerificationExpires?: NativeDate | null;
     refreshTokenHash?: string | null;
@@ -244,6 +249,7 @@ export declare const UserModel: mongoose.Model<{
     passwordChangedAt?: NativeDate | null;
     resetPasswordToken?: string | null;
     resetPasswordExpires?: NativeDate | null;
+    emailVerifiedAt?: NativeDate | null;
     emailVerificationToken?: string | null;
     emailVerificationExpires?: NativeDate | null;
     refreshTokenHash?: string | null;
@@ -290,6 +296,7 @@ export declare const UserModel: mongoose.Model<{
     passwordChangedAt?: NativeDate | null;
     resetPasswordToken?: string | null;
     resetPasswordExpires?: NativeDate | null;
+    emailVerifiedAt?: NativeDate | null;
     emailVerificationToken?: string | null;
     emailVerificationExpires?: NativeDate | null;
     refreshTokenHash?: string | null;
@@ -336,6 +343,7 @@ export declare const UserModel: mongoose.Model<{
     passwordChangedAt?: NativeDate | null;
     resetPasswordToken?: string | null;
     resetPasswordExpires?: NativeDate | null;
+    emailVerifiedAt?: NativeDate | null;
     emailVerificationToken?: string | null;
     emailVerificationExpires?: NativeDate | null;
     refreshTokenHash?: string | null;

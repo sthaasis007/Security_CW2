@@ -1,7 +1,6 @@
 import { Request, Response } from "express";
-import { registerDto, loginDto, mfaDisableDto, mfaVerifyDto } from "./auth.dto";
+import { registerDto, loginDto, forgotPasswordDto, resetPasswordDto, tokenDto, mfaDisableDto, mfaVerifyDto } from "./auth.dto";
 import { AuthService } from "./auth.service";
-import bcrypt from "bcryptjs";
 import { AuthRepository } from "./auth.repository";
 import { deleteUploadFile } from "../../utils/file";
 import { ActivityService } from "../activity/activity.service";
@@ -59,8 +58,38 @@ export const AuthController = {
     return res.status(result.status).json({
       ok: result.ok,
       message: result.message,
+      code: (result as any).code,
       user: result.user,
     });
+  },
+
+  async forgotPassword(req: Request, res: Response) {
+    const parsed = forgotPasswordDto.safeParse(req.body);
+    if (!parsed.success) return res.status(202).json({ ok: true, message: "If the address is eligible, an email will be sent shortly." });
+    const result = await AuthService.forgotPassword(parsed.data);
+    return res.status(result.status).json(result);
+  },
+
+  async resetPassword(req: Request, res: Response) {
+    const parsed = resetPasswordDto.safeParse(req.body);
+    if (!parsed.success) return res.status(400).json({ ok: false, message: "Invalid reset request" });
+    const result = await AuthService.resetPassword(parsed.data);
+    if (result.ok) clearSessionCookies(res);
+    return res.status(result.status).json(result);
+  },
+
+  async verifyEmail(req: Request, res: Response) {
+    const parsed = tokenDto.safeParse(req.body);
+    if (!parsed.success) return res.status(400).json({ ok: false, message: "Invalid verification link" });
+    const result = await AuthService.verifyEmail(parsed.data.token);
+    return res.status(result.status).json(result);
+  },
+
+  async resendVerification(req: Request, res: Response) {
+    const parsed = forgotPasswordDto.safeParse(req.body);
+    if (!parsed.success) return res.status(202).json({ ok: true, message: "If the address is eligible, an email will be sent shortly." });
+    const result = await AuthService.resendVerification(parsed.data);
+    return res.status(result.status).json(result);
   },
 
   async logout(req: Request, res: Response) {
@@ -228,26 +257,14 @@ export const AuthController = {
         }
       }
       const existing = await AuthRepository.findById(id as string);
+      if (!existing) return res.status(404).json({ ok: false, message: "User not found" });
       if ((req as any).file) {
         body.image = (req as any).file.filename;
       }
       if (body.password) {
-        // Prevent reuse of recent passwords
-        const existingUser = await AuthRepository.findById(id as string);
-        if (existingUser) {
-          const history = (existingUser as any).passwordHistory || [];
-          // compare new password against current and history
-          const reuseChecks = [] as Promise<boolean>[];
-          reuseChecks.push(bcrypt.compare(body.password, (existingUser as any).password));
-          for (const h of history.slice(0, 5)) {
-            if (h && h.hash) reuseChecks.push(bcrypt.compare(body.password, h.hash));
-          }
-          const results = await Promise.all(reuseChecks);
-          if (results.some((r) => r)) {
-            return res.status(400).json({ ok: false, message: "New password must not match recent passwords" });
-          }
-        }
-        body.password = await bcrypt.hash(body.password, 12);
+        const passwordResult = await AuthService.changePassword(existing, body.password);
+        if (!passwordResult.ok) return res.status(passwordResult.status).json(passwordResult);
+        delete body.password;
       }
       const updated = await AuthRepository.updateUser(id as string, body as any);
       if (!updated) return res.status(404).json({ ok: false, message: "User not found" });
@@ -277,9 +294,14 @@ export const AuthController = {
       if (body.image && existing?.image && existing.image !== body.image) {
         await deleteUploadFile(existing.image);
       }
-      if (body.password) {
+      if (req.body?.password) {
+        clearSessionCookies(res);
+      }
+      if (body.email && body.email !== existing?.email) {
+        await AuthRepository.markEmailUnverified(id);
         await AuthRepository.invalidateSessions(id);
         clearSessionCookies(res);
+        void AuthService.resendVerification({ email: body.email });
       }
 
       return res.status(200).json({ ok: true, user: safeUser });

@@ -9,6 +9,7 @@ const auth_repository_1 = require("../auth/auth.repository");
 const file_1 = require("../../utils/file");
 const security_1 = require("../../utils/security");
 const cookie_1 = require("../../utils/cookie");
+const auth_service_1 = require("../auth/auth.service");
 exports.AdminController = {
     async create(req, res) {
         try {
@@ -40,6 +41,7 @@ exports.AdminController = {
                 role: role || "user",
                 ...(image ? { image } : {}),
             });
+            void auth_service_1.AuthService.resendVerification({ email: normalizedEmail });
             return res.status(201).json({ ok: true, message: "User created", user: { id: user._id, email: user.email, role: user.role } });
         }
         catch (err) {
@@ -99,15 +101,23 @@ exports.AdminController = {
                 if (typeof req.body.password !== "string" || !(0, security_1.isPasswordStrong)(req.body.password)) {
                     return res.status(400).json({ ok: false, message: "Password does not meet complexity requirements" });
                 }
-                body.password = await bcryptjs_1.default.hash(req.body.password, 12);
+                const passwordResult = await auth_service_1.AuthService.changePassword(existing, req.body.password);
+                if (!passwordResult.ok)
+                    return res.status(passwordResult.status).json(passwordResult);
             }
+            delete body.password;
             const updated = await auth_repository_1.AuthRepository.updateUser(id, body);
             if (!updated)
                 return res.status(404).json({ ok: false, message: "User not found" });
-            if (body.password || (body.role && body.role !== existing?.role)) {
+            if (req.body?.password || (body.role && body.role !== existing?.role)) {
                 await auth_repository_1.AuthRepository.invalidateSessions(id);
                 if (req.user?.id === id)
                     (0, cookie_1.clearSessionCookies)(res);
+            }
+            if (body.email && body.email !== existing?.email) {
+                await auth_repository_1.AuthRepository.markEmailUnverified(id);
+                await auth_repository_1.AuthRepository.invalidateSessions(id);
+                void auth_service_1.AuthService.resendVerification({ email: body.email });
             }
             if (body.image && existing?.image && existing.image !== body.image) {
                 await (0, file_1.deleteUploadFile)(existing.image);

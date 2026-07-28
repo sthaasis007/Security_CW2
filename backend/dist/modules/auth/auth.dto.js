@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.mfaDisableDto = exports.mfaVerifyDto = exports.resetPasswordDto = exports.forgotPasswordDto = exports.loginDto = exports.registerDto = void 0;
+exports.mfaDisableDto = exports.mfaVerifyDto = exports.tokenDto = exports.resetPasswordDto = exports.forgotPasswordDto = exports.loginDto = exports.registerDto = void 0;
 const zod_1 = require("zod");
 const passwordPolicy = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{12,}$/;
 exports.registerDto = zod_1.z.object({
@@ -19,6 +19,9 @@ exports.forgotPasswordDto = zod_1.z.object({
 exports.resetPasswordDto = zod_1.z.object({
     token: zod_1.z.string().min(1, "Reset token is required"),
     password: zod_1.z.string().min(12, "Password must be at least 12 characters").regex(passwordPolicy, "Password must include uppercase, lowercase, number, and special character"),
+}).strict();
+exports.tokenDto = zod_1.z.object({
+    token: zod_1.z.string().trim().min(32, "Invalid token").max(256, "Invalid token"),
 }).strict();
 exports.mfaVerifyDto = zod_1.z.object({
     challengeToken: zod_1.z.string().min(1).max(2048),

@@ -16,6 +16,9 @@ export declare const resetPasswordDto: z.ZodObject<{
     token: z.ZodString;
     password: z.ZodString;
 }, z.core.$strict>;
+export declare const tokenDto: z.ZodObject<{
+    token: z.ZodString;
+}, z.core.$strict>;
 export declare const mfaVerifyDto: z.ZodObject<{
     challengeToken: z.ZodString;
     code: z.ZodString;

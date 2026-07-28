@@ -4,6 +4,7 @@ import { AuthRepository } from "../auth/auth.repository";
 import { deleteUploadFile } from "../../utils/file";
 import { isPasswordStrong, isValidObjectId } from "../../utils/security";
 import { clearSessionCookies } from "../../utils/cookie";
+import { AuthService } from "../auth/auth.service";
 
 export const AdminController = {
   async create(req: Request, res: Response) {
@@ -38,6 +39,7 @@ export const AdminController = {
         role: role || "user",
         ...(image ? { image } : {}),
       } as any);
+      void AuthService.resendVerification({ email: normalizedEmail });
 
       return res.status(201).json({ ok: true, message: "User created", user: { id: (user as any)._id, email: (user as any).email, role: (user as any).role } });
     } catch (err) {
@@ -99,14 +101,21 @@ export const AdminController = {
         if (typeof req.body.password !== "string" || !isPasswordStrong(req.body.password)) {
           return res.status(400).json({ ok: false, message: "Password does not meet complexity requirements" });
         }
-        body.password = await bcrypt.hash(req.body.password, 12);
+        const passwordResult = await AuthService.changePassword(existing, req.body.password);
+        if (!passwordResult.ok) return res.status(passwordResult.status).json(passwordResult);
       }
+      delete body.password;
 
       const updated = await AuthRepository.updateUser(id as string, body as any);
       if (!updated) return res.status(404).json({ ok: false, message: "User not found" });
-      if (body.password || (body.role && body.role !== existing?.role)) {
+      if (req.body?.password || (body.role && body.role !== existing?.role)) {
         await AuthRepository.invalidateSessions(id);
         if ((req as any).user?.id === id) clearSessionCookies(res);
+      }
+      if (body.email && body.email !== existing?.email) {
+        await AuthRepository.markEmailUnverified(id);
+        await AuthRepository.invalidateSessions(id);
+        void AuthService.resendVerification({ email: body.email });
       }
 
       if (body.image && existing?.image && existing.image !== body.image) {

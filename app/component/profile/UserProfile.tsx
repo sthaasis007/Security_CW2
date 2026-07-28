@@ -158,7 +158,7 @@ export default function UserProfile() {
         throw new Error("User ID not found");
       }
 
-      const res = await apiFetch(`/api/auth/${userId}`, { method: "DELETE" });
+      const res = await apiFetch("/api/privacy/account", { method: "DELETE" });
 
       if (!res.ok) {
         throw new Error("Failed to delete account");
@@ -170,6 +170,47 @@ export default function UserProfile() {
       router.push("/login");
     } catch (err) {
       setError(err instanceof Error ? err.message : "An error occurred");
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
+  const handleExport = async (format: "json" | "csv") => {
+    setIsSaving(true);
+    setError("");
+    try {
+      const response = await apiFetch(`/api/privacy/export?format=${format}`);
+      if (!response.ok) throw new Error("Unable to export personal data");
+      const blob = await response.blob();
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = `personal-data.${format}`;
+      link.click();
+      URL.revokeObjectURL(url);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Unable to export personal data");
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
+  const handleImport = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    event.target.value = "";
+    if (!file) return;
+    setIsSaving(true);
+    setError("");
+    try {
+      const data = new FormData();
+      data.append("file", file);
+      const response = await apiFetch("/api/privacy/import", { method: "POST", body: data });
+      const body = await response.json().catch(() => ({}));
+      if (!response.ok) throw new Error(body.message || "Unable to import profile");
+      setFormData((current) => ({ ...current, name: body.user.name }));
+      setSuccess("Profile name imported successfully.");
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Unable to import profile");
     } finally {
       setIsSaving(false);
     }
@@ -387,6 +428,16 @@ export default function UserProfile() {
 
         {/* Delete Account */}
         <div className={styles.deleteSection}>
+          <button className={styles.deleteBtn} onClick={() => handleExport("json")} disabled={isSaving}>
+            Export My Data (JSON)
+          </button>
+          <button className={styles.deleteBtn} onClick={() => handleExport("csv")} disabled={isSaving}>
+            Export My Data (CSV)
+          </button>
+          <label className={styles.deleteBtn}>
+            Import Profile JSON
+            <input type="file" accept="application/json,.json" onChange={handleImport} disabled={isSaving} hidden />
+          </label>
           <button className={styles.deleteBtn} onClick={mfaEnabled ? handleDisableMfa : handleEnableMfa} disabled={isSaving}>
             {mfaEnabled ? "Disable Email MFA" : "Enable Email MFA"}
           </button>

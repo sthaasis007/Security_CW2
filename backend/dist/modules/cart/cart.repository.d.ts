@@ -5,36 +5,36 @@ export declare const CartRepository: {
             productId: import("mongoose").Types.ObjectId;
             quantity: number;
             priceSnapshot: number;
+            selectedSize?: string | null;
+            selectedColor?: string | null;
             productName?: string | null;
             productPrice?: number | null;
             productDescription?: string | null;
             productImage?: string | null;
-            selectedSize?: string | null;
-            selectedColor?: string | null;
             createdAt: NativeDate;
             updatedAt: NativeDate;
         }, import("mongoose").Types.Subdocument<import("mongodb").ObjectId, unknown, {
             productId: import("mongoose").Types.ObjectId;
             quantity: number;
             priceSnapshot: number;
+            selectedSize?: string | null;
+            selectedColor?: string | null;
             productName?: string | null;
             productPrice?: number | null;
             productDescription?: string | null;
             productImage?: string | null;
-            selectedSize?: string | null;
-            selectedColor?: string | null;
             createdAt: NativeDate;
             updatedAt: NativeDate;
         }, {}, {}> & {
             productId: import("mongoose").Types.ObjectId;
             quantity: number;
             priceSnapshot: number;
+            selectedSize?: string | null;
+            selectedColor?: string | null;
             productName?: string | null;
             productPrice?: number | null;
             productDescription?: string | null;
             productImage?: string | null;
-            selectedSize?: string | null;
-            selectedColor?: string | null;
             createdAt: NativeDate;
             updatedAt: NativeDate;
         }>;
@@ -61,32 +61,32 @@ export declare const CartRepository: {
             productId: import("mongoose").Types.ObjectId;
             quantity: number;
             priceSnapshot: number;
+            selectedSize?: string | null;
+            selectedColor?: string | null;
             productName?: string | null;
             productPrice?: number | null;
             productDescription?: string | null;
             productImage?: string | null;
-            selectedSize?: string | null;
-            selectedColor?: string | null;
         } & import("mongoose").DefaultTimestampProps, import("mongoose").Types.Subdocument<import("mongodb").ObjectId, unknown, {
             productId: import("mongoose").Types.ObjectId;
             quantity: number;
             priceSnapshot: number;
+            selectedSize?: string | null;
+            selectedColor?: string | null;
             productName?: string | null;
             productPrice?: number | null;
             productDescription?: string | null;
             productImage?: string | null;
-            selectedSize?: string | null;
-            selectedColor?: string | null;
         } & import("mongoose").DefaultTimestampProps, {}, {}> & {
             productId: import("mongoose").Types.ObjectId;
             quantity: number;
             priceSnapshot: number;
+            selectedSize?: string | null;
+            selectedColor?: string | null;
             productName?: string | null;
             productPrice?: number | null;
             productDescription?: string | null;
             productImage?: string | null;
-            selectedSize?: string | null;
-            selectedColor?: string | null;
         } & import("mongoose").DefaultTimestampProps>;
     } & import("mongoose").DefaultTimestampProps & {
         _id: import("mongoose").Types.ObjectId;
@@ -103,32 +103,32 @@ export declare const CartRepository: {
             productId: import("mongoose").Types.ObjectId;
             quantity: number;
             priceSnapshot: number;
+            selectedSize?: string | null;
+            selectedColor?: string | null;
             productName?: string | null;
             productPrice?: number | null;
             productDescription?: string | null;
             productImage?: string | null;
-            selectedSize?: string | null;
-            selectedColor?: string | null;
         } & import("mongoose").DefaultTimestampProps, import("mongoose").Types.Subdocument<import("mongodb").ObjectId, unknown, {
             productId: import("mongoose").Types.ObjectId;
             quantity: number;
             priceSnapshot: number;
+            selectedSize?: string | null;
+            selectedColor?: string | null;
             productName?: string | null;
             productPrice?: number | null;
             productDescription?: string | null;
             productImage?: string | null;
-            selectedSize?: string | null;
-            selectedColor?: string | null;
         } & import("mongoose").DefaultTimestampProps, {}, {}> & {
             productId: import("mongoose").Types.ObjectId;
             quantity: number;
             priceSnapshot: number;
+            selectedSize?: string | null;
+            selectedColor?: string | null;
             productName?: string | null;
             productPrice?: number | null;
             productDescription?: string | null;
             productImage?: string | null;
-            selectedSize?: string | null;
-            selectedColor?: string | null;
         } & import("mongoose").DefaultTimestampProps>;
     } & import("mongoose").DefaultTimestampProps & {
         _id: import("mongoose").Types.ObjectId;
@@ -141,32 +141,32 @@ export declare const CartRepository: {
             productId: import("mongoose").Types.ObjectId;
             quantity: number;
             priceSnapshot: number;
+            selectedSize?: string | null;
+            selectedColor?: string | null;
             productName?: string | null;
             productPrice?: number | null;
             productDescription?: string | null;
             productImage?: string | null;
-            selectedSize?: string | null;
-            selectedColor?: string | null;
         } & import("mongoose").DefaultTimestampProps, import("mongoose").Types.Subdocument<import("mongodb").ObjectId, unknown, {
             productId: import("mongoose").Types.ObjectId;
             quantity: number;
             priceSnapshot: number;
+            selectedSize?: string | null;
+            selectedColor?: string | null;
             productName?: string | null;
             productPrice?: number | null;
             productDescription?: string | null;
             productImage?: string | null;
-            selectedSize?: string | null;
-            selectedColor?: string | null;
         } & import("mongoose").DefaultTimestampProps, {}, {}> & {
             productId: import("mongoose").Types.ObjectId;
             quantity: number;
             priceSnapshot: number;
+            selectedSize?: string | null;
+            selectedColor?: string | null;
             productName?: string | null;
             productPrice?: number | null;
             productDescription?: string | null;
             productImage?: string | null;
-            selectedSize?: string | null;
-            selectedColor?: string | null;
         } & import("mongoose").DefaultTimestampProps>;
     } & import("mongoose").DefaultTimestampProps & {
         _id: import("mongoose").Types.ObjectId;
@@ -179,32 +179,32 @@ export declare const CartRepository: {
             productId: import("mongoose").Types.ObjectId;
             quantity: number;
             priceSnapshot: number;
+            selectedSize?: string | null;
+            selectedColor?: string | null;
             productName?: string | null;
             productPrice?: number | null;
             productDescription?: string | null;
             productImage?: string | null;
-            selectedSize?: string | null;
-            selectedColor?: string | null;
         } & import("mongoose").DefaultTimestampProps, import("mongoose").Types.Subdocument<import("mongodb").ObjectId, unknown, {
             productId: import("mongoose").Types.ObjectId;
             quantity: number;
             priceSnapshot: number;
+            selectedSize?: string | null;
+            selectedColor?: string | null;
             productName?: string | null;
             productPrice?: number | null;
             productDescription?: string | null;
             productImage?: string | null;
-            selectedSize?: string | null;
-            selectedColor?: string | null;
         } & import("mongoose").DefaultTimestampProps, {}, {}> & {
             productId: import("mongoose").Types.ObjectId;
             quantity: number;
             priceSnapshot: number;
+            selectedSize?: string | null;
+            selectedColor?: string | null;
             productName?: string | null;
             productPrice?: number | null;
             productDescription?: string | null;
             productImage?: string | null;
-            selectedSize?: string | null;
-            selectedColor?: string | null;
         } & import("mongoose").DefaultTimestampProps>;
     } & import("mongoose").DefaultTimestampProps & {
         _id: import("mongoose").Types.ObjectId;

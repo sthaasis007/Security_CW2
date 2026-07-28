@@ -51,6 +51,12 @@ export declare const AuthRepository: {
         id: string;
     }, {
         timestamps: true;
+        toJSON: {
+            getters: true;
+        };
+        toObject: {
+            getters: true;
+        };
     }> & Omit<{
         email: string;
         password: string;
@@ -143,6 +149,12 @@ export declare const AuthRepository: {
         id: string;
     }, {
         timestamps: true;
+        toJSON: {
+            getters: true;
+        };
+        toObject: {
+            getters: true;
+        };
     }> & Omit<{
         email: string;
         password: string;
@@ -285,6 +297,12 @@ export declare const AuthRepository: {
         id: string;
     }, {
         timestamps: true;
+        toJSON: {
+            getters: true;
+        };
+        toObject: {
+            getters: true;
+        };
     }> & Omit<{
         email: string;
         password: string;
@@ -378,6 +396,12 @@ export declare const AuthRepository: {
         id: string;
     }, {
         timestamps: true;
+        toJSON: {
+            getters: true;
+        };
+        toObject: {
+            getters: true;
+        };
     }> & Omit<{
         email: string;
         password: string;
@@ -470,6 +494,12 @@ export declare const AuthRepository: {
         id: string;
     }, {
         timestamps: true;
+        toJSON: {
+            getters: true;
+        };
+        toObject: {
+            getters: true;
+        };
     }> & Omit<{
         email: string;
         password: string;
@@ -612,6 +642,12 @@ export declare const AuthRepository: {
         id: string;
     }, {
         timestamps: true;
+        toJSON: {
+            getters: true;
+        };
+        toObject: {
+            getters: true;
+        };
     }> & Omit<{
         email: string;
         password: string;
@@ -704,6 +740,12 @@ export declare const AuthRepository: {
         id: string;
     }, {
         timestamps: true;
+        toJSON: {
+            getters: true;
+        };
+        toObject: {
+            getters: true;
+        };
     }> & Omit<{
         email: string;
         password: string;
@@ -846,6 +888,12 @@ export declare const AuthRepository: {
         id: string;
     }, {
         timestamps: true;
+        toJSON: {
+            getters: true;
+        };
+        toObject: {
+            getters: true;
+        };
     }> & Omit<{
         email: string;
         password: string;
@@ -938,6 +986,12 @@ export declare const AuthRepository: {
         id: string;
     }, {
         timestamps: true;
+        toJSON: {
+            getters: true;
+        };
+        toObject: {
+            getters: true;
+        };
     }> & Omit<{
         email: string;
         password: string;
@@ -1129,6 +1183,12 @@ export declare const AuthRepository: {
         id: string;
     }, {
         timestamps: true;
+        toJSON: {
+            getters: true;
+        };
+        toObject: {
+            getters: true;
+        };
     }> & Omit<{
         email: string;
         password: string;
@@ -1271,6 +1331,12 @@ export declare const AuthRepository: {
         id: string;
     }, {
         timestamps: true;
+        toJSON: {
+            getters: true;
+        };
+        toObject: {
+            getters: true;
+        };
     }> & Omit<{
         email: string;
         password: string;
@@ -1363,6 +1429,12 @@ export declare const AuthRepository: {
         id: string;
     }, {
         timestamps: true;
+        toJSON: {
+            getters: true;
+        };
+        toObject: {
+            getters: true;
+        };
     }> & Omit<{
         email: string;
         password: string;
@@ -1505,6 +1577,12 @@ export declare const AuthRepository: {
         id: string;
     }, {
         timestamps: true;
+        toJSON: {
+            getters: true;
+        };
+        toObject: {
+            getters: true;
+        };
     }> & Omit<{
         email: string;
         password: string;
@@ -1597,6 +1675,12 @@ export declare const AuthRepository: {
         id: string;
     }, {
         timestamps: true;
+        toJSON: {
+            getters: true;
+        };
+        toObject: {
+            getters: true;
+        };
     }> & Omit<{
         email: string;
         password: string;
@@ -1739,6 +1823,12 @@ export declare const AuthRepository: {
         id: string;
     }, {
         timestamps: true;
+        toJSON: {
+            getters: true;
+        };
+        toObject: {
+            getters: true;
+        };
     }> & Omit<{
         email: string;
         password: string;
@@ -1832,6 +1922,12 @@ export declare const AuthRepository: {
         id: string;
     }, {
         timestamps: true;
+        toJSON: {
+            getters: true;
+        };
+        toObject: {
+            getters: true;
+        };
     }> & Omit<{
         email: string;
         password: string;
@@ -1925,6 +2021,12 @@ export declare const AuthRepository: {
         id: string;
     }, {
         timestamps: true;
+        toJSON: {
+            getters: true;
+        };
+        toObject: {
+            getters: true;
+        };
     }> & Omit<{
         email: string;
         password: string;
@@ -2017,6 +2119,12 @@ export declare const AuthRepository: {
         id: string;
     }, {
         timestamps: true;
+        toJSON: {
+            getters: true;
+        };
+        toObject: {
+            getters: true;
+        };
     }> & Omit<{
         email: string;
         password: string;
@@ -2159,6 +2267,12 @@ export declare const AuthRepository: {
         id: string;
     }, {
         timestamps: true;
+        toJSON: {
+            getters: true;
+        };
+        toObject: {
+            getters: true;
+        };
     }> & Omit<{
         email: string;
         password: string;
@@ -2251,6 +2365,12 @@ export declare const AuthRepository: {
         id: string;
     }, {
         timestamps: true;
+        toJSON: {
+            getters: true;
+        };
+        toObject: {
+            getters: true;
+        };
     }> & Omit<{
         email: string;
         password: string;
@@ -2393,6 +2513,12 @@ export declare const AuthRepository: {
         id: string;
     }, {
         timestamps: true;
+        toJSON: {
+            getters: true;
+        };
+        toObject: {
+            getters: true;
+        };
     }> & Omit<{
         email: string;
         password: string;
@@ -2485,6 +2611,12 @@ export declare const AuthRepository: {
         id: string;
     }, {
         timestamps: true;
+        toJSON: {
+            getters: true;
+        };
+        toObject: {
+            getters: true;
+        };
     }> & Omit<{
         email: string;
         password: string;
@@ -2627,6 +2759,12 @@ export declare const AuthRepository: {
         id: string;
     }, {
         timestamps: true;
+        toJSON: {
+            getters: true;
+        };
+        toObject: {
+            getters: true;
+        };
     }> & Omit<{
         email: string;
         password: string;
@@ -2719,6 +2857,12 @@ export declare const AuthRepository: {
         id: string;
     }, {
         timestamps: true;
+        toJSON: {
+            getters: true;
+        };
+        toObject: {
+            getters: true;
+        };
     }> & Omit<{
         email: string;
         password: string;
@@ -2861,6 +3005,12 @@ export declare const AuthRepository: {
         id: string;
     }, {
         timestamps: true;
+        toJSON: {
+            getters: true;
+        };
+        toObject: {
+            getters: true;
+        };
     }> & Omit<{
         email: string;
         password: string;
@@ -2953,6 +3103,12 @@ export declare const AuthRepository: {
         id: string;
     }, {
         timestamps: true;
+        toJSON: {
+            getters: true;
+        };
+        toObject: {
+            getters: true;
+        };
     }> & Omit<{
         email: string;
         password: string;
@@ -3095,6 +3251,12 @@ export declare const AuthRepository: {
         id: string;
     }, {
         timestamps: true;
+        toJSON: {
+            getters: true;
+        };
+        toObject: {
+            getters: true;
+        };
     }> & Omit<{
         email: string;
         password: string;
@@ -3187,6 +3349,12 @@ export declare const AuthRepository: {
         id: string;
     }, {
         timestamps: true;
+        toJSON: {
+            getters: true;
+        };
+        toObject: {
+            getters: true;
+        };
     }> & Omit<{
         email: string;
         password: string;
@@ -3329,6 +3497,12 @@ export declare const AuthRepository: {
         id: string;
     }, {
         timestamps: true;
+        toJSON: {
+            getters: true;
+        };
+        toObject: {
+            getters: true;
+        };
     }> & Omit<{
         email: string;
         password: string;
@@ -3421,6 +3595,12 @@ export declare const AuthRepository: {
         id: string;
     }, {
         timestamps: true;
+        toJSON: {
+            getters: true;
+        };
+        toObject: {
+            getters: true;
+        };
     }> & Omit<{
         email: string;
         password: string;
@@ -3563,6 +3743,12 @@ export declare const AuthRepository: {
         id: string;
     }, {
         timestamps: true;
+        toJSON: {
+            getters: true;
+        };
+        toObject: {
+            getters: true;
+        };
     }> & Omit<{
         email: string;
         password: string;
@@ -3655,6 +3841,12 @@ export declare const AuthRepository: {
         id: string;
     }, {
         timestamps: true;
+        toJSON: {
+            getters: true;
+        };
+        toObject: {
+            getters: true;
+        };
     }> & Omit<{
         email: string;
         password: string;
@@ -3797,6 +3989,12 @@ export declare const AuthRepository: {
         id: string;
     }, {
         timestamps: true;
+        toJSON: {
+            getters: true;
+        };
+        toObject: {
+            getters: true;
+        };
     }> & Omit<{
         email: string;
         password: string;
@@ -3889,6 +4087,12 @@ export declare const AuthRepository: {
         id: string;
     }, {
         timestamps: true;
+        toJSON: {
+            getters: true;
+        };
+        toObject: {
+            getters: true;
+        };
     }> & Omit<{
         email: string;
         password: string;
@@ -4031,6 +4235,12 @@ export declare const AuthRepository: {
         id: string;
     }, {
         timestamps: true;
+        toJSON: {
+            getters: true;
+        };
+        toObject: {
+            getters: true;
+        };
     }> & Omit<{
         email: string;
         password: string;
@@ -4123,6 +4333,12 @@ export declare const AuthRepository: {
         id: string;
     }, {
         timestamps: true;
+        toJSON: {
+            getters: true;
+        };
+        toObject: {
+            getters: true;
+        };
     }> & Omit<{
         email: string;
         password: string;
@@ -4265,6 +4481,12 @@ export declare const AuthRepository: {
         id: string;
     }, {
         timestamps: true;
+        toJSON: {
+            getters: true;
+        };
+        toObject: {
+            getters: true;
+        };
     }> & Omit<{
         email: string;
         password: string;
@@ -4357,6 +4579,12 @@ export declare const AuthRepository: {
         id: string;
     }, {
         timestamps: true;
+        toJSON: {
+            getters: true;
+        };
+        toObject: {
+            getters: true;
+        };
     }> & Omit<{
         email: string;
         password: string;
@@ -4499,6 +4727,12 @@ export declare const AuthRepository: {
         id: string;
     }, {
         timestamps: true;
+        toJSON: {
+            getters: true;
+        };
+        toObject: {
+            getters: true;
+        };
     }> & Omit<{
         email: string;
         password: string;
@@ -4591,6 +4825,12 @@ export declare const AuthRepository: {
         id: string;
     }, {
         timestamps: true;
+        toJSON: {
+            getters: true;
+        };
+        toObject: {
+            getters: true;
+        };
     }> & Omit<{
         email: string;
         password: string;
@@ -4733,6 +4973,12 @@ export declare const AuthRepository: {
         id: string;
     }, {
         timestamps: true;
+        toJSON: {
+            getters: true;
+        };
+        toObject: {
+            getters: true;
+        };
     }> & Omit<{
         email: string;
         password: string;
@@ -4825,6 +5071,12 @@ export declare const AuthRepository: {
         id: string;
     }, {
         timestamps: true;
+        toJSON: {
+            getters: true;
+        };
+        toObject: {
+            getters: true;
+        };
     }> & Omit<{
         email: string;
         password: string;
@@ -4967,6 +5219,12 @@ export declare const AuthRepository: {
         id: string;
     }, {
         timestamps: true;
+        toJSON: {
+            getters: true;
+        };
+        toObject: {
+            getters: true;
+        };
     }> & Omit<{
         email: string;
         password: string;
@@ -5059,6 +5317,12 @@ export declare const AuthRepository: {
         id: string;
     }, {
         timestamps: true;
+        toJSON: {
+            getters: true;
+        };
+        toObject: {
+            getters: true;
+        };
     }> & Omit<{
         email: string;
         password: string;
@@ -5201,6 +5465,12 @@ export declare const AuthRepository: {
         id: string;
     }, {
         timestamps: true;
+        toJSON: {
+            getters: true;
+        };
+        toObject: {
+            getters: true;
+        };
     }> & Omit<{
         email: string;
         password: string;
@@ -5293,6 +5563,12 @@ export declare const AuthRepository: {
         id: string;
     }, {
         timestamps: true;
+        toJSON: {
+            getters: true;
+        };
+        toObject: {
+            getters: true;
+        };
     }> & Omit<{
         email: string;
         password: string;
@@ -5435,6 +5711,12 @@ export declare const AuthRepository: {
         id: string;
     }, {
         timestamps: true;
+        toJSON: {
+            getters: true;
+        };
+        toObject: {
+            getters: true;
+        };
     }> & Omit<{
         email: string;
         password: string;
@@ -5527,6 +5809,12 @@ export declare const AuthRepository: {
         id: string;
     }, {
         timestamps: true;
+        toJSON: {
+            getters: true;
+        };
+        toObject: {
+            getters: true;
+        };
     }> & Omit<{
         email: string;
         password: string;
@@ -5669,6 +5957,12 @@ export declare const AuthRepository: {
         id: string;
     }, {
         timestamps: true;
+        toJSON: {
+            getters: true;
+        };
+        toObject: {
+            getters: true;
+        };
     }> & Omit<{
         email: string;
         password: string;
@@ -5761,6 +6055,12 @@ export declare const AuthRepository: {
         id: string;
     }, {
         timestamps: true;
+        toJSON: {
+            getters: true;
+        };
+        toObject: {
+            getters: true;
+        };
     }> & Omit<{
         email: string;
         password: string;
@@ -5903,6 +6203,12 @@ export declare const AuthRepository: {
         id: string;
     }, {
         timestamps: true;
+        toJSON: {
+            getters: true;
+        };
+        toObject: {
+            getters: true;
+        };
     }> & Omit<{
         email: string;
         password: string;
@@ -5995,6 +6301,12 @@ export declare const AuthRepository: {
         id: string;
     }, {
         timestamps: true;
+        toJSON: {
+            getters: true;
+        };
+        toObject: {
+            getters: true;
+        };
     }> & Omit<{
         email: string;
         password: string;
@@ -6137,6 +6449,12 @@ export declare const AuthRepository: {
         id: string;
     }, {
         timestamps: true;
+        toJSON: {
+            getters: true;
+        };
+        toObject: {
+            getters: true;
+        };
     }> & Omit<{
         email: string;
         password: string;
@@ -6229,6 +6547,12 @@ export declare const AuthRepository: {
         id: string;
     }, {
         timestamps: true;
+        toJSON: {
+            getters: true;
+        };
+        toObject: {
+            getters: true;
+        };
     }> & Omit<{
         email: string;
         password: string;
@@ -6371,6 +6695,12 @@ export declare const AuthRepository: {
         id: string;
     }, {
         timestamps: true;
+        toJSON: {
+            getters: true;
+        };
+        toObject: {
+            getters: true;
+        };
     }> & Omit<{
         email: string;
         password: string;
@@ -6463,6 +6793,12 @@ export declare const AuthRepository: {
         id: string;
     }, {
         timestamps: true;
+        toJSON: {
+            getters: true;
+        };
+        toObject: {
+            getters: true;
+        };
     }> & Omit<{
         email: string;
         password: string;
@@ -6605,6 +6941,12 @@ export declare const AuthRepository: {
         id: string;
     }, {
         timestamps: true;
+        toJSON: {
+            getters: true;
+        };
+        toObject: {
+            getters: true;
+        };
     }> & Omit<{
         email: string;
         password: string;
@@ -6697,6 +7039,12 @@ export declare const AuthRepository: {
         id: string;
     }, {
         timestamps: true;
+        toJSON: {
+            getters: true;
+        };
+        toObject: {
+            getters: true;
+        };
     }> & Omit<{
         email: string;
         password: string;

@@ -14,6 +14,7 @@ const favorite_route_1 = __importDefault(require("./modules/favorite/favorite.ro
 const cart_route_1 = __importDefault(require("./modules/cart/cart.route"));
 const activity_route_1 = __importDefault(require("./modules/activity/activity.route"));
 const payment_route_1 = __importDefault(require("./modules/payment/payment.route"));
+const privacy_route_1 = __importDefault(require("./modules/privacy/privacy.route"));
 const path_1 = __importDefault(require("path"));
 const db_1 = require("./config/db");
 const product_model_1 = require("./modules/product/product.model");
@@ -77,6 +78,7 @@ app.use("/api/favorites", favorite_route_1.default);
 app.use("/api/cart", cart_route_1.default);
 app.use("/api/activity", activity_route_1.default);
 app.use("/api/payment", payment_route_1.default);
+app.use("/api/privacy", privacy_route_1.default);
 app.use((err, _req, res, _next) => {
     console.error("Unhandled error:", err);
     const status = err?.status || err?.statusCode || 500;

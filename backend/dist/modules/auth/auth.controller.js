@@ -8,6 +8,7 @@ const file_1 = require("../../utils/file");
 const activity_service_1 = require("../activity/activity.service");
 const security_1 = require("../../utils/security");
 const cookie_1 = require("../../utils/cookie");
+const privacy_service_1 = require("../privacy/privacy.service");
 exports.AuthController = {
     async register(req, res) {
         const parsed = auth_dto_1.registerDto.safeParse(req.body);
@@ -311,7 +312,7 @@ exports.AuthController = {
             if (currentUser.role !== "admin" && currentUser.sub !== id) {
                 return res.status(403).json({ ok: false, message: "Forbidden" });
             }
-            const deleted = await auth_repository_1.AuthRepository.deleteUser(id);
+            const deleted = await privacy_service_1.PrivacyService.deleteAccount(id);
             if (!deleted)
                 return res.status(404).json({ ok: false, message: "User not found" });
             if (currentUser.sub === id)
@@ -319,10 +320,7 @@ exports.AuthController = {
             if (deleted.image) {
                 await (0, file_1.deleteUploadFile)(deleted.image);
             }
-            await activity_service_1.ActivityService.log("account_deleted", "Account deleted", { targetUserId: id }, {
-                id: currentUser.sub,
-                role: currentUser.role || null,
-            }, req);
+            await activity_service_1.ActivityService.log("account_deleted", "Account and related personal data deleted");
             return res.status(200).json({ ok: true, message: "User deleted" });
         }
         catch (err) {

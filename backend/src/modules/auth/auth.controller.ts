@@ -6,6 +6,7 @@ import { deleteUploadFile } from "../../utils/file";
 import { ActivityService } from "../activity/activity.service";
 import { isPasswordStrong, isValidObjectId } from "../../utils/security";
 import { clearSessionCookies, readCookie, REFRESH_COOKIE, setSessionCookies } from "../../utils/cookie";
+import { PrivacyService } from "../privacy/privacy.service";
 
 export const AuthController = {
   async register(req: Request, res: Response) {
@@ -328,17 +329,14 @@ export const AuthController = {
         return res.status(403).json({ ok: false, message: "Forbidden" });
       }
 
-      const deleted = await AuthRepository.deleteUser(id as string);
+      const deleted = await PrivacyService.deleteAccount(id as string);
       if (!deleted) return res.status(404).json({ ok: false, message: "User not found" });
       if (currentUser.sub === id) clearSessionCookies(res);
 
       if ((deleted as any).image) {
         await deleteUploadFile((deleted as any).image);
       }
-      await ActivityService.log("account_deleted", "Account deleted", { targetUserId: id }, {
-        id: currentUser.sub,
-        role: currentUser.role || null,
-      }, req);
+      await ActivityService.log("account_deleted", "Account and related personal data deleted");
 
       return res.status(200).json({ ok: true, message: "User deleted" });
     } catch (err) {

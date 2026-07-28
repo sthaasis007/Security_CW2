@@ -10,6 +10,7 @@ import favoriteRoutes from "./modules/favorite/favorite.route";
 import cartRoutes from "./modules/cart/cart.route";
 import activityRoutes from "./modules/activity/activity.route";
 import paymentRoutes from "./modules/payment/payment.route";
+import privacyRoutes from "./modules/privacy/privacy.route";
 import path from "path";
 import { connectDB } from "./config/db";
 import { ProductModel } from "./modules/product/product.model";
@@ -87,6 +88,7 @@ app.use("/api/favorites", favoriteRoutes);
 app.use("/api/cart", cartRoutes);
 app.use("/api/activity", activityRoutes);
 app.use("/api/payment", paymentRoutes);
+app.use("/api/privacy", privacyRoutes);
 
 app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
   console.error("Unhandled error:", err);

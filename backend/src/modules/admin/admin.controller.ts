@@ -6,6 +6,7 @@ import { isPasswordStrong, isValidObjectId } from "../../utils/security";
 import { clearSessionCookies } from "../../utils/cookie";
 import { AuthService } from "../auth/auth.service";
 import { ActivityService } from "../activity/activity.service";
+import { PrivacyService } from "../privacy/privacy.service";
 
 export const AdminController = {
   async create(req: Request, res: Response) {
@@ -155,14 +156,13 @@ export const AdminController = {
     if (!id || !isValidObjectId(id)) {
       return res.status(400).json({ ok: false, message: "Invalid user id" });
     }
-    const deleted = await AuthRepository.deleteUser(id as string);
+    const deleted = await PrivacyService.deleteAccount(id as string);
     if (!deleted) return res.status(404).json({ ok: false, message: "User not found" });
 
     if ((deleted as any).image) {
       await deleteUploadFile((deleted as any).image);
     }
     await ActivityService.log("account_deleted_by_admin", "Administrator deleted an account", {
-      targetUserId: id,
       deletedRole: (deleted as any).role,
     }, (req as any).user, req);
 

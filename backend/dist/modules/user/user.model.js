@@ -5,6 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserModel = void 0;
 const mongoose_1 = __importDefault(require("mongoose"));
+const fieldEncryption_1 = require("../../utils/fieldEncryption");
 const userSchema = new mongoose_1.default.Schema({
     name: { type: String, trim: true },
     email: { type: String, required: true, unique: true, lowercase: true, trim: true },
@@ -46,7 +47,12 @@ const userSchema = new mongoose_1.default.Schema({
     mfaChallengeAttempts: { type: Number, default: 0 },
     mfaChallengePurpose: { type: String, enum: ["login", "setup", null], default: null },
     mfaRecoveryCodeHashes: { type: [String], default: [] },
-    deviceInfo: { type: String, default: null },
-}, { timestamps: true });
+    deviceInfo: {
+        type: String,
+        default: null,
+        set: (value) => value ? (0, fieldEncryption_1.encryptField)(value, "user.deviceInfo") : value,
+        get: (value) => value ? (0, fieldEncryption_1.decryptField)(value, "user.deviceInfo") : value,
+    },
+}, { timestamps: true, toJSON: { getters: true }, toObject: { getters: true } });
 exports.UserModel = mongoose_1.default.model("User", userSchema);
 //# sourceMappingURL=user.model.js.map

@@ -87,6 +87,12 @@ export declare const UserModel: mongoose.Model<{
     id: string;
 }, {
     timestamps: true;
+    toJSON: {
+        getters: true;
+    };
+    toObject: {
+        getters: true;
+    };
 }> & Omit<{
     email: string;
     password: string;
@@ -136,6 +142,12 @@ export declare const UserModel: mongoose.Model<{
     id: string;
 }>, mongoose.Schema<any, mongoose.Model<any, any, any, any, any, any, any>, {}, {}, {}, {}, {
     timestamps: true;
+    toJSON: {
+        getters: true;
+    };
+    toObject: {
+        getters: true;
+    };
 }, {
     email: string;
     password: string;
@@ -220,8 +232,14 @@ export declare const UserModel: mongoose.Model<{
     deviceInfo?: string | null;
 } & mongoose.DefaultTimestampProps, {
     id: string;
-}, Omit<mongoose.DefaultSchemaOptions, "timestamps"> & {
+}, Omit<mongoose.DefaultSchemaOptions, "timestamps" | "toJSON" | "toObject"> & {
     timestamps: true;
+    toJSON: {
+        getters: true;
+    };
+    toObject: {
+        getters: true;
+    };
 }> & Omit<{
     email: string;
     password: string;

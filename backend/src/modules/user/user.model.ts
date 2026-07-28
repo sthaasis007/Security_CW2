@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { decryptField, encryptField } from "../../utils/fieldEncryption";
 
 const userSchema = new mongoose.Schema(
   {
@@ -42,9 +43,14 @@ const userSchema = new mongoose.Schema(
     mfaChallengeAttempts: { type: Number, default: 0 },
     mfaChallengePurpose: { type: String, enum: ["login", "setup", null], default: null },
     mfaRecoveryCodeHashes: { type: [String], default: [] },
-    deviceInfo: { type: String, default: null },
+    deviceInfo: {
+      type: String,
+      default: null,
+      set: (value: string | null) => value ? encryptField(value, "user.deviceInfo") : value,
+      get: (value: string | null) => value ? decryptField(value, "user.deviceInfo") : value,
+    },
   },
-  { timestamps: true }
+  { timestamps: true, toJSON: { getters: true }, toObject: { getters: true } }
 );
 
 export const UserModel = mongoose.model("User", userSchema);

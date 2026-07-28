@@ -11,6 +11,7 @@ const security_1 = require("../../utils/security");
 const cookie_1 = require("../../utils/cookie");
 const auth_service_1 = require("../auth/auth.service");
 const activity_service_1 = require("../activity/activity.service");
+const privacy_service_1 = require("../privacy/privacy.service");
 exports.AdminController = {
     async create(req, res) {
         try {
@@ -149,14 +150,13 @@ exports.AdminController = {
         if (!id || !(0, security_1.isValidObjectId)(id)) {
             return res.status(400).json({ ok: false, message: "Invalid user id" });
         }
-        const deleted = await auth_repository_1.AuthRepository.deleteUser(id);
+        const deleted = await privacy_service_1.PrivacyService.deleteAccount(id);
         if (!deleted)
             return res.status(404).json({ ok: false, message: "User not found" });
         if (deleted.image) {
             await (0, file_1.deleteUploadFile)(deleted.image);
         }
         await activity_service_1.ActivityService.log("account_deleted_by_admin", "Administrator deleted an account", {
-            targetUserId: id,
             deletedRole: deleted.role,
         }, req.user, req);
         return res.status(200).json({ ok: true, message: "User deleted" });

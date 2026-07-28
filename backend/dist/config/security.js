@@ -17,6 +17,15 @@ const getJwtSecret = () => {
 exports.getJwtSecret = getJwtSecret;
 const validateSecurityConfiguration = () => {
     (0, exports.getJwtSecret)();
+    if (process.env.NODE_ENV === "production") {
+        if (!process.env.CAPTCHA_SECRET?.trim()) {
+            throw new Error("CAPTCHA_SECRET is required in production");
+        }
+        const hops = Number(process.env.TRUST_PROXY_HOPS || 0);
+        if (!Number.isInteger(hops) || hops < 0) {
+            throw new Error("TRUST_PROXY_HOPS must be a non-negative integer");
+        }
+    }
 };
 exports.validateSecurityConfiguration = validateSecurityConfiguration;
 //# sourceMappingURL=security.js.map

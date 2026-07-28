@@ -22,8 +22,9 @@ dotenv_1.default.config({ path: path_1.default.resolve(process.cwd(), ".env") })
 dotenv_1.default.config({ path: path_1.default.resolve(process.cwd(), "..", ".env.local") });
 (0, security_1.validateSecurityConfiguration)();
 const app = (0, express_1.default)();
-// Trust proxy to get real client IP
-app.set("trust proxy", 1);
+// Only trust the explicitly configured number of reverse proxies. Direct deployments trust none.
+const trustedProxyHops = Number(process.env.TRUST_PROXY_HOPS || 0);
+app.set("trust proxy", Number.isInteger(trustedProxyHops) && trustedProxyHops >= 0 ? trustedProxyHops : 0);
 app.disable("x-powered-by");
 app.use((0, helmet_1.default)({
     contentSecurityPolicy: {

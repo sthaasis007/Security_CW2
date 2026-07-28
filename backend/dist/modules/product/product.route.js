@@ -7,10 +7,12 @@ const express_1 = require("express");
 const admin_middleware_1 = __importDefault(require("../../middleware/admin.middleware"));
 const upload_middleware_1 = __importDefault(require("../../middleware/upload.middleware"));
 const product_controller_1 = __importDefault(require("./product.controller"));
+const rateLimit_middleware_1 = __importDefault(require("../../middleware/rateLimit.middleware"));
 const router = (0, express_1.Router)();
-router.post("/", admin_middleware_1.default, (0, upload_middleware_1.default)("image"), product_controller_1.default.create);
+const uploadRateLimit = (0, rateLimit_middleware_1.default)({ windowMs: 60 * 60 * 1000, max: 20, keyPrefix: "product-upload" });
+router.post("/", uploadRateLimit, admin_middleware_1.default, (0, upload_middleware_1.default)("image"), product_controller_1.default.create);
 router.get("/", admin_middleware_1.default, product_controller_1.default.list);
-router.put("/:id", admin_middleware_1.default, (0, upload_middleware_1.default)("image"), product_controller_1.default.update);
+router.put("/:id", uploadRateLimit, admin_middleware_1.default, (0, upload_middleware_1.default)("image"), product_controller_1.default.update);
 router.delete("/:id", admin_middleware_1.default, product_controller_1.default.remove);
 exports.default = router;
 //# sourceMappingURL=product.route.js.map

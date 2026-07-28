@@ -1,17 +1,6 @@
-import fs from "fs";
-import path from "path";
 import { Request, Response, NextFunction } from "express";
 
 const FORBIDDEN_KEYS = new Set(["$where", "$gt", "$gte", "$lt", "$lte", "$ne", "$in", "$nin", "$regex", "$options"]);
-
-const DEBUG_LOG = path.resolve(__dirname, "..", "..", "sanitize-debug.log");
-const logDebug = (entry: string) => {
-  try {
-    fs.appendFileSync(DEBUG_LOG, `${new Date().toISOString()} ${entry}\n`);
-  } catch {
-    // ignore logging failures to avoid breaking request processing
-  }
-};
 
 const sanitizeValue = (value: any): any => {
   if (value === null || value === undefined) return value;
@@ -58,7 +47,7 @@ const safeSanitize = (target: any) => {
     return sanitizeValue(target);
   } catch (err) {
     const error = err instanceof Error ? err : new Error(String(err));
-    logDebug(JSON.stringify({ event: "sanitizeMiddleware sanitize failure", error: error.message, stack: error.stack }));
+    console.warn(JSON.stringify({ event: "sanitize_failure", error: error.message }));
     return target;
   }
 };
@@ -85,17 +74,6 @@ const sanitizeInPlace = (target: any) => {
 };
 
 export default function sanitizeMiddleware(req: Request, res: Response, next: NextFunction) {
-  const debugEntry = {
-    event: "sanitizeMiddleware incoming",
-    method: req.method,
-    path: req.path,
-    bodyType: typeof req.body,
-    body: req.body,
-    query: req.query,
-    params: req.params,
-  };
-  logDebug(JSON.stringify(debugEntry));
-
   try {
     if (req.body !== undefined && req.body !== null) {
       if (typeof req.body === "object") {
@@ -122,14 +100,9 @@ export default function sanitizeMiddleware(req: Request, res: Response, next: Ne
       event: "sanitizeMiddleware error",
       method: req.method,
       path: req.path,
-      bodyType: typeof req.body,
-      body: req.body,
-      query: req.query,
-      params: req.params,
       error: error.message,
-      stack: error.stack,
     };
-    logDebug(JSON.stringify(errorEntry));
+    console.warn(JSON.stringify(errorEntry));
     return res.status(400).json({ ok: false, message: "Invalid request parameters" });
   }
 }

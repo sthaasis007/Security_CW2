@@ -104,43 +104,6 @@ exports.AuthController = {
             return res.status(500).json({ ok: false, message: 'Server error' });
         }
     },
-    async createUser(req, res) {
-        try {
-            const { name, email, password, role } = req.body;
-            if (!name || !email || !password) {
-                return res.status(400).json({ ok: false, message: "Missing fields" });
-            }
-            if (typeof name !== "string" || typeof email !== "string" || typeof password !== "string") {
-                return res.status(400).json({ ok: false, message: "Invalid fields" });
-            }
-            if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-                return res.status(400).json({ ok: false, message: "Invalid email format" });
-            }
-            if (!(0, security_1.isPasswordStrong)(password)) {
-                return res.status(400).json({ ok: false, message: "Password does not meet complexity requirements" });
-            }
-            const existing = await auth_repository_1.AuthRepository.findByEmail(email);
-            if (existing)
-                return res.status(409).json({ ok: false, message: "Email exists" });
-            const hashed = await bcryptjs_1.default.hash(password, 12);
-            const image = req.file ? req.file.filename : undefined;
-            if (image && !(0, security_1.isSafeFilename)(image)) {
-                return res.status(400).json({ ok: false, message: "Invalid upload filename" });
-            }
-            const user = await auth_repository_1.AuthRepository.createUser({
-                name,
-                email,
-                password: hashed,
-                role: role || "user",
-                ...(image ? { image } : {}),
-            });
-            return res.status(201).json({ ok: true, message: "User created", user: { id: user._id, email: user.email, role: user.role } });
-        }
-        catch (err) {
-            console.error('AuthController.createUser error', err);
-            return res.status(500).json({ ok: false, message: "Server error" });
-        }
-    },
     async getUser(req, res) {
         try {
             const { id } = req.params;
@@ -170,7 +133,31 @@ exports.AuthController = {
             if (!id || typeof id !== "string" || !(0, security_1.isValidObjectId)(id)) {
                 return res.status(400).json({ ok: false, message: "Invalid user id" });
             }
-            const body = { ...req.body };
+            const submittedFields = Object.keys(req.body || {});
+            const allowedFields = new Set(["name", "email", "password"]);
+            if (submittedFields.some((field) => !allowedFields.has(field))) {
+                return res.status(400).json({ ok: false, message: "Unsupported profile fields" });
+            }
+            const body = {};
+            if (req.body?.name !== undefined) {
+                if (typeof req.body.name !== "string" || !req.body.name.trim() || req.body.name.trim().length > 80) {
+                    return res.status(400).json({ ok: false, message: "Invalid name" });
+                }
+                body.name = req.body.name.trim();
+            }
+            if (req.body?.email !== undefined) {
+                const email = typeof req.body.email === "string" ? req.body.email.trim().toLowerCase() : "";
+                if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || email.length > 254) {
+                    return res.status(400).json({ ok: false, message: "Invalid email" });
+                }
+                body.email = email;
+            }
+            if (req.body?.password !== undefined) {
+                if (typeof req.body.password !== "string") {
+                    return res.status(400).json({ ok: false, message: "Invalid password" });
+                }
+                body.password = req.body.password;
+            }
             if (body.password) {
                 if (!(0, security_1.isPasswordStrong)(body.password)) {
                     return res.status(400).json({ ok: false, message: "Password does not meet complexity requirements" });

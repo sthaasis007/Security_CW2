@@ -4,6 +4,6 @@ export interface JwtPayloadExtended {
     email: string;
     role: string;
 }
-export declare const adminOnly: (req: Request, res: Response, next: NextFunction) => Response<any, Record<string, any>> | undefined;
+export declare const adminOnly: (req: Request, res: Response, next: NextFunction) => Promise<Response<any, Record<string, any>> | undefined>;
 export default adminOnly;
 //# sourceMappingURL=admin.middleware.d.ts.map

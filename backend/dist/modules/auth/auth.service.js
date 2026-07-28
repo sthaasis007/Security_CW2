@@ -10,9 +10,9 @@ const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const auth_repository_1 = require("./auth.repository");
 const activity_service_1 = require("../activity/activity.service");
 const security_1 = require("../../utils/security");
+const security_2 = require("../../config/security");
 const signToken = (payload, expiresIn) => {
-    const secret = process.env.JWT_SECRET || "change_me_local_secret";
-    return jsonwebtoken_1.default.sign(payload, secret, { expiresIn });
+    return jsonwebtoken_1.default.sign(payload, (0, security_2.getJwtSecret)(), { expiresIn });
 };
 exports.AuthService = {
     async register(data) {

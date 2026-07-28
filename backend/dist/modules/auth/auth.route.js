@@ -13,8 +13,6 @@ router.post("/register", auth_controller_1.AuthController.register);
 router.post("/login", auth_controller_1.AuthController.login);
 router.post("/logout", auth_middleware_1.default, auth_controller_1.AuthController.logout);
 router.post("/refresh", auth_controller_1.AuthController.refreshToken);
-// Create user via FormData (used by admin frontend creation form)
-router.post("/user", (0, upload_middleware_1.default)("image"), auth_controller_1.AuthController.createUser);
 // Update user (allow image upload)
 router.put("/:id", auth_middleware_1.default, ownership_middleware_1.default, (0, upload_middleware_1.default)("image"), auth_controller_1.AuthController.updateUser);
 // Delete user account

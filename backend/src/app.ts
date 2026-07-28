@@ -13,11 +13,11 @@ import paymentRoutes from "./modules/payment/payment.route";
 import path from "path";
 import { connectDB } from "./config/db";
 import { ProductModel } from "./modules/product/product.model";
-import { UserModel } from "./modules/user/user.model";
-import bcrypt from "bcryptjs";
+import { validateSecurityConfiguration } from "./config/security";
 
 dotenv.config({ path: path.resolve(process.cwd(), "..", ".env.local") });
 dotenv.config({ path: path.resolve(process.cwd(), ".env") });
+validateSecurityConfiguration();
 
 const app = express();
 
@@ -118,20 +118,6 @@ if (MONGO_URI) {
           console.log("✅ Sample products seeded");
         }
 
-        const adminExists = await UserModel.findOne({ role: "admin" });
-        if (!adminExists) {
-          console.log("🌱 Creating default admin user (email: admin@local.com, password: Admin123!)...");
-          const hashed = await bcrypt.hash("Admin123!", 12);
-          await UserModel.create({ name: "Admin", email: "admin@local.com", password: hashed, role: "admin", passwordHistory: [{ hash: hashed, changedAt: new Date() }] } as any);
-          console.log("✅ Admin user created");
-        } else {
-          // If an admin exists but has an invalid email like 'admin@local', update it to a valid address
-          if (!adminExists.email.includes('.')) {
-            console.log("🔧 Updating existing admin email to admin@local.com for compatibility...");
-            await UserModel.findByIdAndUpdate(adminExists._id, { email: 'admin@local.com' });
-            console.log("✅ Admin email updated");
-          }
-        }
       } catch (seedErr) {
         console.error("❌ Error during seeding:", seedErr);
       }

@@ -5,7 +5,7 @@ import bcrypt from "bcryptjs";
 import { AuthRepository } from "./auth.repository";
 import { deleteUploadFile } from "../../utils/file";
 import { ActivityService } from "../activity/activity.service";
-import { isPasswordStrong, isSafeFilename, isValidObjectId } from "../../utils/security";
+import { isPasswordStrong, isValidObjectId } from "../../utils/security";
 
 export const AuthController = {
   async register(req: Request, res: Response) {
@@ -104,46 +104,6 @@ export const AuthController = {
     }
   },
 
-  async createUser(req: Request, res: Response) {
-    try {
-      const { name, email, password, role } = req.body as any;
-      if (!name || !email || !password) {
-        return res.status(400).json({ ok: false, message: "Missing fields" });
-      }
-      if (typeof name !== "string" || typeof email !== "string" || typeof password !== "string") {
-        return res.status(400).json({ ok: false, message: "Invalid fields" });
-      }
-      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-        return res.status(400).json({ ok: false, message: "Invalid email format" });
-      }
-      if (!isPasswordStrong(password)) {
-        return res.status(400).json({ ok: false, message: "Password does not meet complexity requirements" });
-      }
-
-      const existing = await AuthRepository.findByEmail(email);
-      if (existing) return res.status(409).json({ ok: false, message: "Email exists" });
-
-      const hashed = await bcrypt.hash(password, 12);
-      const image = (req as any).file ? (req as any).file.filename : undefined;
-      if (image && !isSafeFilename(image)) {
-        return res.status(400).json({ ok: false, message: "Invalid upload filename" });
-      }
-
-      const user = await AuthRepository.createUser({
-        name,
-        email,
-        password: hashed,
-        role: role || "user",
-        ...(image ? { image } : {}),
-      } as any);
-
-      return res.status(201).json({ ok: true, message: "User created", user: { id: user._id, email: user.email, role: user.role } });
-    } catch (err) {
-      console.error('AuthController.createUser error', err);
-      return res.status(500).json({ ok: false, message: "Server error" });
-    }
-  },
-
   async getUser(req: Request, res: Response) {
     try {
       const { id } = req.params;
@@ -176,7 +136,32 @@ export const AuthController = {
         return res.status(400).json({ ok: false, message: "Invalid user id" });
       }
 
-      const body = { ...req.body } as any;
+      const submittedFields = Object.keys(req.body || {});
+      const allowedFields = new Set(["name", "email", "password"]);
+      if (submittedFields.some((field) => !allowedFields.has(field))) {
+        return res.status(400).json({ ok: false, message: "Unsupported profile fields" });
+      }
+
+      const body: { name?: string; email?: string; password?: string; image?: string } = {};
+      if (req.body?.name !== undefined) {
+        if (typeof req.body.name !== "string" || !req.body.name.trim() || req.body.name.trim().length > 80) {
+          return res.status(400).json({ ok: false, message: "Invalid name" });
+        }
+        body.name = req.body.name.trim();
+      }
+      if (req.body?.email !== undefined) {
+        const email = typeof req.body.email === "string" ? req.body.email.trim().toLowerCase() : "";
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || email.length > 254) {
+          return res.status(400).json({ ok: false, message: "Invalid email" });
+        }
+        body.email = email;
+      }
+      if (req.body?.password !== undefined) {
+        if (typeof req.body.password !== "string") {
+          return res.status(400).json({ ok: false, message: "Invalid password" });
+        }
+        body.password = req.body.password;
+      }
       if (body.password) {
         if (!isPasswordStrong(body.password)) {
           return res.status(400).json({ ok: false, message: "Password does not meet complexity requirements" });

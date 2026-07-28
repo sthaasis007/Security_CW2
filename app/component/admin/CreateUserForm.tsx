@@ -52,7 +52,7 @@ export default function CreateUserForm() {
       fd.append("role", formData.role);
       if (image) fd.append("image", image);
 
-      const response = await apiFetch(`/api/auth/user`, {
+      const response = await apiFetch(`/api/admin/users`, {
         method: "POST",
         body: fd,
       });

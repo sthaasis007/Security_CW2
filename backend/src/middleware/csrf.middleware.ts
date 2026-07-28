@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
 import { AuthRepository } from "../modules/auth/auth.repository";
+import { getJwtSecret } from "../config/security";
 
 // Validate CSRF token for authenticated state-changing requests.
 export default async function csrfMiddleware(req: Request, res: Response, next: NextFunction) {
@@ -15,9 +16,8 @@ export default async function csrfMiddleware(req: Request, res: Response, next: 
   try {
     if (auth && auth.startsWith("Bearer ")) {
       const raw = auth.split(" ")[1];
-      const secret = (process.env.JWT_SECRET || "change_me_local_secret") as string;
       if (raw) {
-        const payload: any = jwt.verify(raw, secret as jwt.Secret);
+        const payload: any = jwt.verify(raw, getJwtSecret() as jwt.Secret);
         userId = payload.sub || payload.id || null;
       }
     }

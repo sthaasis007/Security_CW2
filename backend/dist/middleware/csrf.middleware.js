@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = csrfMiddleware;
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const auth_repository_1 = require("../modules/auth/auth.repository");
+const security_1 = require("../config/security");
 // Validate CSRF token for authenticated state-changing requests.
 async function csrfMiddleware(req, res, next) {
     const method = req.method.toUpperCase();
@@ -18,9 +19,8 @@ async function csrfMiddleware(req, res, next) {
     try {
         if (auth && auth.startsWith("Bearer ")) {
             const raw = auth.split(" ")[1];
-            const secret = (process.env.JWT_SECRET || "change_me_local_secret");
             if (raw) {
-                const payload = jsonwebtoken_1.default.verify(raw, secret);
+                const payload = jsonwebtoken_1.default.verify(raw, (0, security_1.getJwtSecret)());
                 userId = payload.sub || payload.id || null;
             }
         }

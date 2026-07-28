@@ -5,10 +5,10 @@ import { AuthRepository } from "./auth.repository";
 import { LoginDto, RegisterDto } from "./auth.dto";
 import { ActivityService } from "../activity/activity.service";
 import { isPasswordStrong, hashSecret, getPasswordExpiryDays } from "../../utils/security";
+import { getJwtSecret } from "../../config/security";
 
 const signToken = (payload: object, expiresIn: string) => {
-  const secret = process.env.JWT_SECRET || "change_me_local_secret";
-  return jwt.sign(payload, secret, { expiresIn } as jwt.SignOptions);
+  return jwt.sign(payload, getJwtSecret(), { expiresIn } as jwt.SignOptions);
 };
 
 export const AuthService = {

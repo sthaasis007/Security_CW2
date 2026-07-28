@@ -4,7 +4,8 @@ export interface CreateUserData {
   name: string;
   email: string;
   password: string;
-  role: "user" | "admin" | string;
+  role: "user" | "admin";
+  image?: string;
 }
 
 export const AuthRepository = {
@@ -19,7 +20,7 @@ export const AuthRepository = {
   findById: (id: string) => UserModel.findById(id),
   findByResetToken: (tokenHash: string) => UserModel.findOne({ resetPasswordToken: tokenHash }),
   findAll: () => UserModel.find().select("-password").lean(),
-  updateUser: (id: string, data: Partial<CreateUserData & { image?: string }>) =>
+  updateUser: (id: string, data: Partial<CreateUserData>) =>
     UserModel.findByIdAndUpdate(id, data, { new: true }).select("-password"),
   setResetToken: (id: string, tokenHash: string, expiresAt: Date) =>
     UserModel.findByIdAndUpdate(id, {

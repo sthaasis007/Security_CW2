@@ -17,10 +17,10 @@ const payment_route_1 = __importDefault(require("./modules/payment/payment.route
 const path_1 = __importDefault(require("path"));
 const db_1 = require("./config/db");
 const product_model_1 = require("./modules/product/product.model");
-const user_model_1 = require("./modules/user/user.model");
-const bcryptjs_1 = __importDefault(require("bcryptjs"));
+const security_1 = require("./config/security");
 dotenv_1.default.config({ path: path_1.default.resolve(process.cwd(), "..", ".env.local") });
 dotenv_1.default.config({ path: path_1.default.resolve(process.cwd(), ".env") });
+(0, security_1.validateSecurityConfiguration)();
 const app = (0, express_1.default)();
 // Trust proxy to get real client IP
 app.set("trust proxy", 1);
@@ -102,21 +102,6 @@ if (MONGO_URI) {
                     { name: "Blue Hoodie", price: 3999, description: "Cozy hoodie", placements: ["bestseller"], displayOrder: 2, image: "blue-hoodie.jpg" },
                 ]);
                 console.log("✅ Sample products seeded");
-            }
-            const adminExists = await user_model_1.UserModel.findOne({ role: "admin" });
-            if (!adminExists) {
-                console.log("🌱 Creating default admin user (email: admin@local.com, password: Admin123!)...");
-                const hashed = await bcryptjs_1.default.hash("Admin123!", 12);
-                await user_model_1.UserModel.create({ name: "Admin", email: "admin@local.com", password: hashed, role: "admin", passwordHistory: [{ hash: hashed, changedAt: new Date() }] });
-                console.log("✅ Admin user created");
-            }
-            else {
-                // If an admin exists but has an invalid email like 'admin@local', update it to a valid address
-                if (!adminExists.email.includes('.')) {
-                    console.log("🔧 Updating existing admin email to admin@local.com for compatibility...");
-                    await user_model_1.UserModel.findByIdAndUpdate(adminExists._id, { email: 'admin@local.com' });
-                    console.log("✅ Admin email updated");
-                }
             }
         }
         catch (seedErr) {

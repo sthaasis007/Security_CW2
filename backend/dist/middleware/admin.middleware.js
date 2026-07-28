@@ -5,20 +5,34 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.adminOnly = void 0;
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
-const getJwtSecret = () => (process.env.JWT_SECRET || "change_me_local_secret");
-const adminOnly = (req, res, next) => {
+const auth_repository_1 = require("../modules/auth/auth.repository");
+const security_1 = require("../utils/security");
+const security_2 = require("../config/security");
+const adminOnly = async (req, res, next) => {
     const auth = req.headers.authorization;
     if (!auth || !auth.startsWith("Bearer ")) {
         return res.status(401).json({ ok: false, message: "Unauthorized" });
     }
     const token = auth.split(" ")[1];
     try {
-        const payload = jsonwebtoken_1.default.verify(token, getJwtSecret());
-        if (payload.role !== "admin") {
+        const payload = jsonwebtoken_1.default.verify(token, (0, security_2.getJwtSecret)());
+        if (!payload.sub || !(0, security_1.isValidObjectId)(payload.sub)) {
+            return res.status(401).json({ ok: false, message: "Unauthorized" });
+        }
+        const user = await auth_repository_1.AuthRepository.findById(payload.sub);
+        if (!user) {
+            return res.status(401).json({ ok: false, message: "Unauthorized" });
+        }
+        if (user.role !== "admin") {
             return res.status(403).json({ ok: false, message: "Forbidden: admin only" });
         }
-        // attach user info to request for downstream usage
-        req.user = payload;
+        req.user = {
+            id: payload.sub,
+            sub: payload.sub,
+            email: user.email,
+            username: user.name || null,
+            role: user.role,
+        };
         next();
     }
     catch (_err) {

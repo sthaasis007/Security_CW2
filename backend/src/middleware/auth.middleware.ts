@@ -3,8 +3,7 @@ import jwt from "jsonwebtoken";
 import type { JwtPayloadExtended } from "./admin.middleware";
 import { AuthRepository } from "../modules/auth/auth.repository";
 import { isValidObjectId } from "../utils/security";
-
-const getJwtSecret = () => (process.env.JWT_SECRET || "change_me_local_secret") as string;
+import { getJwtSecret } from "../config/security";
 
 export const authOnly = async (req: Request, res: Response, next: NextFunction) => {
   const auth = req.headers.authorization;
@@ -21,13 +20,16 @@ export const authOnly = async (req: Request, res: Response, next: NextFunction) 
     }
 
     const user = await AuthRepository.findById(payload.sub);
+    if (!user) {
+      return res.status(401).json({ ok: false, message: "Unauthorized" });
+    }
 
     (req as any).user = {
-      ...payload,
       id: payload.sub,
       sub: payload.sub,
-      username: user?.name || null,
-      role: payload.role || user?.role || "user",
+      email: user.email,
+      username: user.name || null,
+      role: user.role,
     };
     next();
   } catch (_err) {

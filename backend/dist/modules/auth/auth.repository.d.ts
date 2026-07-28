@@ -2,7 +2,8 @@ export interface CreateUserData {
     name: string;
     email: string;
     password: string;
-    role: "user" | "admin" | string;
+    role: "user" | "admin";
+    image?: string;
 }
 export declare const AuthRepository: {
     findByEmail: (email: string) => import("mongoose").Query<(import("mongoose").Document<unknown, {}, {
@@ -844,9 +845,7 @@ export declare const AuthRepository: {
     }, "find", {
         id: string;
     }>;
-    updateUser: (id: string, data: Partial<CreateUserData & {
-        image?: string;
-    }>) => import("mongoose").Query<(import("mongoose").Document<unknown, {}, {
+    updateUser: (id: string, data: Partial<CreateUserData>) => import("mongoose").Query<(import("mongoose").Document<unknown, {}, {
         email: string;
         password: string;
         passwordHistory: import("mongoose").Types.DocumentArray<{

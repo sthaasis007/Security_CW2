@@ -18,8 +18,8 @@ const path_1 = __importDefault(require("path"));
 const db_1 = require("./config/db");
 const product_model_1 = require("./modules/product/product.model");
 const security_1 = require("./config/security");
-dotenv_1.default.config({ path: path_1.default.resolve(process.cwd(), "..", ".env.local") });
 dotenv_1.default.config({ path: path_1.default.resolve(process.cwd(), ".env") });
+dotenv_1.default.config({ path: path_1.default.resolve(process.cwd(), "..", ".env.local") });
 (0, security_1.validateSecurityConfiguration)();
 const app = (0, express_1.default)();
 // Trust proxy to get real client IP
@@ -54,7 +54,6 @@ app.use((0, cors_1.default)({ origin: process.env.FRONTEND_URL || "http://localh
 app.use(express_1.default.json({ limit: "100kb" }));
 app.use(express_1.default.urlencoded({ extended: true, limit: "100kb" }));
 const sanitize_middleware_1 = __importDefault(require("./middleware/sanitize.middleware"));
-const rateLimit_middleware_1 = __importDefault(require("./middleware/rateLimit.middleware"));
 const csrf_middleware_1 = __importDefault(require("./middleware/csrf.middleware"));
 // Sanitize all incoming requests to mitigate NoSQL injection vectors
 app.use(sanitize_middleware_1.default);
@@ -68,9 +67,7 @@ app.use("/uploads", (req, res, next) => {
     next();
 }, express_1.default.static(path_1.default.join(process.cwd(), "backend", "uploads")));
 app.get("/", (_req, res) => res.json({ message: "EverBlue API running" }));
-// Apply auth-specific rate limiting: max 6 requests per 15 minutes for sensitive endpoints
-const authRateLimiter = (0, rateLimit_middleware_1.default)({ windowMs: 15 * 60 * 1000, max: 6, keyPrefix: "auth" });
-app.use("/api/auth", authRateLimiter, auth_route_1.default);
+app.use("/api/auth", auth_route_1.default);
 // Apply CSRF protection to authenticated state-changing requests for API routes
 app.use("/api", csrf_middleware_1.default);
 app.use("/api/admin", admin_route_1.default);

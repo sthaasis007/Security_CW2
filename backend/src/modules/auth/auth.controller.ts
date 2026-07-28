@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { registerDto, loginDto } from "./auth.dto";
+import { registerDto, loginDto, mfaDisableDto, mfaVerifyDto } from "./auth.dto";
 import { AuthService } from "./auth.service";
 import bcrypt from "bcryptjs";
 import { AuthRepository } from "./auth.repository";
@@ -36,7 +36,15 @@ export const AuthController = {
       });
     }
 
-    const result = await AuthService.login(parsed.data);
+    const result: any = await AuthService.login(parsed.data);
+    if ((result as any).mfaRequired) {
+      return res.status(result.status).json({
+        ok: true,
+        mfaRequired: true,
+        challengeToken: (result as any).challengeToken,
+        message: result.message,
+      });
+    }
     if (result.ok && result.accessToken && result.refreshToken && result.csrfToken) {
       if (!result.accessToken || !result.refreshToken || !result.csrfToken) {
         clearSessionCookies(res);
@@ -95,6 +103,43 @@ export const AuthController = {
     }
   },
 
+  async verifyLoginMfa(req: Request, res: Response) {
+    const parsed = mfaVerifyDto.safeParse(req.body);
+    if (!parsed.success) return res.status(400).json({ ok: false, message: "Invalid MFA request" });
+    const result: any = await AuthService.verifyLoginMfa(parsed.data.challengeToken, parsed.data.code);
+    if (!result.ok || !result.accessToken || !result.refreshToken || !result.csrfToken) {
+      return res.status(result.status).json({ ok: false, message: result.message });
+    }
+    setSessionCookies(res, result);
+    return res.status(200).json({ ok: true, message: result.message, user: result.user });
+  },
+
+  async beginMfaSetup(req: Request, res: Response) {
+    const userId = (req as any).user?.id as string | undefined;
+    if (!userId) return res.status(401).json({ ok: false, message: "Unauthorized" });
+    const result = await AuthService.beginMfaSetup(userId);
+    return res.status(result.status).json(result);
+  },
+
+  async confirmMfaSetup(req: Request, res: Response) {
+    const userId = (req as any).user?.id as string | undefined;
+    if (!userId) return res.status(401).json({ ok: false, message: "Unauthorized" });
+    const parsed = mfaVerifyDto.safeParse(req.body);
+    if (!parsed.success) return res.status(400).json({ ok: false, message: "Invalid MFA request" });
+    const result = await AuthService.confirmMfaSetup(userId, parsed.data.challengeToken, parsed.data.code);
+    return res.status(result.status).json(result);
+  },
+
+  async disableMfa(req: Request, res: Response) {
+    const userId = (req as any).user?.id as string | undefined;
+    if (!userId) return res.status(401).json({ ok: false, message: "Unauthorized" });
+    const parsed = mfaDisableDto.safeParse(req.body);
+    if (!parsed.success) return res.status(400).json({ ok: false, message: "Password is required" });
+    const result = await AuthService.disableMfa(userId, parsed.data.password);
+    if (result.ok) clearSessionCookies(res);
+    return res.status(result.status).json(result);
+  },
+
   async session(req: Request, res: Response) {
     res.setHeader("Cache-Control", "no-store");
     const currentUser = (req as any).user;
@@ -134,6 +179,7 @@ export const AuthController = {
         email: user.email,
         role: user.role,
         image: user.image,
+        mfaEnabled: Boolean((user as any).mfaEnabled),
       };
 
       return res.status(200).json({ ok: true, user: safeUser });
@@ -212,6 +258,7 @@ export const AuthController = {
         email: updated.email,
         role: updated.role,
         image: updated.image,
+        mfaEnabled: Boolean((updated as any).mfaEnabled),
       };
 
       await ActivityService.log(

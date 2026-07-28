@@ -9,9 +9,16 @@ const upload_middleware_1 = __importDefault(require("../../middleware/upload.mid
 const auth_middleware_1 = __importDefault(require("../../middleware/auth.middleware"));
 const ownership_middleware_1 = __importDefault(require("../../middleware/ownership.middleware"));
 const csrf_middleware_1 = __importDefault(require("../../middleware/csrf.middleware"));
+const rateLimit_middleware_1 = __importDefault(require("../../middleware/rateLimit.middleware"));
 const router = (0, express_1.Router)();
-router.post("/register", auth_controller_1.AuthController.register);
-router.post("/login", auth_controller_1.AuthController.login);
+const authAttemptRateLimit = (0, rateLimit_middleware_1.default)({ windowMs: 15 * 60 * 1000, max: 6, keyPrefix: "auth-attempt" });
+const mfaRateLimit = (0, rateLimit_middleware_1.default)({ windowMs: 10 * 60 * 1000, max: 5, keyPrefix: "mfa" });
+router.post("/register", authAttemptRateLimit, auth_controller_1.AuthController.register);
+router.post("/login", authAttemptRateLimit, auth_controller_1.AuthController.login);
+router.post("/mfa/login/verify", mfaRateLimit, auth_controller_1.AuthController.verifyLoginMfa);
+router.post("/mfa/setup", mfaRateLimit, auth_middleware_1.default, csrf_middleware_1.default, auth_controller_1.AuthController.beginMfaSetup);
+router.post("/mfa/setup/verify", mfaRateLimit, auth_middleware_1.default, csrf_middleware_1.default, auth_controller_1.AuthController.confirmMfaSetup);
+router.post("/mfa/disable", mfaRateLimit, auth_middleware_1.default, csrf_middleware_1.default, auth_controller_1.AuthController.disableMfa);
 router.post("/logout", auth_middleware_1.default, csrf_middleware_1.default, auth_controller_1.AuthController.logout);
 router.post("/refresh", auth_controller_1.AuthController.refreshToken);
 router.get("/session", auth_middleware_1.default, auth_controller_1.AuthController.session);

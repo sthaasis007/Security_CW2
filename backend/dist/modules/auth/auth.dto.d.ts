@@ -16,6 +16,13 @@ export declare const resetPasswordDto: z.ZodObject<{
     token: z.ZodString;
     password: z.ZodString;
 }, z.core.$strict>;
+export declare const mfaVerifyDto: z.ZodObject<{
+    challengeToken: z.ZodString;
+    code: z.ZodString;
+}, z.core.$strict>;
+export declare const mfaDisableDto: z.ZodObject<{
+    password: z.ZodString;
+}, z.core.$strict>;
 export type RegisterDto = z.infer<typeof registerDto>;
 export type LoginDto = z.infer<typeof loginDto>;
 export type ForgotPasswordDto = z.infer<typeof forgotPasswordDto>;

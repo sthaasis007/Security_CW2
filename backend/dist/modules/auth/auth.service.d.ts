@@ -20,11 +20,29 @@ export declare const AuthService: {
         ok: boolean;
         status: number;
         message: string;
-        accessToken?: never;
-        refreshToken?: never;
-        csrfToken?: never;
-        user?: never;
+        accessToken: string;
+        refreshToken: string;
+        csrfToken: string;
+        user: {
+            id: any;
+            name: any;
+            email: any;
+            role: any;
+        };
     } | {
+        ok: boolean;
+        status: number;
+        message: string;
+        mfaRequired?: never;
+        challengeToken?: never;
+    } | {
+        ok: boolean;
+        status: number;
+        mfaRequired: boolean;
+        challengeToken: string;
+        message: string;
+    }>;
+    verifyLoginMfa(challengeToken: string, code: string): Promise<{
         ok: boolean;
         status: number;
         message: string;
@@ -37,6 +55,37 @@ export declare const AuthService: {
             email: any;
             role: any;
         };
+    } | {
+        ok: boolean;
+        status: number;
+        message: string;
+    }>;
+    beginMfaSetup(userId: string): Promise<{
+        ok: boolean;
+        status: number;
+        message: string;
+        challengeToken?: never;
+    } | {
+        ok: boolean;
+        status: number;
+        challengeToken: string;
+        message: string;
+    }>;
+    confirmMfaSetup(userId: string, challengeToken: string, code: string): Promise<{
+        ok: boolean;
+        status: number;
+        message: string;
+        recoveryCodes?: never;
+    } | {
+        ok: boolean;
+        status: number;
+        message: string;
+        recoveryCodes: string[];
+    }>;
+    disableMfa(userId: string, password: string): Promise<{
+        ok: boolean;
+        status: number;
+        message: string;
     }>;
     logout(userId: string, req?: any): Promise<{
         ok: boolean;

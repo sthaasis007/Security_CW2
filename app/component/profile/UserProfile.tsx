@@ -22,6 +22,8 @@ export default function UserProfile() {
   const [editValue, setEditValue] = useState("");
   const [isHydrated, setIsHydrated] = useState(false);
   const [userId, setUserId] = useState<string | null>(null);
+  const [mfaEnabled, setMfaEnabled] = useState(false);
+  const [recoveryCodes, setRecoveryCodes] = useState<string[]>([]);
 
   // Fetch user data on mount
   useEffect(() => {
@@ -39,6 +41,7 @@ export default function UserProfile() {
         const data = await res.json();
         const user = data.user || data;
         setFormData({ name: user.name || "", email: user.email || "" });
+        setMfaEnabled(Boolean(user.mfaEnabled));
         if (user.image) setCurrentImage(buildUserImageUrl(user.image));
       } catch (err) {
         setError("Failed to load profile data");
@@ -183,6 +186,50 @@ export default function UserProfile() {
       router.push("/login");
     } catch (err) {
       setError(err instanceof Error ? err.message : "An error occurred");
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
+  const handleEnableMfa = async () => {
+    setIsSaving(true);
+    setError("");
+    try {
+      const beginResponse = await apiFetch("/api/auth/mfa/setup", { method: "POST" });
+      const begin = await beginResponse.json().catch(() => ({}));
+      if (!beginResponse.ok) throw new Error(begin.message || "Unable to start MFA setup");
+      const code = window.prompt("Enter the six-digit security code sent to your email");
+      if (!code) return;
+      const verifyResponse = await apiFetch("/api/auth/mfa/setup/verify", {
+        method: "POST",
+        body: JSON.stringify({ challengeToken: begin.challengeToken, code }),
+      });
+      const verified = await verifyResponse.json().catch(() => ({}));
+      if (!verifyResponse.ok) throw new Error(verified.message || "Invalid security code");
+      setMfaEnabled(true);
+      setRecoveryCodes(verified.recoveryCodes || []);
+      setSuccess("Multi-factor authentication is enabled. Save the recovery codes now.");
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Unable to enable MFA");
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
+  const handleDisableMfa = async () => {
+    const password = window.prompt("Enter your password to disable MFA");
+    if (!password) return;
+    setIsSaving(true);
+    try {
+      const response = await apiFetch("/api/auth/mfa/disable", {
+        method: "POST",
+        body: JSON.stringify({ password }),
+      });
+      const body = await response.json().catch(() => ({}));
+      if (!response.ok) throw new Error(body.message || "Unable to disable MFA");
+      router.push("/login");
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Unable to disable MFA");
     } finally {
       setIsSaving(false);
     }
@@ -340,6 +387,15 @@ export default function UserProfile() {
 
         {/* Delete Account */}
         <div className={styles.deleteSection}>
+          <button className={styles.deleteBtn} onClick={mfaEnabled ? handleDisableMfa : handleEnableMfa} disabled={isSaving}>
+            {mfaEnabled ? "Disable Email MFA" : "Enable Email MFA"}
+          </button>
+          {recoveryCodes.length > 0 && (
+            <div>
+              <strong>Recovery codes (shown once):</strong>
+              <pre>{recoveryCodes.join("\n")}</pre>
+            </div>
+          )}
           <button className={styles.deleteBtn} onClick={handleLogoutAll} disabled={isSaving}>
             Log Out All Devices
           </button>

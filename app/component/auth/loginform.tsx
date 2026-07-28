@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, type FormEvent } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { loginSchema, LoginSchema } from "../../lib/validations/auth.schema";
@@ -14,6 +14,8 @@ export default function LoginForm() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [mfaChallenge, setMfaChallenge] = useState<string | null>(null);
+  const [mfaCode, setMfaCode] = useState("");
 
   const {
     register,
@@ -32,6 +34,10 @@ export default function LoginForm() {
 
       const body = await res.json().catch(() => ({}));
       if (res.ok) {
+        if (body.mfaRequired && body.challengeToken) {
+          setMfaChallenge(body.challengeToken);
+          return;
+        }
         localStorage.removeItem("token");
         localStorage.removeItem("refreshToken");
         localStorage.removeItem("user");
@@ -56,6 +62,59 @@ export default function LoginForm() {
       setLoading(false);
     }
   };
+
+  const verifyMfa = async (event: FormEvent) => {
+    event.preventDefault();
+    if (!mfaChallenge) return;
+    setError(null);
+    setLoading(true);
+    try {
+      const response = await apiFetch("/api/auth/mfa/login/verify", {
+        method: "POST",
+        body: JSON.stringify({ challengeToken: mfaChallenge, code: mfaCode }),
+      });
+      const body = await response.json().catch(() => ({}));
+      if (!response.ok) {
+        setError(body.message || "Invalid security code");
+        return;
+      }
+      const user = await getSession();
+      if (!user) {
+        setError("MFA succeeded, but the secure session could not be created.");
+        return;
+      }
+      router.push(user.role === "admin" ? "/admin/users" : "/auth/dashboard");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (mfaChallenge) {
+    return (
+      <form onSubmit={verifyMfa} className="space-y-4">
+        {error && <div className="text-sm text-red-600">{error}</div>}
+        <p className="text-sm text-slate-600">
+          Enter the six-digit code sent to your email, or use one recovery code.
+        </p>
+        <Input
+          label="Security code"
+          value={mfaCode}
+          onChange={(event) => setMfaCode(event.target.value)}
+          autoComplete="one-time-code"
+          inputMode="numeric"
+        />
+        <Button type="submit" disabled={loading || mfaCode.trim().length < 6}>
+          {loading ? "Verifying..." : "Verify"}
+        </Button>
+        <button type="button" className="text-sm text-blue-600" onClick={() => {
+          setMfaChallenge(null);
+          setMfaCode("");
+        }}>
+          Back to login
+        </button>
+      </form>
+    );
+  }
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">

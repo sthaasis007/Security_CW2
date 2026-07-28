@@ -40,7 +40,11 @@ const userSchema = new mongoose_1.default.Schema({
     lockUntil: { type: Date, default: null },
     mfaEnabled: { type: Boolean, default: false },
     mfaMethod: { type: String, enum: ["none", "email"], default: "none" },
-    mfaSecret: { type: String, default: null },
+    mfaChallengeHash: { type: String, default: null },
+    mfaChallengeExpiresAt: { type: Date, default: null },
+    mfaChallengeAttempts: { type: Number, default: 0 },
+    mfaChallengePurpose: { type: String, enum: ["login", "setup", null], default: null },
+    mfaRecoveryCodeHashes: { type: [String], default: [] },
     deviceInfo: { type: String, default: null },
 }, { timestamps: true });
 exports.UserModel = mongoose_1.default.model("User", userSchema);

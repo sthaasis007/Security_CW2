@@ -19,6 +19,8 @@ export declare const UserModel: mongoose.Model<{
     loginAttempts: number;
     mfaEnabled: boolean;
     mfaMethod: "email" | "none";
+    mfaChallengeAttempts: number;
+    mfaRecoveryCodeHashes: string[];
     name?: string | null;
     image?: string | null;
     passwordChangedAt?: NativeDate | null;
@@ -33,7 +35,9 @@ export declare const UserModel: mongoose.Model<{
     csrfTokenExpiresAt?: NativeDate | null;
     lastLoginAt?: NativeDate | null;
     lockUntil?: NativeDate | null;
-    mfaSecret?: string | null;
+    mfaChallengeHash?: string | null;
+    mfaChallengeExpiresAt?: NativeDate | null;
+    mfaChallengePurpose?: "login" | "setup" | null;
     deviceInfo?: string | null;
 } & mongoose.DefaultTimestampProps, {}, {}, {
     id: string;
@@ -57,6 +61,8 @@ export declare const UserModel: mongoose.Model<{
     loginAttempts: number;
     mfaEnabled: boolean;
     mfaMethod: "email" | "none";
+    mfaChallengeAttempts: number;
+    mfaRecoveryCodeHashes: string[];
     name?: string | null;
     image?: string | null;
     passwordChangedAt?: NativeDate | null;
@@ -71,7 +77,9 @@ export declare const UserModel: mongoose.Model<{
     csrfTokenExpiresAt?: NativeDate | null;
     lastLoginAt?: NativeDate | null;
     lockUntil?: NativeDate | null;
-    mfaSecret?: string | null;
+    mfaChallengeHash?: string | null;
+    mfaChallengeExpiresAt?: NativeDate | null;
+    mfaChallengePurpose?: "login" | "setup" | null;
     deviceInfo?: string | null;
 } & mongoose.DefaultTimestampProps, {
     id: string;
@@ -97,6 +105,8 @@ export declare const UserModel: mongoose.Model<{
     loginAttempts: number;
     mfaEnabled: boolean;
     mfaMethod: "email" | "none";
+    mfaChallengeAttempts: number;
+    mfaRecoveryCodeHashes: string[];
     name?: string | null;
     image?: string | null;
     passwordChangedAt?: NativeDate | null;
@@ -111,7 +121,9 @@ export declare const UserModel: mongoose.Model<{
     csrfTokenExpiresAt?: NativeDate | null;
     lastLoginAt?: NativeDate | null;
     lockUntil?: NativeDate | null;
-    mfaSecret?: string | null;
+    mfaChallengeHash?: string | null;
+    mfaChallengeExpiresAt?: NativeDate | null;
+    mfaChallengePurpose?: "login" | "setup" | null;
     deviceInfo?: string | null;
 } & mongoose.DefaultTimestampProps & {
     _id: mongoose.Types.ObjectId;
@@ -141,6 +153,8 @@ export declare const UserModel: mongoose.Model<{
     loginAttempts: number;
     mfaEnabled: boolean;
     mfaMethod: "email" | "none";
+    mfaChallengeAttempts: number;
+    mfaRecoveryCodeHashes: string[];
     name?: string | null;
     image?: string | null;
     passwordChangedAt?: NativeDate | null;
@@ -155,7 +169,9 @@ export declare const UserModel: mongoose.Model<{
     csrfTokenExpiresAt?: NativeDate | null;
     lastLoginAt?: NativeDate | null;
     lockUntil?: NativeDate | null;
-    mfaSecret?: string | null;
+    mfaChallengeHash?: string | null;
+    mfaChallengeExpiresAt?: NativeDate | null;
+    mfaChallengePurpose?: "login" | "setup" | null;
     deviceInfo?: string | null;
 } & mongoose.DefaultTimestampProps, mongoose.Document<unknown, {}, {
     email: string;
@@ -177,6 +193,8 @@ export declare const UserModel: mongoose.Model<{
     loginAttempts: number;
     mfaEnabled: boolean;
     mfaMethod: "email" | "none";
+    mfaChallengeAttempts: number;
+    mfaRecoveryCodeHashes: string[];
     name?: string | null;
     image?: string | null;
     passwordChangedAt?: NativeDate | null;
@@ -191,7 +209,9 @@ export declare const UserModel: mongoose.Model<{
     csrfTokenExpiresAt?: NativeDate | null;
     lastLoginAt?: NativeDate | null;
     lockUntil?: NativeDate | null;
-    mfaSecret?: string | null;
+    mfaChallengeHash?: string | null;
+    mfaChallengeExpiresAt?: NativeDate | null;
+    mfaChallengePurpose?: "login" | "setup" | null;
     deviceInfo?: string | null;
 } & mongoose.DefaultTimestampProps, {
     id: string;
@@ -217,6 +237,8 @@ export declare const UserModel: mongoose.Model<{
     loginAttempts: number;
     mfaEnabled: boolean;
     mfaMethod: "email" | "none";
+    mfaChallengeAttempts: number;
+    mfaRecoveryCodeHashes: string[];
     name?: string | null;
     image?: string | null;
     passwordChangedAt?: NativeDate | null;
@@ -231,7 +253,9 @@ export declare const UserModel: mongoose.Model<{
     csrfTokenExpiresAt?: NativeDate | null;
     lastLoginAt?: NativeDate | null;
     lockUntil?: NativeDate | null;
-    mfaSecret?: string | null;
+    mfaChallengeHash?: string | null;
+    mfaChallengeExpiresAt?: NativeDate | null;
+    mfaChallengePurpose?: "login" | "setup" | null;
     deviceInfo?: string | null;
 } & mongoose.DefaultTimestampProps & {
     _id: mongoose.Types.ObjectId;
@@ -259,6 +283,8 @@ export declare const UserModel: mongoose.Model<{
     loginAttempts: number;
     mfaEnabled: boolean;
     mfaMethod: "email" | "none";
+    mfaChallengeAttempts: number;
+    mfaRecoveryCodeHashes: string[];
     name?: string | null;
     image?: string | null;
     passwordChangedAt?: NativeDate | null;
@@ -273,7 +299,9 @@ export declare const UserModel: mongoose.Model<{
     csrfTokenExpiresAt?: NativeDate | null;
     lastLoginAt?: NativeDate | null;
     lockUntil?: NativeDate | null;
-    mfaSecret?: string | null;
+    mfaChallengeHash?: string | null;
+    mfaChallengeExpiresAt?: NativeDate | null;
+    mfaChallengePurpose?: "login" | "setup" | null;
     deviceInfo?: string | null;
     createdAt: NativeDate;
     updatedAt: NativeDate;
@@ -301,6 +329,8 @@ export declare const UserModel: mongoose.Model<{
     loginAttempts: number;
     mfaEnabled: boolean;
     mfaMethod: "email" | "none";
+    mfaChallengeAttempts: number;
+    mfaRecoveryCodeHashes: string[];
     name?: string | null;
     image?: string | null;
     passwordChangedAt?: NativeDate | null;
@@ -315,7 +345,9 @@ export declare const UserModel: mongoose.Model<{
     csrfTokenExpiresAt?: NativeDate | null;
     lastLoginAt?: NativeDate | null;
     lockUntil?: NativeDate | null;
-    mfaSecret?: string | null;
+    mfaChallengeHash?: string | null;
+    mfaChallengeExpiresAt?: NativeDate | null;
+    mfaChallengePurpose?: "login" | "setup" | null;
     deviceInfo?: string | null;
     createdAt: NativeDate;
     updatedAt: NativeDate;

@@ -37,6 +37,14 @@ exports.AuthController = {
             });
         }
         const result = await auth_service_1.AuthService.login(parsed.data);
+        if (result.mfaRequired) {
+            return res.status(result.status).json({
+                ok: true,
+                mfaRequired: true,
+                challengeToken: result.challengeToken,
+                message: result.message,
+            });
+        }
         if (result.ok && result.accessToken && result.refreshToken && result.csrfToken) {
             if (!result.accessToken || !result.refreshToken || !result.csrfToken) {
                 (0, cookie_1.clearSessionCookies)(res);
@@ -93,6 +101,46 @@ exports.AuthController = {
             return res.status(500).json({ ok: false, message: 'Server error' });
         }
     },
+    async verifyLoginMfa(req, res) {
+        const parsed = auth_dto_1.mfaVerifyDto.safeParse(req.body);
+        if (!parsed.success)
+            return res.status(400).json({ ok: false, message: "Invalid MFA request" });
+        const result = await auth_service_1.AuthService.verifyLoginMfa(parsed.data.challengeToken, parsed.data.code);
+        if (!result.ok || !result.accessToken || !result.refreshToken || !result.csrfToken) {
+            return res.status(result.status).json({ ok: false, message: result.message });
+        }
+        (0, cookie_1.setSessionCookies)(res, result);
+        return res.status(200).json({ ok: true, message: result.message, user: result.user });
+    },
+    async beginMfaSetup(req, res) {
+        const userId = req.user?.id;
+        if (!userId)
+            return res.status(401).json({ ok: false, message: "Unauthorized" });
+        const result = await auth_service_1.AuthService.beginMfaSetup(userId);
+        return res.status(result.status).json(result);
+    },
+    async confirmMfaSetup(req, res) {
+        const userId = req.user?.id;
+        if (!userId)
+            return res.status(401).json({ ok: false, message: "Unauthorized" });
+        const parsed = auth_dto_1.mfaVerifyDto.safeParse(req.body);
+        if (!parsed.success)
+            return res.status(400).json({ ok: false, message: "Invalid MFA request" });
+        const result = await auth_service_1.AuthService.confirmMfaSetup(userId, parsed.data.challengeToken, parsed.data.code);
+        return res.status(result.status).json(result);
+    },
+    async disableMfa(req, res) {
+        const userId = req.user?.id;
+        if (!userId)
+            return res.status(401).json({ ok: false, message: "Unauthorized" });
+        const parsed = auth_dto_1.mfaDisableDto.safeParse(req.body);
+        if (!parsed.success)
+            return res.status(400).json({ ok: false, message: "Password is required" });
+        const result = await auth_service_1.AuthService.disableMfa(userId, parsed.data.password);
+        if (result.ok)
+            (0, cookie_1.clearSessionCookies)(res);
+        return res.status(result.status).json(result);
+    },
     async session(req, res) {
         res.setHeader("Cache-Control", "no-store");
         const currentUser = req.user;
@@ -130,6 +178,7 @@ exports.AuthController = {
                 email: user.email,
                 role: user.role,
                 image: user.image,
+                mfaEnabled: Boolean(user.mfaEnabled),
             };
             return res.status(200).json({ ok: true, user: safeUser });
         }
@@ -206,6 +255,7 @@ exports.AuthController = {
                 email: updated.email,
                 role: updated.role,
                 image: updated.image,
+                mfaEnabled: Boolean(updated.mfaEnabled),
             };
             await activity_service_1.ActivityService.log("profile_update", "User profile updated", { updatedFields: Object.keys(body) }, {
                 id: updated._id?.toString() || null,

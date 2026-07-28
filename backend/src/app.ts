@@ -55,7 +55,6 @@ app.use(express.json({ limit: "100kb" }));
 app.use(express.urlencoded({ extended: true, limit: "100kb" }));
 
 import sanitizeMiddleware from "./middleware/sanitize.middleware";
-import rateLimit from "./middleware/rateLimit.middleware";
 import csrfMiddleware from "./middleware/csrf.middleware";
 
 // Sanitize all incoming requests to mitigate NoSQL injection vectors
@@ -78,9 +77,7 @@ app.use(
 
 app.get("/", (_req, res) => res.json({ message: "EverBlue API running" }));
 
-// Apply auth-specific rate limiting: max 6 requests per 15 minutes for sensitive endpoints
-const authRateLimiter = rateLimit({ windowMs: 15 * 60 * 1000, max: 6, keyPrefix: "auth" });
-app.use("/api/auth", authRateLimiter, authRoutes);
+app.use("/api/auth", authRoutes);
 // Apply CSRF protection to authenticated state-changing requests for API routes
 app.use("/api", csrfMiddleware);
 app.use("/api/admin", adminRoutes);

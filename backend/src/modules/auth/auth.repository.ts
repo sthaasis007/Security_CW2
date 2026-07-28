@@ -100,6 +100,44 @@ export const AuthRepository = {
       csrfTokenHash: null,
       csrfTokenExpiresAt: null,
     }),
+  setMfaChallenge: (id: string, hash: string, expiresAt: Date, purpose: "login" | "setup") =>
+    UserModel.findByIdAndUpdate(id, {
+      mfaChallengeHash: hash,
+      mfaChallengeExpiresAt: expiresAt,
+      mfaChallengeAttempts: 0,
+      mfaChallengePurpose: purpose,
+    }),
+  incrementMfaAttempts: (id: string) =>
+    UserModel.findByIdAndUpdate(id, { $inc: { mfaChallengeAttempts: 1 } }, { new: true }),
+  clearMfaChallenge: (id: string) =>
+    UserModel.findByIdAndUpdate(id, {
+      mfaChallengeHash: null,
+      mfaChallengeExpiresAt: null,
+      mfaChallengeAttempts: 0,
+      mfaChallengePurpose: null,
+    }),
+  enableMfa: (id: string, recoveryCodeHashes: string[]) =>
+    UserModel.findByIdAndUpdate(id, {
+      mfaEnabled: true,
+      mfaMethod: "email",
+      mfaRecoveryCodeHashes: recoveryCodeHashes,
+      mfaChallengeHash: null,
+      mfaChallengeExpiresAt: null,
+      mfaChallengeAttempts: 0,
+      mfaChallengePurpose: null,
+    }, { new: true }),
+  disableMfa: (id: string) =>
+    UserModel.findByIdAndUpdate(id, {
+      mfaEnabled: false,
+      mfaMethod: "none",
+      mfaRecoveryCodeHashes: [],
+      mfaChallengeHash: null,
+      mfaChallengeExpiresAt: null,
+      mfaChallengeAttempts: 0,
+      mfaChallengePurpose: null,
+    }),
+  consumeRecoveryCode: (id: string, hash: string) =>
+    UserModel.findByIdAndUpdate(id, { $pull: { mfaRecoveryCodeHashes: hash } }),
   incrementLoginAttempts: (id: string) =>
     UserModel.findByIdAndUpdate(id, { $inc: { loginAttempts: 1 } }, { new: true }),
   resetLoginAttempts: (id: string) =>

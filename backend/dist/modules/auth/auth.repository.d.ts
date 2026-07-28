@@ -26,6 +26,8 @@ export declare const AuthRepository: {
         loginAttempts: number;
         mfaEnabled: boolean;
         mfaMethod: "email" | "none";
+        mfaChallengeAttempts: number;
+        mfaRecoveryCodeHashes: string[];
         name?: string | null;
         image?: string | null;
         passwordChangedAt?: NativeDate | null;
@@ -40,7 +42,9 @@ export declare const AuthRepository: {
         csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
-        mfaSecret?: string | null;
+        mfaChallengeHash?: string | null;
+        mfaChallengeExpiresAt?: NativeDate | null;
+        mfaChallengePurpose?: "login" | "setup" | null;
         deviceInfo?: string | null;
     } & import("mongoose").DefaultTimestampProps, {
         id: string;
@@ -66,6 +70,8 @@ export declare const AuthRepository: {
         loginAttempts: number;
         mfaEnabled: boolean;
         mfaMethod: "email" | "none";
+        mfaChallengeAttempts: number;
+        mfaRecoveryCodeHashes: string[];
         name?: string | null;
         image?: string | null;
         passwordChangedAt?: NativeDate | null;
@@ -80,7 +86,9 @@ export declare const AuthRepository: {
         csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
-        mfaSecret?: string | null;
+        mfaChallengeHash?: string | null;
+        mfaChallengeExpiresAt?: NativeDate | null;
+        mfaChallengePurpose?: "login" | "setup" | null;
         deviceInfo?: string | null;
     } & import("mongoose").DefaultTimestampProps & {
         _id: import("mongoose").Types.ObjectId;
@@ -108,6 +116,8 @@ export declare const AuthRepository: {
         loginAttempts: number;
         mfaEnabled: boolean;
         mfaMethod: "email" | "none";
+        mfaChallengeAttempts: number;
+        mfaRecoveryCodeHashes: string[];
         name?: string | null;
         image?: string | null;
         passwordChangedAt?: NativeDate | null;
@@ -122,7 +132,9 @@ export declare const AuthRepository: {
         csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
-        mfaSecret?: string | null;
+        mfaChallengeHash?: string | null;
+        mfaChallengeExpiresAt?: NativeDate | null;
+        mfaChallengePurpose?: "login" | "setup" | null;
         deviceInfo?: string | null;
     } & import("mongoose").DefaultTimestampProps, {
         id: string;
@@ -148,6 +160,8 @@ export declare const AuthRepository: {
         loginAttempts: number;
         mfaEnabled: boolean;
         mfaMethod: "email" | "none";
+        mfaChallengeAttempts: number;
+        mfaRecoveryCodeHashes: string[];
         name?: string | null;
         image?: string | null;
         passwordChangedAt?: NativeDate | null;
@@ -162,7 +176,9 @@ export declare const AuthRepository: {
         csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
-        mfaSecret?: string | null;
+        mfaChallengeHash?: string | null;
+        mfaChallengeExpiresAt?: NativeDate | null;
+        mfaChallengePurpose?: "login" | "setup" | null;
         deviceInfo?: string | null;
     } & import("mongoose").DefaultTimestampProps & {
         _id: import("mongoose").Types.ObjectId;
@@ -190,6 +206,8 @@ export declare const AuthRepository: {
         loginAttempts: number;
         mfaEnabled: boolean;
         mfaMethod: "email" | "none";
+        mfaChallengeAttempts: number;
+        mfaRecoveryCodeHashes: string[];
         name?: string | null;
         image?: string | null;
         passwordChangedAt?: NativeDate | null;
@@ -204,7 +222,9 @@ export declare const AuthRepository: {
         csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
-        mfaSecret?: string | null;
+        mfaChallengeHash?: string | null;
+        mfaChallengeExpiresAt?: NativeDate | null;
+        mfaChallengePurpose?: "login" | "setup" | null;
         deviceInfo?: string | null;
         createdAt: NativeDate;
         updatedAt: NativeDate;
@@ -235,6 +255,8 @@ export declare const AuthRepository: {
         loginAttempts: number;
         mfaEnabled: boolean;
         mfaMethod: "email" | "none";
+        mfaChallengeAttempts: number;
+        mfaRecoveryCodeHashes: string[];
         name?: string | null;
         image?: string | null;
         passwordChangedAt?: NativeDate | null;
@@ -249,7 +271,9 @@ export declare const AuthRepository: {
         csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
-        mfaSecret?: string | null;
+        mfaChallengeHash?: string | null;
+        mfaChallengeExpiresAt?: NativeDate | null;
+        mfaChallengePurpose?: "login" | "setup" | null;
         deviceInfo?: string | null;
     } & import("mongoose").DefaultTimestampProps, {
         id: string;
@@ -275,6 +299,8 @@ export declare const AuthRepository: {
         loginAttempts: number;
         mfaEnabled: boolean;
         mfaMethod: "email" | "none";
+        mfaChallengeAttempts: number;
+        mfaRecoveryCodeHashes: string[];
         name?: string | null;
         image?: string | null;
         passwordChangedAt?: NativeDate | null;
@@ -289,7 +315,9 @@ export declare const AuthRepository: {
         csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
-        mfaSecret?: string | null;
+        mfaChallengeHash?: string | null;
+        mfaChallengeExpiresAt?: NativeDate | null;
+        mfaChallengePurpose?: "login" | "setup" | null;
         deviceInfo?: string | null;
     } & import("mongoose").DefaultTimestampProps & {
         _id: import("mongoose").Types.ObjectId;
@@ -318,6 +346,8 @@ export declare const AuthRepository: {
         loginAttempts: number;
         mfaEnabled: boolean;
         mfaMethod: "email" | "none";
+        mfaChallengeAttempts: number;
+        mfaRecoveryCodeHashes: string[];
         name?: string | null;
         image?: string | null;
         passwordChangedAt?: NativeDate | null;
@@ -332,7 +362,9 @@ export declare const AuthRepository: {
         csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
-        mfaSecret?: string | null;
+        mfaChallengeHash?: string | null;
+        mfaChallengeExpiresAt?: NativeDate | null;
+        mfaChallengePurpose?: "login" | "setup" | null;
         deviceInfo?: string | null;
     } & import("mongoose").DefaultTimestampProps, {
         id: string;
@@ -358,6 +390,8 @@ export declare const AuthRepository: {
         loginAttempts: number;
         mfaEnabled: boolean;
         mfaMethod: "email" | "none";
+        mfaChallengeAttempts: number;
+        mfaRecoveryCodeHashes: string[];
         name?: string | null;
         image?: string | null;
         passwordChangedAt?: NativeDate | null;
@@ -372,7 +406,9 @@ export declare const AuthRepository: {
         csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
-        mfaSecret?: string | null;
+        mfaChallengeHash?: string | null;
+        mfaChallengeExpiresAt?: NativeDate | null;
+        mfaChallengePurpose?: "login" | "setup" | null;
         deviceInfo?: string | null;
     } & import("mongoose").DefaultTimestampProps & {
         _id: import("mongoose").Types.ObjectId;
@@ -400,6 +436,8 @@ export declare const AuthRepository: {
         loginAttempts: number;
         mfaEnabled: boolean;
         mfaMethod: "email" | "none";
+        mfaChallengeAttempts: number;
+        mfaRecoveryCodeHashes: string[];
         name?: string | null;
         image?: string | null;
         passwordChangedAt?: NativeDate | null;
@@ -414,7 +452,9 @@ export declare const AuthRepository: {
         csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
-        mfaSecret?: string | null;
+        mfaChallengeHash?: string | null;
+        mfaChallengeExpiresAt?: NativeDate | null;
+        mfaChallengePurpose?: "login" | "setup" | null;
         deviceInfo?: string | null;
     } & import("mongoose").DefaultTimestampProps, {
         id: string;
@@ -440,6 +480,8 @@ export declare const AuthRepository: {
         loginAttempts: number;
         mfaEnabled: boolean;
         mfaMethod: "email" | "none";
+        mfaChallengeAttempts: number;
+        mfaRecoveryCodeHashes: string[];
         name?: string | null;
         image?: string | null;
         passwordChangedAt?: NativeDate | null;
@@ -454,7 +496,9 @@ export declare const AuthRepository: {
         csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
-        mfaSecret?: string | null;
+        mfaChallengeHash?: string | null;
+        mfaChallengeExpiresAt?: NativeDate | null;
+        mfaChallengePurpose?: "login" | "setup" | null;
         deviceInfo?: string | null;
     } & import("mongoose").DefaultTimestampProps & {
         _id: import("mongoose").Types.ObjectId;
@@ -482,6 +526,8 @@ export declare const AuthRepository: {
         loginAttempts: number;
         mfaEnabled: boolean;
         mfaMethod: "email" | "none";
+        mfaChallengeAttempts: number;
+        mfaRecoveryCodeHashes: string[];
         name?: string | null;
         image?: string | null;
         passwordChangedAt?: NativeDate | null;
@@ -496,7 +542,9 @@ export declare const AuthRepository: {
         csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
-        mfaSecret?: string | null;
+        mfaChallengeHash?: string | null;
+        mfaChallengeExpiresAt?: NativeDate | null;
+        mfaChallengePurpose?: "login" | "setup" | null;
         deviceInfo?: string | null;
         createdAt: NativeDate;
         updatedAt: NativeDate;
@@ -527,6 +575,8 @@ export declare const AuthRepository: {
         loginAttempts: number;
         mfaEnabled: boolean;
         mfaMethod: "email" | "none";
+        mfaChallengeAttempts: number;
+        mfaRecoveryCodeHashes: string[];
         name?: string | null;
         image?: string | null;
         passwordChangedAt?: NativeDate | null;
@@ -541,7 +591,9 @@ export declare const AuthRepository: {
         csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
-        mfaSecret?: string | null;
+        mfaChallengeHash?: string | null;
+        mfaChallengeExpiresAt?: NativeDate | null;
+        mfaChallengePurpose?: "login" | "setup" | null;
         deviceInfo?: string | null;
     } & import("mongoose").DefaultTimestampProps, {
         id: string;
@@ -567,6 +619,8 @@ export declare const AuthRepository: {
         loginAttempts: number;
         mfaEnabled: boolean;
         mfaMethod: "email" | "none";
+        mfaChallengeAttempts: number;
+        mfaRecoveryCodeHashes: string[];
         name?: string | null;
         image?: string | null;
         passwordChangedAt?: NativeDate | null;
@@ -581,7 +635,9 @@ export declare const AuthRepository: {
         csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
-        mfaSecret?: string | null;
+        mfaChallengeHash?: string | null;
+        mfaChallengeExpiresAt?: NativeDate | null;
+        mfaChallengePurpose?: "login" | "setup" | null;
         deviceInfo?: string | null;
     } & import("mongoose").DefaultTimestampProps & {
         _id: import("mongoose").Types.ObjectId;
@@ -609,6 +665,8 @@ export declare const AuthRepository: {
         loginAttempts: number;
         mfaEnabled: boolean;
         mfaMethod: "email" | "none";
+        mfaChallengeAttempts: number;
+        mfaRecoveryCodeHashes: string[];
         name?: string | null;
         image?: string | null;
         passwordChangedAt?: NativeDate | null;
@@ -623,7 +681,9 @@ export declare const AuthRepository: {
         csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
-        mfaSecret?: string | null;
+        mfaChallengeHash?: string | null;
+        mfaChallengeExpiresAt?: NativeDate | null;
+        mfaChallengePurpose?: "login" | "setup" | null;
         deviceInfo?: string | null;
     } & import("mongoose").DefaultTimestampProps, {
         id: string;
@@ -649,6 +709,8 @@ export declare const AuthRepository: {
         loginAttempts: number;
         mfaEnabled: boolean;
         mfaMethod: "email" | "none";
+        mfaChallengeAttempts: number;
+        mfaRecoveryCodeHashes: string[];
         name?: string | null;
         image?: string | null;
         passwordChangedAt?: NativeDate | null;
@@ -663,7 +725,9 @@ export declare const AuthRepository: {
         csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
-        mfaSecret?: string | null;
+        mfaChallengeHash?: string | null;
+        mfaChallengeExpiresAt?: NativeDate | null;
+        mfaChallengePurpose?: "login" | "setup" | null;
         deviceInfo?: string | null;
     } & import("mongoose").DefaultTimestampProps & {
         _id: import("mongoose").Types.ObjectId;
@@ -691,6 +755,8 @@ export declare const AuthRepository: {
         loginAttempts: number;
         mfaEnabled: boolean;
         mfaMethod: "email" | "none";
+        mfaChallengeAttempts: number;
+        mfaRecoveryCodeHashes: string[];
         name?: string | null;
         image?: string | null;
         passwordChangedAt?: NativeDate | null;
@@ -705,7 +771,9 @@ export declare const AuthRepository: {
         csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
-        mfaSecret?: string | null;
+        mfaChallengeHash?: string | null;
+        mfaChallengeExpiresAt?: NativeDate | null;
+        mfaChallengePurpose?: "login" | "setup" | null;
         deviceInfo?: string | null;
         createdAt: NativeDate;
         updatedAt: NativeDate;
@@ -736,6 +804,8 @@ export declare const AuthRepository: {
         loginAttempts: number;
         mfaEnabled: boolean;
         mfaMethod: "email" | "none";
+        mfaChallengeAttempts: number;
+        mfaRecoveryCodeHashes: string[];
         name?: string | null;
         image?: string | null;
         passwordChangedAt?: NativeDate | null;
@@ -750,7 +820,9 @@ export declare const AuthRepository: {
         csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
-        mfaSecret?: string | null;
+        mfaChallengeHash?: string | null;
+        mfaChallengeExpiresAt?: NativeDate | null;
+        mfaChallengePurpose?: "login" | "setup" | null;
         deviceInfo?: string | null;
         createdAt: NativeDate;
         updatedAt: NativeDate;
@@ -780,6 +852,8 @@ export declare const AuthRepository: {
         loginAttempts: number;
         mfaEnabled: boolean;
         mfaMethod: "email" | "none";
+        mfaChallengeAttempts: number;
+        mfaRecoveryCodeHashes: string[];
         name?: string | null;
         image?: string | null;
         passwordChangedAt?: NativeDate | null;
@@ -794,7 +868,9 @@ export declare const AuthRepository: {
         csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
-        mfaSecret?: string | null;
+        mfaChallengeHash?: string | null;
+        mfaChallengeExpiresAt?: NativeDate | null;
+        mfaChallengePurpose?: "login" | "setup" | null;
         deviceInfo?: string | null;
     } & import("mongoose").DefaultTimestampProps, {
         id: string;
@@ -820,6 +896,8 @@ export declare const AuthRepository: {
         loginAttempts: number;
         mfaEnabled: boolean;
         mfaMethod: "email" | "none";
+        mfaChallengeAttempts: number;
+        mfaRecoveryCodeHashes: string[];
         name?: string | null;
         image?: string | null;
         passwordChangedAt?: NativeDate | null;
@@ -834,7 +912,9 @@ export declare const AuthRepository: {
         csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
-        mfaSecret?: string | null;
+        mfaChallengeHash?: string | null;
+        mfaChallengeExpiresAt?: NativeDate | null;
+        mfaChallengePurpose?: "login" | "setup" | null;
         deviceInfo?: string | null;
     } & import("mongoose").DefaultTimestampProps & {
         _id: import("mongoose").Types.ObjectId;
@@ -862,6 +942,8 @@ export declare const AuthRepository: {
         loginAttempts: number;
         mfaEnabled: boolean;
         mfaMethod: "email" | "none";
+        mfaChallengeAttempts: number;
+        mfaRecoveryCodeHashes: string[];
         name?: string | null;
         image?: string | null;
         passwordChangedAt?: NativeDate | null;
@@ -876,7 +958,9 @@ export declare const AuthRepository: {
         csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
-        mfaSecret?: string | null;
+        mfaChallengeHash?: string | null;
+        mfaChallengeExpiresAt?: NativeDate | null;
+        mfaChallengePurpose?: "login" | "setup" | null;
         deviceInfo?: string | null;
         createdAt: NativeDate;
         updatedAt: NativeDate;
@@ -907,6 +991,8 @@ export declare const AuthRepository: {
         loginAttempts: number;
         mfaEnabled: boolean;
         mfaMethod: "email" | "none";
+        mfaChallengeAttempts: number;
+        mfaRecoveryCodeHashes: string[];
         name?: string | null;
         image?: string | null;
         passwordChangedAt?: NativeDate | null;
@@ -921,7 +1007,9 @@ export declare const AuthRepository: {
         csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
-        mfaSecret?: string | null;
+        mfaChallengeHash?: string | null;
+        mfaChallengeExpiresAt?: NativeDate | null;
+        mfaChallengePurpose?: "login" | "setup" | null;
         deviceInfo?: string | null;
     } & import("mongoose").DefaultTimestampProps, {
         id: string;
@@ -947,6 +1035,8 @@ export declare const AuthRepository: {
         loginAttempts: number;
         mfaEnabled: boolean;
         mfaMethod: "email" | "none";
+        mfaChallengeAttempts: number;
+        mfaRecoveryCodeHashes: string[];
         name?: string | null;
         image?: string | null;
         passwordChangedAt?: NativeDate | null;
@@ -961,7 +1051,9 @@ export declare const AuthRepository: {
         csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
-        mfaSecret?: string | null;
+        mfaChallengeHash?: string | null;
+        mfaChallengeExpiresAt?: NativeDate | null;
+        mfaChallengePurpose?: "login" | "setup" | null;
         deviceInfo?: string | null;
     } & import("mongoose").DefaultTimestampProps & {
         _id: import("mongoose").Types.ObjectId;
@@ -989,6 +1081,8 @@ export declare const AuthRepository: {
         loginAttempts: number;
         mfaEnabled: boolean;
         mfaMethod: "email" | "none";
+        mfaChallengeAttempts: number;
+        mfaRecoveryCodeHashes: string[];
         name?: string | null;
         image?: string | null;
         passwordChangedAt?: NativeDate | null;
@@ -1003,7 +1097,9 @@ export declare const AuthRepository: {
         csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
-        mfaSecret?: string | null;
+        mfaChallengeHash?: string | null;
+        mfaChallengeExpiresAt?: NativeDate | null;
+        mfaChallengePurpose?: "login" | "setup" | null;
         deviceInfo?: string | null;
     } & import("mongoose").DefaultTimestampProps, {
         id: string;
@@ -1029,6 +1125,8 @@ export declare const AuthRepository: {
         loginAttempts: number;
         mfaEnabled: boolean;
         mfaMethod: "email" | "none";
+        mfaChallengeAttempts: number;
+        mfaRecoveryCodeHashes: string[];
         name?: string | null;
         image?: string | null;
         passwordChangedAt?: NativeDate | null;
@@ -1043,7 +1141,9 @@ export declare const AuthRepository: {
         csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
-        mfaSecret?: string | null;
+        mfaChallengeHash?: string | null;
+        mfaChallengeExpiresAt?: NativeDate | null;
+        mfaChallengePurpose?: "login" | "setup" | null;
         deviceInfo?: string | null;
     } & import("mongoose").DefaultTimestampProps & {
         _id: import("mongoose").Types.ObjectId;
@@ -1071,6 +1171,8 @@ export declare const AuthRepository: {
         loginAttempts: number;
         mfaEnabled: boolean;
         mfaMethod: "email" | "none";
+        mfaChallengeAttempts: number;
+        mfaRecoveryCodeHashes: string[];
         name?: string | null;
         image?: string | null;
         passwordChangedAt?: NativeDate | null;
@@ -1085,7 +1187,9 @@ export declare const AuthRepository: {
         csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
-        mfaSecret?: string | null;
+        mfaChallengeHash?: string | null;
+        mfaChallengeExpiresAt?: NativeDate | null;
+        mfaChallengePurpose?: "login" | "setup" | null;
         deviceInfo?: string | null;
         createdAt: NativeDate;
         updatedAt: NativeDate;
@@ -1116,6 +1220,8 @@ export declare const AuthRepository: {
         loginAttempts: number;
         mfaEnabled: boolean;
         mfaMethod: "email" | "none";
+        mfaChallengeAttempts: number;
+        mfaRecoveryCodeHashes: string[];
         name?: string | null;
         image?: string | null;
         passwordChangedAt?: NativeDate | null;
@@ -1130,7 +1236,9 @@ export declare const AuthRepository: {
         csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
-        mfaSecret?: string | null;
+        mfaChallengeHash?: string | null;
+        mfaChallengeExpiresAt?: NativeDate | null;
+        mfaChallengePurpose?: "login" | "setup" | null;
         deviceInfo?: string | null;
     } & import("mongoose").DefaultTimestampProps, {
         id: string;
@@ -1156,6 +1264,8 @@ export declare const AuthRepository: {
         loginAttempts: number;
         mfaEnabled: boolean;
         mfaMethod: "email" | "none";
+        mfaChallengeAttempts: number;
+        mfaRecoveryCodeHashes: string[];
         name?: string | null;
         image?: string | null;
         passwordChangedAt?: NativeDate | null;
@@ -1170,7 +1280,9 @@ export declare const AuthRepository: {
         csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
-        mfaSecret?: string | null;
+        mfaChallengeHash?: string | null;
+        mfaChallengeExpiresAt?: NativeDate | null;
+        mfaChallengePurpose?: "login" | "setup" | null;
         deviceInfo?: string | null;
     } & import("mongoose").DefaultTimestampProps & {
         _id: import("mongoose").Types.ObjectId;
@@ -1198,6 +1310,8 @@ export declare const AuthRepository: {
         loginAttempts: number;
         mfaEnabled: boolean;
         mfaMethod: "email" | "none";
+        mfaChallengeAttempts: number;
+        mfaRecoveryCodeHashes: string[];
         name?: string | null;
         image?: string | null;
         passwordChangedAt?: NativeDate | null;
@@ -1212,7 +1326,9 @@ export declare const AuthRepository: {
         csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
-        mfaSecret?: string | null;
+        mfaChallengeHash?: string | null;
+        mfaChallengeExpiresAt?: NativeDate | null;
+        mfaChallengePurpose?: "login" | "setup" | null;
         deviceInfo?: string | null;
     } & import("mongoose").DefaultTimestampProps, {
         id: string;
@@ -1238,6 +1354,8 @@ export declare const AuthRepository: {
         loginAttempts: number;
         mfaEnabled: boolean;
         mfaMethod: "email" | "none";
+        mfaChallengeAttempts: number;
+        mfaRecoveryCodeHashes: string[];
         name?: string | null;
         image?: string | null;
         passwordChangedAt?: NativeDate | null;
@@ -1252,7 +1370,9 @@ export declare const AuthRepository: {
         csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
-        mfaSecret?: string | null;
+        mfaChallengeHash?: string | null;
+        mfaChallengeExpiresAt?: NativeDate | null;
+        mfaChallengePurpose?: "login" | "setup" | null;
         deviceInfo?: string | null;
     } & import("mongoose").DefaultTimestampProps & {
         _id: import("mongoose").Types.ObjectId;
@@ -1280,6 +1400,8 @@ export declare const AuthRepository: {
         loginAttempts: number;
         mfaEnabled: boolean;
         mfaMethod: "email" | "none";
+        mfaChallengeAttempts: number;
+        mfaRecoveryCodeHashes: string[];
         name?: string | null;
         image?: string | null;
         passwordChangedAt?: NativeDate | null;
@@ -1294,7 +1416,9 @@ export declare const AuthRepository: {
         csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
-        mfaSecret?: string | null;
+        mfaChallengeHash?: string | null;
+        mfaChallengeExpiresAt?: NativeDate | null;
+        mfaChallengePurpose?: "login" | "setup" | null;
         deviceInfo?: string | null;
         createdAt: NativeDate;
         updatedAt: NativeDate;
@@ -1325,6 +1449,8 @@ export declare const AuthRepository: {
         loginAttempts: number;
         mfaEnabled: boolean;
         mfaMethod: "email" | "none";
+        mfaChallengeAttempts: number;
+        mfaRecoveryCodeHashes: string[];
         name?: string | null;
         image?: string | null;
         passwordChangedAt?: NativeDate | null;
@@ -1339,7 +1465,9 @@ export declare const AuthRepository: {
         csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
-        mfaSecret?: string | null;
+        mfaChallengeHash?: string | null;
+        mfaChallengeExpiresAt?: NativeDate | null;
+        mfaChallengePurpose?: "login" | "setup" | null;
         deviceInfo?: string | null;
     } & import("mongoose").DefaultTimestampProps, {
         id: string;
@@ -1365,6 +1493,8 @@ export declare const AuthRepository: {
         loginAttempts: number;
         mfaEnabled: boolean;
         mfaMethod: "email" | "none";
+        mfaChallengeAttempts: number;
+        mfaRecoveryCodeHashes: string[];
         name?: string | null;
         image?: string | null;
         passwordChangedAt?: NativeDate | null;
@@ -1379,7 +1509,9 @@ export declare const AuthRepository: {
         csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
-        mfaSecret?: string | null;
+        mfaChallengeHash?: string | null;
+        mfaChallengeExpiresAt?: NativeDate | null;
+        mfaChallengePurpose?: "login" | "setup" | null;
         deviceInfo?: string | null;
     } & import("mongoose").DefaultTimestampProps & {
         _id: import("mongoose").Types.ObjectId;
@@ -1408,6 +1540,8 @@ export declare const AuthRepository: {
         loginAttempts: number;
         mfaEnabled: boolean;
         mfaMethod: "email" | "none";
+        mfaChallengeAttempts: number;
+        mfaRecoveryCodeHashes: string[];
         name?: string | null;
         image?: string | null;
         passwordChangedAt?: NativeDate | null;
@@ -1422,7 +1556,9 @@ export declare const AuthRepository: {
         csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
-        mfaSecret?: string | null;
+        mfaChallengeHash?: string | null;
+        mfaChallengeExpiresAt?: NativeDate | null;
+        mfaChallengePurpose?: "login" | "setup" | null;
         deviceInfo?: string | null;
     } & import("mongoose").DefaultTimestampProps, {
         id: string;
@@ -1448,6 +1584,8 @@ export declare const AuthRepository: {
         loginAttempts: number;
         mfaEnabled: boolean;
         mfaMethod: "email" | "none";
+        mfaChallengeAttempts: number;
+        mfaRecoveryCodeHashes: string[];
         name?: string | null;
         image?: string | null;
         passwordChangedAt?: NativeDate | null;
@@ -1462,7 +1600,9 @@ export declare const AuthRepository: {
         csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
-        mfaSecret?: string | null;
+        mfaChallengeHash?: string | null;
+        mfaChallengeExpiresAt?: NativeDate | null;
+        mfaChallengePurpose?: "login" | "setup" | null;
         deviceInfo?: string | null;
     } & import("mongoose").DefaultTimestampProps & {
         _id: import("mongoose").Types.ObjectId;
@@ -1490,6 +1630,8 @@ export declare const AuthRepository: {
         loginAttempts: number;
         mfaEnabled: boolean;
         mfaMethod: "email" | "none";
+        mfaChallengeAttempts: number;
+        mfaRecoveryCodeHashes: string[];
         name?: string | null;
         image?: string | null;
         passwordChangedAt?: NativeDate | null;
@@ -1504,7 +1646,9 @@ export declare const AuthRepository: {
         csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
-        mfaSecret?: string | null;
+        mfaChallengeHash?: string | null;
+        mfaChallengeExpiresAt?: NativeDate | null;
+        mfaChallengePurpose?: "login" | "setup" | null;
         deviceInfo?: string | null;
     } & import("mongoose").DefaultTimestampProps, {
         id: string;
@@ -1530,6 +1674,8 @@ export declare const AuthRepository: {
         loginAttempts: number;
         mfaEnabled: boolean;
         mfaMethod: "email" | "none";
+        mfaChallengeAttempts: number;
+        mfaRecoveryCodeHashes: string[];
         name?: string | null;
         image?: string | null;
         passwordChangedAt?: NativeDate | null;
@@ -1544,7 +1690,9 @@ export declare const AuthRepository: {
         csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
-        mfaSecret?: string | null;
+        mfaChallengeHash?: string | null;
+        mfaChallengeExpiresAt?: NativeDate | null;
+        mfaChallengePurpose?: "login" | "setup" | null;
         deviceInfo?: string | null;
     } & import("mongoose").DefaultTimestampProps & {
         _id: import("mongoose").Types.ObjectId;
@@ -1572,6 +1720,8 @@ export declare const AuthRepository: {
         loginAttempts: number;
         mfaEnabled: boolean;
         mfaMethod: "email" | "none";
+        mfaChallengeAttempts: number;
+        mfaRecoveryCodeHashes: string[];
         name?: string | null;
         image?: string | null;
         passwordChangedAt?: NativeDate | null;
@@ -1586,7 +1736,9 @@ export declare const AuthRepository: {
         csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
-        mfaSecret?: string | null;
+        mfaChallengeHash?: string | null;
+        mfaChallengeExpiresAt?: NativeDate | null;
+        mfaChallengePurpose?: "login" | "setup" | null;
         deviceInfo?: string | null;
         createdAt: NativeDate;
         updatedAt: NativeDate;
@@ -1617,6 +1769,8 @@ export declare const AuthRepository: {
         loginAttempts: number;
         mfaEnabled: boolean;
         mfaMethod: "email" | "none";
+        mfaChallengeAttempts: number;
+        mfaRecoveryCodeHashes: string[];
         name?: string | null;
         image?: string | null;
         passwordChangedAt?: NativeDate | null;
@@ -1631,7 +1785,9 @@ export declare const AuthRepository: {
         csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
-        mfaSecret?: string | null;
+        mfaChallengeHash?: string | null;
+        mfaChallengeExpiresAt?: NativeDate | null;
+        mfaChallengePurpose?: "login" | "setup" | null;
         deviceInfo?: string | null;
     } & import("mongoose").DefaultTimestampProps, {
         id: string;
@@ -1657,6 +1813,8 @@ export declare const AuthRepository: {
         loginAttempts: number;
         mfaEnabled: boolean;
         mfaMethod: "email" | "none";
+        mfaChallengeAttempts: number;
+        mfaRecoveryCodeHashes: string[];
         name?: string | null;
         image?: string | null;
         passwordChangedAt?: NativeDate | null;
@@ -1671,7 +1829,9 @@ export declare const AuthRepository: {
         csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
-        mfaSecret?: string | null;
+        mfaChallengeHash?: string | null;
+        mfaChallengeExpiresAt?: NativeDate | null;
+        mfaChallengePurpose?: "login" | "setup" | null;
         deviceInfo?: string | null;
     } & import("mongoose").DefaultTimestampProps & {
         _id: import("mongoose").Types.ObjectId;
@@ -1699,6 +1859,8 @@ export declare const AuthRepository: {
         loginAttempts: number;
         mfaEnabled: boolean;
         mfaMethod: "email" | "none";
+        mfaChallengeAttempts: number;
+        mfaRecoveryCodeHashes: string[];
         name?: string | null;
         image?: string | null;
         passwordChangedAt?: NativeDate | null;
@@ -1713,7 +1875,9 @@ export declare const AuthRepository: {
         csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
-        mfaSecret?: string | null;
+        mfaChallengeHash?: string | null;
+        mfaChallengeExpiresAt?: NativeDate | null;
+        mfaChallengePurpose?: "login" | "setup" | null;
         deviceInfo?: string | null;
     } & import("mongoose").DefaultTimestampProps, {
         id: string;
@@ -1739,6 +1903,8 @@ export declare const AuthRepository: {
         loginAttempts: number;
         mfaEnabled: boolean;
         mfaMethod: "email" | "none";
+        mfaChallengeAttempts: number;
+        mfaRecoveryCodeHashes: string[];
         name?: string | null;
         image?: string | null;
         passwordChangedAt?: NativeDate | null;
@@ -1753,7 +1919,9 @@ export declare const AuthRepository: {
         csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
-        mfaSecret?: string | null;
+        mfaChallengeHash?: string | null;
+        mfaChallengeExpiresAt?: NativeDate | null;
+        mfaChallengePurpose?: "login" | "setup" | null;
         deviceInfo?: string | null;
     } & import("mongoose").DefaultTimestampProps & {
         _id: import("mongoose").Types.ObjectId;
@@ -1781,6 +1949,8 @@ export declare const AuthRepository: {
         loginAttempts: number;
         mfaEnabled: boolean;
         mfaMethod: "email" | "none";
+        mfaChallengeAttempts: number;
+        mfaRecoveryCodeHashes: string[];
         name?: string | null;
         image?: string | null;
         passwordChangedAt?: NativeDate | null;
@@ -1795,7 +1965,9 @@ export declare const AuthRepository: {
         csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
-        mfaSecret?: string | null;
+        mfaChallengeHash?: string | null;
+        mfaChallengeExpiresAt?: NativeDate | null;
+        mfaChallengePurpose?: "login" | "setup" | null;
         deviceInfo?: string | null;
         createdAt: NativeDate;
         updatedAt: NativeDate;
@@ -1826,6 +1998,8 @@ export declare const AuthRepository: {
         loginAttempts: number;
         mfaEnabled: boolean;
         mfaMethod: "email" | "none";
+        mfaChallengeAttempts: number;
+        mfaRecoveryCodeHashes: string[];
         name?: string | null;
         image?: string | null;
         passwordChangedAt?: NativeDate | null;
@@ -1840,7 +2014,9 @@ export declare const AuthRepository: {
         csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
-        mfaSecret?: string | null;
+        mfaChallengeHash?: string | null;
+        mfaChallengeExpiresAt?: NativeDate | null;
+        mfaChallengePurpose?: "login" | "setup" | null;
         deviceInfo?: string | null;
     } & import("mongoose").DefaultTimestampProps, {
         id: string;
@@ -1866,6 +2042,8 @@ export declare const AuthRepository: {
         loginAttempts: number;
         mfaEnabled: boolean;
         mfaMethod: "email" | "none";
+        mfaChallengeAttempts: number;
+        mfaRecoveryCodeHashes: string[];
         name?: string | null;
         image?: string | null;
         passwordChangedAt?: NativeDate | null;
@@ -1880,7 +2058,9 @@ export declare const AuthRepository: {
         csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
-        mfaSecret?: string | null;
+        mfaChallengeHash?: string | null;
+        mfaChallengeExpiresAt?: NativeDate | null;
+        mfaChallengePurpose?: "login" | "setup" | null;
         deviceInfo?: string | null;
     } & import("mongoose").DefaultTimestampProps & {
         _id: import("mongoose").Types.ObjectId;
@@ -1908,6 +2088,8 @@ export declare const AuthRepository: {
         loginAttempts: number;
         mfaEnabled: boolean;
         mfaMethod: "email" | "none";
+        mfaChallengeAttempts: number;
+        mfaRecoveryCodeHashes: string[];
         name?: string | null;
         image?: string | null;
         passwordChangedAt?: NativeDate | null;
@@ -1922,7 +2104,9 @@ export declare const AuthRepository: {
         csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
-        mfaSecret?: string | null;
+        mfaChallengeHash?: string | null;
+        mfaChallengeExpiresAt?: NativeDate | null;
+        mfaChallengePurpose?: "login" | "setup" | null;
         deviceInfo?: string | null;
     } & import("mongoose").DefaultTimestampProps, {
         id: string;
@@ -1948,6 +2132,8 @@ export declare const AuthRepository: {
         loginAttempts: number;
         mfaEnabled: boolean;
         mfaMethod: "email" | "none";
+        mfaChallengeAttempts: number;
+        mfaRecoveryCodeHashes: string[];
         name?: string | null;
         image?: string | null;
         passwordChangedAt?: NativeDate | null;
@@ -1962,7 +2148,9 @@ export declare const AuthRepository: {
         csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
-        mfaSecret?: string | null;
+        mfaChallengeHash?: string | null;
+        mfaChallengeExpiresAt?: NativeDate | null;
+        mfaChallengePurpose?: "login" | "setup" | null;
         deviceInfo?: string | null;
     } & import("mongoose").DefaultTimestampProps & {
         _id: import("mongoose").Types.ObjectId;
@@ -1990,6 +2178,8 @@ export declare const AuthRepository: {
         loginAttempts: number;
         mfaEnabled: boolean;
         mfaMethod: "email" | "none";
+        mfaChallengeAttempts: number;
+        mfaRecoveryCodeHashes: string[];
         name?: string | null;
         image?: string | null;
         passwordChangedAt?: NativeDate | null;
@@ -2004,7 +2194,9 @@ export declare const AuthRepository: {
         csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
-        mfaSecret?: string | null;
+        mfaChallengeHash?: string | null;
+        mfaChallengeExpiresAt?: NativeDate | null;
+        mfaChallengePurpose?: "login" | "setup" | null;
         deviceInfo?: string | null;
         createdAt: NativeDate;
         updatedAt: NativeDate;
@@ -2035,6 +2227,8 @@ export declare const AuthRepository: {
         loginAttempts: number;
         mfaEnabled: boolean;
         mfaMethod: "email" | "none";
+        mfaChallengeAttempts: number;
+        mfaRecoveryCodeHashes: string[];
         name?: string | null;
         image?: string | null;
         passwordChangedAt?: NativeDate | null;
@@ -2049,7 +2243,9 @@ export declare const AuthRepository: {
         csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
-        mfaSecret?: string | null;
+        mfaChallengeHash?: string | null;
+        mfaChallengeExpiresAt?: NativeDate | null;
+        mfaChallengePurpose?: "login" | "setup" | null;
         deviceInfo?: string | null;
     } & import("mongoose").DefaultTimestampProps, {
         id: string;
@@ -2075,6 +2271,8 @@ export declare const AuthRepository: {
         loginAttempts: number;
         mfaEnabled: boolean;
         mfaMethod: "email" | "none";
+        mfaChallengeAttempts: number;
+        mfaRecoveryCodeHashes: string[];
         name?: string | null;
         image?: string | null;
         passwordChangedAt?: NativeDate | null;
@@ -2089,7 +2287,9 @@ export declare const AuthRepository: {
         csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
-        mfaSecret?: string | null;
+        mfaChallengeHash?: string | null;
+        mfaChallengeExpiresAt?: NativeDate | null;
+        mfaChallengePurpose?: "login" | "setup" | null;
         deviceInfo?: string | null;
     } & import("mongoose").DefaultTimestampProps & {
         _id: import("mongoose").Types.ObjectId;
@@ -2117,6 +2317,8 @@ export declare const AuthRepository: {
         loginAttempts: number;
         mfaEnabled: boolean;
         mfaMethod: "email" | "none";
+        mfaChallengeAttempts: number;
+        mfaRecoveryCodeHashes: string[];
         name?: string | null;
         image?: string | null;
         passwordChangedAt?: NativeDate | null;
@@ -2131,7 +2333,9 @@ export declare const AuthRepository: {
         csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
-        mfaSecret?: string | null;
+        mfaChallengeHash?: string | null;
+        mfaChallengeExpiresAt?: NativeDate | null;
+        mfaChallengePurpose?: "login" | "setup" | null;
         deviceInfo?: string | null;
     } & import("mongoose").DefaultTimestampProps, {
         id: string;
@@ -2157,6 +2361,8 @@ export declare const AuthRepository: {
         loginAttempts: number;
         mfaEnabled: boolean;
         mfaMethod: "email" | "none";
+        mfaChallengeAttempts: number;
+        mfaRecoveryCodeHashes: string[];
         name?: string | null;
         image?: string | null;
         passwordChangedAt?: NativeDate | null;
@@ -2171,7 +2377,9 @@ export declare const AuthRepository: {
         csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
-        mfaSecret?: string | null;
+        mfaChallengeHash?: string | null;
+        mfaChallengeExpiresAt?: NativeDate | null;
+        mfaChallengePurpose?: "login" | "setup" | null;
         deviceInfo?: string | null;
     } & import("mongoose").DefaultTimestampProps & {
         _id: import("mongoose").Types.ObjectId;
@@ -2199,6 +2407,8 @@ export declare const AuthRepository: {
         loginAttempts: number;
         mfaEnabled: boolean;
         mfaMethod: "email" | "none";
+        mfaChallengeAttempts: number;
+        mfaRecoveryCodeHashes: string[];
         name?: string | null;
         image?: string | null;
         passwordChangedAt?: NativeDate | null;
@@ -2213,7 +2423,9 @@ export declare const AuthRepository: {
         csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
-        mfaSecret?: string | null;
+        mfaChallengeHash?: string | null;
+        mfaChallengeExpiresAt?: NativeDate | null;
+        mfaChallengePurpose?: "login" | "setup" | null;
         deviceInfo?: string | null;
         createdAt: NativeDate;
         updatedAt: NativeDate;
@@ -2244,6 +2456,8 @@ export declare const AuthRepository: {
         loginAttempts: number;
         mfaEnabled: boolean;
         mfaMethod: "email" | "none";
+        mfaChallengeAttempts: number;
+        mfaRecoveryCodeHashes: string[];
         name?: string | null;
         image?: string | null;
         passwordChangedAt?: NativeDate | null;
@@ -2258,7 +2472,9 @@ export declare const AuthRepository: {
         csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
-        mfaSecret?: string | null;
+        mfaChallengeHash?: string | null;
+        mfaChallengeExpiresAt?: NativeDate | null;
+        mfaChallengePurpose?: "login" | "setup" | null;
         deviceInfo?: string | null;
     } & import("mongoose").DefaultTimestampProps, {
         id: string;
@@ -2284,6 +2500,8 @@ export declare const AuthRepository: {
         loginAttempts: number;
         mfaEnabled: boolean;
         mfaMethod: "email" | "none";
+        mfaChallengeAttempts: number;
+        mfaRecoveryCodeHashes: string[];
         name?: string | null;
         image?: string | null;
         passwordChangedAt?: NativeDate | null;
@@ -2298,7 +2516,9 @@ export declare const AuthRepository: {
         csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
-        mfaSecret?: string | null;
+        mfaChallengeHash?: string | null;
+        mfaChallengeExpiresAt?: NativeDate | null;
+        mfaChallengePurpose?: "login" | "setup" | null;
         deviceInfo?: string | null;
     } & import("mongoose").DefaultTimestampProps & {
         _id: import("mongoose").Types.ObjectId;
@@ -2326,6 +2546,8 @@ export declare const AuthRepository: {
         loginAttempts: number;
         mfaEnabled: boolean;
         mfaMethod: "email" | "none";
+        mfaChallengeAttempts: number;
+        mfaRecoveryCodeHashes: string[];
         name?: string | null;
         image?: string | null;
         passwordChangedAt?: NativeDate | null;
@@ -2340,7 +2562,9 @@ export declare const AuthRepository: {
         csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
-        mfaSecret?: string | null;
+        mfaChallengeHash?: string | null;
+        mfaChallengeExpiresAt?: NativeDate | null;
+        mfaChallengePurpose?: "login" | "setup" | null;
         deviceInfo?: string | null;
     } & import("mongoose").DefaultTimestampProps, {
         id: string;
@@ -2366,6 +2590,8 @@ export declare const AuthRepository: {
         loginAttempts: number;
         mfaEnabled: boolean;
         mfaMethod: "email" | "none";
+        mfaChallengeAttempts: number;
+        mfaRecoveryCodeHashes: string[];
         name?: string | null;
         image?: string | null;
         passwordChangedAt?: NativeDate | null;
@@ -2380,7 +2606,9 @@ export declare const AuthRepository: {
         csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
-        mfaSecret?: string | null;
+        mfaChallengeHash?: string | null;
+        mfaChallengeExpiresAt?: NativeDate | null;
+        mfaChallengePurpose?: "login" | "setup" | null;
         deviceInfo?: string | null;
     } & import("mongoose").DefaultTimestampProps & {
         _id: import("mongoose").Types.ObjectId;
@@ -2408,6 +2636,8 @@ export declare const AuthRepository: {
         loginAttempts: number;
         mfaEnabled: boolean;
         mfaMethod: "email" | "none";
+        mfaChallengeAttempts: number;
+        mfaRecoveryCodeHashes: string[];
         name?: string | null;
         image?: string | null;
         passwordChangedAt?: NativeDate | null;
@@ -2422,7 +2652,9 @@ export declare const AuthRepository: {
         csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
-        mfaSecret?: string | null;
+        mfaChallengeHash?: string | null;
+        mfaChallengeExpiresAt?: NativeDate | null;
+        mfaChallengePurpose?: "login" | "setup" | null;
         deviceInfo?: string | null;
         createdAt: NativeDate;
         updatedAt: NativeDate;
@@ -2453,6 +2685,8 @@ export declare const AuthRepository: {
         loginAttempts: number;
         mfaEnabled: boolean;
         mfaMethod: "email" | "none";
+        mfaChallengeAttempts: number;
+        mfaRecoveryCodeHashes: string[];
         name?: string | null;
         image?: string | null;
         passwordChangedAt?: NativeDate | null;
@@ -2467,7 +2701,9 @@ export declare const AuthRepository: {
         csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
-        mfaSecret?: string | null;
+        mfaChallengeHash?: string | null;
+        mfaChallengeExpiresAt?: NativeDate | null;
+        mfaChallengePurpose?: "login" | "setup" | null;
         deviceInfo?: string | null;
     } & import("mongoose").DefaultTimestampProps, {
         id: string;
@@ -2493,6 +2729,8 @@ export declare const AuthRepository: {
         loginAttempts: number;
         mfaEnabled: boolean;
         mfaMethod: "email" | "none";
+        mfaChallengeAttempts: number;
+        mfaRecoveryCodeHashes: string[];
         name?: string | null;
         image?: string | null;
         passwordChangedAt?: NativeDate | null;
@@ -2507,7 +2745,9 @@ export declare const AuthRepository: {
         csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
-        mfaSecret?: string | null;
+        mfaChallengeHash?: string | null;
+        mfaChallengeExpiresAt?: NativeDate | null;
+        mfaChallengePurpose?: "login" | "setup" | null;
         deviceInfo?: string | null;
     } & import("mongoose").DefaultTimestampProps & {
         _id: import("mongoose").Types.ObjectId;
@@ -2535,6 +2775,8 @@ export declare const AuthRepository: {
         loginAttempts: number;
         mfaEnabled: boolean;
         mfaMethod: "email" | "none";
+        mfaChallengeAttempts: number;
+        mfaRecoveryCodeHashes: string[];
         name?: string | null;
         image?: string | null;
         passwordChangedAt?: NativeDate | null;
@@ -2549,7 +2791,9 @@ export declare const AuthRepository: {
         csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
-        mfaSecret?: string | null;
+        mfaChallengeHash?: string | null;
+        mfaChallengeExpiresAt?: NativeDate | null;
+        mfaChallengePurpose?: "login" | "setup" | null;
         deviceInfo?: string | null;
     } & import("mongoose").DefaultTimestampProps, {
         id: string;
@@ -2575,6 +2819,8 @@ export declare const AuthRepository: {
         loginAttempts: number;
         mfaEnabled: boolean;
         mfaMethod: "email" | "none";
+        mfaChallengeAttempts: number;
+        mfaRecoveryCodeHashes: string[];
         name?: string | null;
         image?: string | null;
         passwordChangedAt?: NativeDate | null;
@@ -2589,7 +2835,9 @@ export declare const AuthRepository: {
         csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
-        mfaSecret?: string | null;
+        mfaChallengeHash?: string | null;
+        mfaChallengeExpiresAt?: NativeDate | null;
+        mfaChallengePurpose?: "login" | "setup" | null;
         deviceInfo?: string | null;
     } & import("mongoose").DefaultTimestampProps & {
         _id: import("mongoose").Types.ObjectId;
@@ -2617,6 +2865,8 @@ export declare const AuthRepository: {
         loginAttempts: number;
         mfaEnabled: boolean;
         mfaMethod: "email" | "none";
+        mfaChallengeAttempts: number;
+        mfaRecoveryCodeHashes: string[];
         name?: string | null;
         image?: string | null;
         passwordChangedAt?: NativeDate | null;
@@ -2631,7 +2881,9 @@ export declare const AuthRepository: {
         csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
-        mfaSecret?: string | null;
+        mfaChallengeHash?: string | null;
+        mfaChallengeExpiresAt?: NativeDate | null;
+        mfaChallengePurpose?: "login" | "setup" | null;
         deviceInfo?: string | null;
         createdAt: NativeDate;
         updatedAt: NativeDate;
@@ -2662,6 +2914,8 @@ export declare const AuthRepository: {
         loginAttempts: number;
         mfaEnabled: boolean;
         mfaMethod: "email" | "none";
+        mfaChallengeAttempts: number;
+        mfaRecoveryCodeHashes: string[];
         name?: string | null;
         image?: string | null;
         passwordChangedAt?: NativeDate | null;
@@ -2676,7 +2930,9 @@ export declare const AuthRepository: {
         csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
-        mfaSecret?: string | null;
+        mfaChallengeHash?: string | null;
+        mfaChallengeExpiresAt?: NativeDate | null;
+        mfaChallengePurpose?: "login" | "setup" | null;
         deviceInfo?: string | null;
     } & import("mongoose").DefaultTimestampProps, {
         id: string;
@@ -2702,6 +2958,8 @@ export declare const AuthRepository: {
         loginAttempts: number;
         mfaEnabled: boolean;
         mfaMethod: "email" | "none";
+        mfaChallengeAttempts: number;
+        mfaRecoveryCodeHashes: string[];
         name?: string | null;
         image?: string | null;
         passwordChangedAt?: NativeDate | null;
@@ -2716,7 +2974,9 @@ export declare const AuthRepository: {
         csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
-        mfaSecret?: string | null;
+        mfaChallengeHash?: string | null;
+        mfaChallengeExpiresAt?: NativeDate | null;
+        mfaChallengePurpose?: "login" | "setup" | null;
         deviceInfo?: string | null;
     } & import("mongoose").DefaultTimestampProps & {
         _id: import("mongoose").Types.ObjectId;
@@ -2744,6 +3004,8 @@ export declare const AuthRepository: {
         loginAttempts: number;
         mfaEnabled: boolean;
         mfaMethod: "email" | "none";
+        mfaChallengeAttempts: number;
+        mfaRecoveryCodeHashes: string[];
         name?: string | null;
         image?: string | null;
         passwordChangedAt?: NativeDate | null;
@@ -2758,7 +3020,9 @@ export declare const AuthRepository: {
         csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
-        mfaSecret?: string | null;
+        mfaChallengeHash?: string | null;
+        mfaChallengeExpiresAt?: NativeDate | null;
+        mfaChallengePurpose?: "login" | "setup" | null;
         deviceInfo?: string | null;
     } & import("mongoose").DefaultTimestampProps, {
         id: string;
@@ -2784,6 +3048,8 @@ export declare const AuthRepository: {
         loginAttempts: number;
         mfaEnabled: boolean;
         mfaMethod: "email" | "none";
+        mfaChallengeAttempts: number;
+        mfaRecoveryCodeHashes: string[];
         name?: string | null;
         image?: string | null;
         passwordChangedAt?: NativeDate | null;
@@ -2798,7 +3064,9 @@ export declare const AuthRepository: {
         csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
-        mfaSecret?: string | null;
+        mfaChallengeHash?: string | null;
+        mfaChallengeExpiresAt?: NativeDate | null;
+        mfaChallengePurpose?: "login" | "setup" | null;
         deviceInfo?: string | null;
     } & import("mongoose").DefaultTimestampProps & {
         _id: import("mongoose").Types.ObjectId;
@@ -2826,6 +3094,8 @@ export declare const AuthRepository: {
         loginAttempts: number;
         mfaEnabled: boolean;
         mfaMethod: "email" | "none";
+        mfaChallengeAttempts: number;
+        mfaRecoveryCodeHashes: string[];
         name?: string | null;
         image?: string | null;
         passwordChangedAt?: NativeDate | null;
@@ -2840,7 +3110,9 @@ export declare const AuthRepository: {
         csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
-        mfaSecret?: string | null;
+        mfaChallengeHash?: string | null;
+        mfaChallengeExpiresAt?: NativeDate | null;
+        mfaChallengePurpose?: "login" | "setup" | null;
         deviceInfo?: string | null;
         createdAt: NativeDate;
         updatedAt: NativeDate;
@@ -2871,6 +3143,8 @@ export declare const AuthRepository: {
         loginAttempts: number;
         mfaEnabled: boolean;
         mfaMethod: "email" | "none";
+        mfaChallengeAttempts: number;
+        mfaRecoveryCodeHashes: string[];
         name?: string | null;
         image?: string | null;
         passwordChangedAt?: NativeDate | null;
@@ -2885,7 +3159,9 @@ export declare const AuthRepository: {
         csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
-        mfaSecret?: string | null;
+        mfaChallengeHash?: string | null;
+        mfaChallengeExpiresAt?: NativeDate | null;
+        mfaChallengePurpose?: "login" | "setup" | null;
         deviceInfo?: string | null;
     } & import("mongoose").DefaultTimestampProps, {
         id: string;
@@ -2911,6 +3187,8 @@ export declare const AuthRepository: {
         loginAttempts: number;
         mfaEnabled: boolean;
         mfaMethod: "email" | "none";
+        mfaChallengeAttempts: number;
+        mfaRecoveryCodeHashes: string[];
         name?: string | null;
         image?: string | null;
         passwordChangedAt?: NativeDate | null;
@@ -2925,7 +3203,9 @@ export declare const AuthRepository: {
         csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
-        mfaSecret?: string | null;
+        mfaChallengeHash?: string | null;
+        mfaChallengeExpiresAt?: NativeDate | null;
+        mfaChallengePurpose?: "login" | "setup" | null;
         deviceInfo?: string | null;
     } & import("mongoose").DefaultTimestampProps & {
         _id: import("mongoose").Types.ObjectId;
@@ -2953,6 +3233,8 @@ export declare const AuthRepository: {
         loginAttempts: number;
         mfaEnabled: boolean;
         mfaMethod: "email" | "none";
+        mfaChallengeAttempts: number;
+        mfaRecoveryCodeHashes: string[];
         name?: string | null;
         image?: string | null;
         passwordChangedAt?: NativeDate | null;
@@ -2967,7 +3249,9 @@ export declare const AuthRepository: {
         csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
-        mfaSecret?: string | null;
+        mfaChallengeHash?: string | null;
+        mfaChallengeExpiresAt?: NativeDate | null;
+        mfaChallengePurpose?: "login" | "setup" | null;
         deviceInfo?: string | null;
     } & import("mongoose").DefaultTimestampProps, {
         id: string;
@@ -2993,6 +3277,8 @@ export declare const AuthRepository: {
         loginAttempts: number;
         mfaEnabled: boolean;
         mfaMethod: "email" | "none";
+        mfaChallengeAttempts: number;
+        mfaRecoveryCodeHashes: string[];
         name?: string | null;
         image?: string | null;
         passwordChangedAt?: NativeDate | null;
@@ -3007,7 +3293,9 @@ export declare const AuthRepository: {
         csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
-        mfaSecret?: string | null;
+        mfaChallengeHash?: string | null;
+        mfaChallengeExpiresAt?: NativeDate | null;
+        mfaChallengePurpose?: "login" | "setup" | null;
         deviceInfo?: string | null;
     } & import("mongoose").DefaultTimestampProps & {
         _id: import("mongoose").Types.ObjectId;
@@ -3035,6 +3323,8 @@ export declare const AuthRepository: {
         loginAttempts: number;
         mfaEnabled: boolean;
         mfaMethod: "email" | "none";
+        mfaChallengeAttempts: number;
+        mfaRecoveryCodeHashes: string[];
         name?: string | null;
         image?: string | null;
         passwordChangedAt?: NativeDate | null;
@@ -3049,7 +3339,9 @@ export declare const AuthRepository: {
         csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
-        mfaSecret?: string | null;
+        mfaChallengeHash?: string | null;
+        mfaChallengeExpiresAt?: NativeDate | null;
+        mfaChallengePurpose?: "login" | "setup" | null;
         deviceInfo?: string | null;
         createdAt: NativeDate;
         updatedAt: NativeDate;
@@ -3080,6 +3372,8 @@ export declare const AuthRepository: {
         loginAttempts: number;
         mfaEnabled: boolean;
         mfaMethod: "email" | "none";
+        mfaChallengeAttempts: number;
+        mfaRecoveryCodeHashes: string[];
         name?: string | null;
         image?: string | null;
         passwordChangedAt?: NativeDate | null;
@@ -3094,7 +3388,9 @@ export declare const AuthRepository: {
         csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
-        mfaSecret?: string | null;
+        mfaChallengeHash?: string | null;
+        mfaChallengeExpiresAt?: NativeDate | null;
+        mfaChallengePurpose?: "login" | "setup" | null;
         deviceInfo?: string | null;
     } & import("mongoose").DefaultTimestampProps, {
         id: string;
@@ -3120,6 +3416,8 @@ export declare const AuthRepository: {
         loginAttempts: number;
         mfaEnabled: boolean;
         mfaMethod: "email" | "none";
+        mfaChallengeAttempts: number;
+        mfaRecoveryCodeHashes: string[];
         name?: string | null;
         image?: string | null;
         passwordChangedAt?: NativeDate | null;
@@ -3134,7 +3432,9 @@ export declare const AuthRepository: {
         csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
-        mfaSecret?: string | null;
+        mfaChallengeHash?: string | null;
+        mfaChallengeExpiresAt?: NativeDate | null;
+        mfaChallengePurpose?: "login" | "setup" | null;
         deviceInfo?: string | null;
     } & import("mongoose").DefaultTimestampProps & {
         _id: import("mongoose").Types.ObjectId;
@@ -3162,6 +3462,8 @@ export declare const AuthRepository: {
         loginAttempts: number;
         mfaEnabled: boolean;
         mfaMethod: "email" | "none";
+        mfaChallengeAttempts: number;
+        mfaRecoveryCodeHashes: string[];
         name?: string | null;
         image?: string | null;
         passwordChangedAt?: NativeDate | null;
@@ -3176,7 +3478,9 @@ export declare const AuthRepository: {
         csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
-        mfaSecret?: string | null;
+        mfaChallengeHash?: string | null;
+        mfaChallengeExpiresAt?: NativeDate | null;
+        mfaChallengePurpose?: "login" | "setup" | null;
         deviceInfo?: string | null;
     } & import("mongoose").DefaultTimestampProps, {
         id: string;
@@ -3202,6 +3506,8 @@ export declare const AuthRepository: {
         loginAttempts: number;
         mfaEnabled: boolean;
         mfaMethod: "email" | "none";
+        mfaChallengeAttempts: number;
+        mfaRecoveryCodeHashes: string[];
         name?: string | null;
         image?: string | null;
         passwordChangedAt?: NativeDate | null;
@@ -3216,7 +3522,9 @@ export declare const AuthRepository: {
         csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
-        mfaSecret?: string | null;
+        mfaChallengeHash?: string | null;
+        mfaChallengeExpiresAt?: NativeDate | null;
+        mfaChallengePurpose?: "login" | "setup" | null;
         deviceInfo?: string | null;
     } & import("mongoose").DefaultTimestampProps & {
         _id: import("mongoose").Types.ObjectId;
@@ -3244,6 +3552,8 @@ export declare const AuthRepository: {
         loginAttempts: number;
         mfaEnabled: boolean;
         mfaMethod: "email" | "none";
+        mfaChallengeAttempts: number;
+        mfaRecoveryCodeHashes: string[];
         name?: string | null;
         image?: string | null;
         passwordChangedAt?: NativeDate | null;
@@ -3258,7 +3568,9 @@ export declare const AuthRepository: {
         csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
-        mfaSecret?: string | null;
+        mfaChallengeHash?: string | null;
+        mfaChallengeExpiresAt?: NativeDate | null;
+        mfaChallengePurpose?: "login" | "setup" | null;
         deviceInfo?: string | null;
         createdAt: NativeDate;
         updatedAt: NativeDate;
@@ -3289,6 +3601,8 @@ export declare const AuthRepository: {
         loginAttempts: number;
         mfaEnabled: boolean;
         mfaMethod: "email" | "none";
+        mfaChallengeAttempts: number;
+        mfaRecoveryCodeHashes: string[];
         name?: string | null;
         image?: string | null;
         passwordChangedAt?: NativeDate | null;
@@ -3303,7 +3617,9 @@ export declare const AuthRepository: {
         csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
-        mfaSecret?: string | null;
+        mfaChallengeHash?: string | null;
+        mfaChallengeExpiresAt?: NativeDate | null;
+        mfaChallengePurpose?: "login" | "setup" | null;
         deviceInfo?: string | null;
     } & import("mongoose").DefaultTimestampProps, {
         id: string;
@@ -3329,6 +3645,8 @@ export declare const AuthRepository: {
         loginAttempts: number;
         mfaEnabled: boolean;
         mfaMethod: "email" | "none";
+        mfaChallengeAttempts: number;
+        mfaRecoveryCodeHashes: string[];
         name?: string | null;
         image?: string | null;
         passwordChangedAt?: NativeDate | null;
@@ -3343,7 +3661,9 @@ export declare const AuthRepository: {
         csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
-        mfaSecret?: string | null;
+        mfaChallengeHash?: string | null;
+        mfaChallengeExpiresAt?: NativeDate | null;
+        mfaChallengePurpose?: "login" | "setup" | null;
         deviceInfo?: string | null;
     } & import("mongoose").DefaultTimestampProps & {
         _id: import("mongoose").Types.ObjectId;
@@ -3371,6 +3691,8 @@ export declare const AuthRepository: {
         loginAttempts: number;
         mfaEnabled: boolean;
         mfaMethod: "email" | "none";
+        mfaChallengeAttempts: number;
+        mfaRecoveryCodeHashes: string[];
         name?: string | null;
         image?: string | null;
         passwordChangedAt?: NativeDate | null;
@@ -3385,7 +3707,9 @@ export declare const AuthRepository: {
         csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
-        mfaSecret?: string | null;
+        mfaChallengeHash?: string | null;
+        mfaChallengeExpiresAt?: NativeDate | null;
+        mfaChallengePurpose?: "login" | "setup" | null;
         deviceInfo?: string | null;
     } & import("mongoose").DefaultTimestampProps, {
         id: string;
@@ -3411,6 +3735,8 @@ export declare const AuthRepository: {
         loginAttempts: number;
         mfaEnabled: boolean;
         mfaMethod: "email" | "none";
+        mfaChallengeAttempts: number;
+        mfaRecoveryCodeHashes: string[];
         name?: string | null;
         image?: string | null;
         passwordChangedAt?: NativeDate | null;
@@ -3425,7 +3751,9 @@ export declare const AuthRepository: {
         csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
-        mfaSecret?: string | null;
+        mfaChallengeHash?: string | null;
+        mfaChallengeExpiresAt?: NativeDate | null;
+        mfaChallengePurpose?: "login" | "setup" | null;
         deviceInfo?: string | null;
     } & import("mongoose").DefaultTimestampProps & {
         _id: import("mongoose").Types.ObjectId;
@@ -3453,6 +3781,8 @@ export declare const AuthRepository: {
         loginAttempts: number;
         mfaEnabled: boolean;
         mfaMethod: "email" | "none";
+        mfaChallengeAttempts: number;
+        mfaRecoveryCodeHashes: string[];
         name?: string | null;
         image?: string | null;
         passwordChangedAt?: NativeDate | null;
@@ -3467,7 +3797,1383 @@ export declare const AuthRepository: {
         csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
-        mfaSecret?: string | null;
+        mfaChallengeHash?: string | null;
+        mfaChallengeExpiresAt?: NativeDate | null;
+        mfaChallengePurpose?: "login" | "setup" | null;
+        deviceInfo?: string | null;
+        createdAt: NativeDate;
+        updatedAt: NativeDate;
+    } & {
+        _id: import("mongoose").Types.ObjectId;
+    } & {
+        __v: number;
+    }, "findOneAndUpdate", {
+        id: string;
+    }>;
+    setMfaChallenge: (id: string, hash: string, expiresAt: Date, purpose: "login" | "setup") => import("mongoose").Query<(import("mongoose").Document<unknown, {}, {
+        email: string;
+        password: string;
+        passwordHistory: import("mongoose").Types.DocumentArray<{
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, import("mongoose").Types.Subdocument<import("mongodb").ObjectId, unknown, {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, {}, {}> & {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }>;
+        role: "user" | "admin";
+        resetPasswordUsed: boolean;
+        emailVerified: boolean;
+        sessionVersion: number;
+        loginAttempts: number;
+        mfaEnabled: boolean;
+        mfaMethod: "email" | "none";
+        mfaChallengeAttempts: number;
+        mfaRecoveryCodeHashes: string[];
+        name?: string | null;
+        image?: string | null;
+        passwordChangedAt?: NativeDate | null;
+        resetPasswordToken?: string | null;
+        resetPasswordExpires?: NativeDate | null;
+        emailVerificationToken?: string | null;
+        emailVerificationExpires?: NativeDate | null;
+        refreshTokenHash?: string | null;
+        previousRefreshTokenHash?: string | null;
+        refreshTokenExpiresAt?: NativeDate | null;
+        csrfTokenHash?: string | null;
+        csrfTokenExpiresAt?: NativeDate | null;
+        lastLoginAt?: NativeDate | null;
+        lockUntil?: NativeDate | null;
+        mfaChallengeHash?: string | null;
+        mfaChallengeExpiresAt?: NativeDate | null;
+        mfaChallengePurpose?: "login" | "setup" | null;
+        deviceInfo?: string | null;
+    } & import("mongoose").DefaultTimestampProps, {
+        id: string;
+    }, {
+        timestamps: true;
+    }> & Omit<{
+        email: string;
+        password: string;
+        passwordHistory: import("mongoose").Types.DocumentArray<{
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, import("mongoose").Types.Subdocument<import("mongodb").ObjectId, unknown, {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, {}, {}> & {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }>;
+        role: "user" | "admin";
+        resetPasswordUsed: boolean;
+        emailVerified: boolean;
+        sessionVersion: number;
+        loginAttempts: number;
+        mfaEnabled: boolean;
+        mfaMethod: "email" | "none";
+        mfaChallengeAttempts: number;
+        mfaRecoveryCodeHashes: string[];
+        name?: string | null;
+        image?: string | null;
+        passwordChangedAt?: NativeDate | null;
+        resetPasswordToken?: string | null;
+        resetPasswordExpires?: NativeDate | null;
+        emailVerificationToken?: string | null;
+        emailVerificationExpires?: NativeDate | null;
+        refreshTokenHash?: string | null;
+        previousRefreshTokenHash?: string | null;
+        refreshTokenExpiresAt?: NativeDate | null;
+        csrfTokenHash?: string | null;
+        csrfTokenExpiresAt?: NativeDate | null;
+        lastLoginAt?: NativeDate | null;
+        lockUntil?: NativeDate | null;
+        mfaChallengeHash?: string | null;
+        mfaChallengeExpiresAt?: NativeDate | null;
+        mfaChallengePurpose?: "login" | "setup" | null;
+        deviceInfo?: string | null;
+    } & import("mongoose").DefaultTimestampProps & {
+        _id: import("mongoose").Types.ObjectId;
+    } & {
+        __v: number;
+    }, "id"> & import("mongoose").HydratedDocumentOverrides<{
+        id: string;
+    }>) | null, import("mongoose").Document<unknown, {}, {
+        email: string;
+        password: string;
+        passwordHistory: import("mongoose").Types.DocumentArray<{
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, import("mongoose").Types.Subdocument<import("mongodb").ObjectId, unknown, {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, {}, {}> & {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }>;
+        role: "user" | "admin";
+        resetPasswordUsed: boolean;
+        emailVerified: boolean;
+        sessionVersion: number;
+        loginAttempts: number;
+        mfaEnabled: boolean;
+        mfaMethod: "email" | "none";
+        mfaChallengeAttempts: number;
+        mfaRecoveryCodeHashes: string[];
+        name?: string | null;
+        image?: string | null;
+        passwordChangedAt?: NativeDate | null;
+        resetPasswordToken?: string | null;
+        resetPasswordExpires?: NativeDate | null;
+        emailVerificationToken?: string | null;
+        emailVerificationExpires?: NativeDate | null;
+        refreshTokenHash?: string | null;
+        previousRefreshTokenHash?: string | null;
+        refreshTokenExpiresAt?: NativeDate | null;
+        csrfTokenHash?: string | null;
+        csrfTokenExpiresAt?: NativeDate | null;
+        lastLoginAt?: NativeDate | null;
+        lockUntil?: NativeDate | null;
+        mfaChallengeHash?: string | null;
+        mfaChallengeExpiresAt?: NativeDate | null;
+        mfaChallengePurpose?: "login" | "setup" | null;
+        deviceInfo?: string | null;
+    } & import("mongoose").DefaultTimestampProps, {
+        id: string;
+    }, {
+        timestamps: true;
+    }> & Omit<{
+        email: string;
+        password: string;
+        passwordHistory: import("mongoose").Types.DocumentArray<{
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, import("mongoose").Types.Subdocument<import("mongodb").ObjectId, unknown, {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, {}, {}> & {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }>;
+        role: "user" | "admin";
+        resetPasswordUsed: boolean;
+        emailVerified: boolean;
+        sessionVersion: number;
+        loginAttempts: number;
+        mfaEnabled: boolean;
+        mfaMethod: "email" | "none";
+        mfaChallengeAttempts: number;
+        mfaRecoveryCodeHashes: string[];
+        name?: string | null;
+        image?: string | null;
+        passwordChangedAt?: NativeDate | null;
+        resetPasswordToken?: string | null;
+        resetPasswordExpires?: NativeDate | null;
+        emailVerificationToken?: string | null;
+        emailVerificationExpires?: NativeDate | null;
+        refreshTokenHash?: string | null;
+        previousRefreshTokenHash?: string | null;
+        refreshTokenExpiresAt?: NativeDate | null;
+        csrfTokenHash?: string | null;
+        csrfTokenExpiresAt?: NativeDate | null;
+        lastLoginAt?: NativeDate | null;
+        lockUntil?: NativeDate | null;
+        mfaChallengeHash?: string | null;
+        mfaChallengeExpiresAt?: NativeDate | null;
+        mfaChallengePurpose?: "login" | "setup" | null;
+        deviceInfo?: string | null;
+    } & import("mongoose").DefaultTimestampProps & {
+        _id: import("mongoose").Types.ObjectId;
+    } & {
+        __v: number;
+    }, "id"> & import("mongoose").HydratedDocumentOverrides<{
+        id: string;
+    }>, {}, {
+        email: string;
+        password: string;
+        passwordHistory: import("mongoose").Types.DocumentArray<{
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, import("mongoose").Types.Subdocument<import("mongodb").ObjectId, unknown, {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, {}, {}> & {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }>;
+        role: "user" | "admin";
+        resetPasswordUsed: boolean;
+        emailVerified: boolean;
+        sessionVersion: number;
+        loginAttempts: number;
+        mfaEnabled: boolean;
+        mfaMethod: "email" | "none";
+        mfaChallengeAttempts: number;
+        mfaRecoveryCodeHashes: string[];
+        name?: string | null;
+        image?: string | null;
+        passwordChangedAt?: NativeDate | null;
+        resetPasswordToken?: string | null;
+        resetPasswordExpires?: NativeDate | null;
+        emailVerificationToken?: string | null;
+        emailVerificationExpires?: NativeDate | null;
+        refreshTokenHash?: string | null;
+        previousRefreshTokenHash?: string | null;
+        refreshTokenExpiresAt?: NativeDate | null;
+        csrfTokenHash?: string | null;
+        csrfTokenExpiresAt?: NativeDate | null;
+        lastLoginAt?: NativeDate | null;
+        lockUntil?: NativeDate | null;
+        mfaChallengeHash?: string | null;
+        mfaChallengeExpiresAt?: NativeDate | null;
+        mfaChallengePurpose?: "login" | "setup" | null;
+        deviceInfo?: string | null;
+        createdAt: NativeDate;
+        updatedAt: NativeDate;
+    } & {
+        _id: import("mongoose").Types.ObjectId;
+    } & {
+        __v: number;
+    }, "findOneAndUpdate", {
+        id: string;
+    }>;
+    incrementMfaAttempts: (id: string) => import("mongoose").Query<(import("mongoose").Document<unknown, {}, {
+        email: string;
+        password: string;
+        passwordHistory: import("mongoose").Types.DocumentArray<{
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, import("mongoose").Types.Subdocument<import("mongodb").ObjectId, unknown, {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, {}, {}> & {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }>;
+        role: "user" | "admin";
+        resetPasswordUsed: boolean;
+        emailVerified: boolean;
+        sessionVersion: number;
+        loginAttempts: number;
+        mfaEnabled: boolean;
+        mfaMethod: "email" | "none";
+        mfaChallengeAttempts: number;
+        mfaRecoveryCodeHashes: string[];
+        name?: string | null;
+        image?: string | null;
+        passwordChangedAt?: NativeDate | null;
+        resetPasswordToken?: string | null;
+        resetPasswordExpires?: NativeDate | null;
+        emailVerificationToken?: string | null;
+        emailVerificationExpires?: NativeDate | null;
+        refreshTokenHash?: string | null;
+        previousRefreshTokenHash?: string | null;
+        refreshTokenExpiresAt?: NativeDate | null;
+        csrfTokenHash?: string | null;
+        csrfTokenExpiresAt?: NativeDate | null;
+        lastLoginAt?: NativeDate | null;
+        lockUntil?: NativeDate | null;
+        mfaChallengeHash?: string | null;
+        mfaChallengeExpiresAt?: NativeDate | null;
+        mfaChallengePurpose?: "login" | "setup" | null;
+        deviceInfo?: string | null;
+    } & import("mongoose").DefaultTimestampProps, {
+        id: string;
+    }, {
+        timestamps: true;
+    }> & Omit<{
+        email: string;
+        password: string;
+        passwordHistory: import("mongoose").Types.DocumentArray<{
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, import("mongoose").Types.Subdocument<import("mongodb").ObjectId, unknown, {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, {}, {}> & {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }>;
+        role: "user" | "admin";
+        resetPasswordUsed: boolean;
+        emailVerified: boolean;
+        sessionVersion: number;
+        loginAttempts: number;
+        mfaEnabled: boolean;
+        mfaMethod: "email" | "none";
+        mfaChallengeAttempts: number;
+        mfaRecoveryCodeHashes: string[];
+        name?: string | null;
+        image?: string | null;
+        passwordChangedAt?: NativeDate | null;
+        resetPasswordToken?: string | null;
+        resetPasswordExpires?: NativeDate | null;
+        emailVerificationToken?: string | null;
+        emailVerificationExpires?: NativeDate | null;
+        refreshTokenHash?: string | null;
+        previousRefreshTokenHash?: string | null;
+        refreshTokenExpiresAt?: NativeDate | null;
+        csrfTokenHash?: string | null;
+        csrfTokenExpiresAt?: NativeDate | null;
+        lastLoginAt?: NativeDate | null;
+        lockUntil?: NativeDate | null;
+        mfaChallengeHash?: string | null;
+        mfaChallengeExpiresAt?: NativeDate | null;
+        mfaChallengePurpose?: "login" | "setup" | null;
+        deviceInfo?: string | null;
+    } & import("mongoose").DefaultTimestampProps & {
+        _id: import("mongoose").Types.ObjectId;
+    } & {
+        __v: number;
+    }, "id"> & import("mongoose").HydratedDocumentOverrides<{
+        id: string;
+    }>) | null, import("mongoose").Document<unknown, {}, {
+        email: string;
+        password: string;
+        passwordHistory: import("mongoose").Types.DocumentArray<{
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, import("mongoose").Types.Subdocument<import("mongodb").ObjectId, unknown, {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, {}, {}> & {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }>;
+        role: "user" | "admin";
+        resetPasswordUsed: boolean;
+        emailVerified: boolean;
+        sessionVersion: number;
+        loginAttempts: number;
+        mfaEnabled: boolean;
+        mfaMethod: "email" | "none";
+        mfaChallengeAttempts: number;
+        mfaRecoveryCodeHashes: string[];
+        name?: string | null;
+        image?: string | null;
+        passwordChangedAt?: NativeDate | null;
+        resetPasswordToken?: string | null;
+        resetPasswordExpires?: NativeDate | null;
+        emailVerificationToken?: string | null;
+        emailVerificationExpires?: NativeDate | null;
+        refreshTokenHash?: string | null;
+        previousRefreshTokenHash?: string | null;
+        refreshTokenExpiresAt?: NativeDate | null;
+        csrfTokenHash?: string | null;
+        csrfTokenExpiresAt?: NativeDate | null;
+        lastLoginAt?: NativeDate | null;
+        lockUntil?: NativeDate | null;
+        mfaChallengeHash?: string | null;
+        mfaChallengeExpiresAt?: NativeDate | null;
+        mfaChallengePurpose?: "login" | "setup" | null;
+        deviceInfo?: string | null;
+    } & import("mongoose").DefaultTimestampProps, {
+        id: string;
+    }, {
+        timestamps: true;
+    }> & Omit<{
+        email: string;
+        password: string;
+        passwordHistory: import("mongoose").Types.DocumentArray<{
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, import("mongoose").Types.Subdocument<import("mongodb").ObjectId, unknown, {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, {}, {}> & {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }>;
+        role: "user" | "admin";
+        resetPasswordUsed: boolean;
+        emailVerified: boolean;
+        sessionVersion: number;
+        loginAttempts: number;
+        mfaEnabled: boolean;
+        mfaMethod: "email" | "none";
+        mfaChallengeAttempts: number;
+        mfaRecoveryCodeHashes: string[];
+        name?: string | null;
+        image?: string | null;
+        passwordChangedAt?: NativeDate | null;
+        resetPasswordToken?: string | null;
+        resetPasswordExpires?: NativeDate | null;
+        emailVerificationToken?: string | null;
+        emailVerificationExpires?: NativeDate | null;
+        refreshTokenHash?: string | null;
+        previousRefreshTokenHash?: string | null;
+        refreshTokenExpiresAt?: NativeDate | null;
+        csrfTokenHash?: string | null;
+        csrfTokenExpiresAt?: NativeDate | null;
+        lastLoginAt?: NativeDate | null;
+        lockUntil?: NativeDate | null;
+        mfaChallengeHash?: string | null;
+        mfaChallengeExpiresAt?: NativeDate | null;
+        mfaChallengePurpose?: "login" | "setup" | null;
+        deviceInfo?: string | null;
+    } & import("mongoose").DefaultTimestampProps & {
+        _id: import("mongoose").Types.ObjectId;
+    } & {
+        __v: number;
+    }, "id"> & import("mongoose").HydratedDocumentOverrides<{
+        id: string;
+    }>, {}, {
+        email: string;
+        password: string;
+        passwordHistory: import("mongoose").Types.DocumentArray<{
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, import("mongoose").Types.Subdocument<import("mongodb").ObjectId, unknown, {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, {}, {}> & {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }>;
+        role: "user" | "admin";
+        resetPasswordUsed: boolean;
+        emailVerified: boolean;
+        sessionVersion: number;
+        loginAttempts: number;
+        mfaEnabled: boolean;
+        mfaMethod: "email" | "none";
+        mfaChallengeAttempts: number;
+        mfaRecoveryCodeHashes: string[];
+        name?: string | null;
+        image?: string | null;
+        passwordChangedAt?: NativeDate | null;
+        resetPasswordToken?: string | null;
+        resetPasswordExpires?: NativeDate | null;
+        emailVerificationToken?: string | null;
+        emailVerificationExpires?: NativeDate | null;
+        refreshTokenHash?: string | null;
+        previousRefreshTokenHash?: string | null;
+        refreshTokenExpiresAt?: NativeDate | null;
+        csrfTokenHash?: string | null;
+        csrfTokenExpiresAt?: NativeDate | null;
+        lastLoginAt?: NativeDate | null;
+        lockUntil?: NativeDate | null;
+        mfaChallengeHash?: string | null;
+        mfaChallengeExpiresAt?: NativeDate | null;
+        mfaChallengePurpose?: "login" | "setup" | null;
+        deviceInfo?: string | null;
+        createdAt: NativeDate;
+        updatedAt: NativeDate;
+    } & {
+        _id: import("mongoose").Types.ObjectId;
+    } & {
+        __v: number;
+    }, "findOneAndUpdate", {
+        id: string;
+    }>;
+    clearMfaChallenge: (id: string) => import("mongoose").Query<(import("mongoose").Document<unknown, {}, {
+        email: string;
+        password: string;
+        passwordHistory: import("mongoose").Types.DocumentArray<{
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, import("mongoose").Types.Subdocument<import("mongodb").ObjectId, unknown, {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, {}, {}> & {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }>;
+        role: "user" | "admin";
+        resetPasswordUsed: boolean;
+        emailVerified: boolean;
+        sessionVersion: number;
+        loginAttempts: number;
+        mfaEnabled: boolean;
+        mfaMethod: "email" | "none";
+        mfaChallengeAttempts: number;
+        mfaRecoveryCodeHashes: string[];
+        name?: string | null;
+        image?: string | null;
+        passwordChangedAt?: NativeDate | null;
+        resetPasswordToken?: string | null;
+        resetPasswordExpires?: NativeDate | null;
+        emailVerificationToken?: string | null;
+        emailVerificationExpires?: NativeDate | null;
+        refreshTokenHash?: string | null;
+        previousRefreshTokenHash?: string | null;
+        refreshTokenExpiresAt?: NativeDate | null;
+        csrfTokenHash?: string | null;
+        csrfTokenExpiresAt?: NativeDate | null;
+        lastLoginAt?: NativeDate | null;
+        lockUntil?: NativeDate | null;
+        mfaChallengeHash?: string | null;
+        mfaChallengeExpiresAt?: NativeDate | null;
+        mfaChallengePurpose?: "login" | "setup" | null;
+        deviceInfo?: string | null;
+    } & import("mongoose").DefaultTimestampProps, {
+        id: string;
+    }, {
+        timestamps: true;
+    }> & Omit<{
+        email: string;
+        password: string;
+        passwordHistory: import("mongoose").Types.DocumentArray<{
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, import("mongoose").Types.Subdocument<import("mongodb").ObjectId, unknown, {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, {}, {}> & {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }>;
+        role: "user" | "admin";
+        resetPasswordUsed: boolean;
+        emailVerified: boolean;
+        sessionVersion: number;
+        loginAttempts: number;
+        mfaEnabled: boolean;
+        mfaMethod: "email" | "none";
+        mfaChallengeAttempts: number;
+        mfaRecoveryCodeHashes: string[];
+        name?: string | null;
+        image?: string | null;
+        passwordChangedAt?: NativeDate | null;
+        resetPasswordToken?: string | null;
+        resetPasswordExpires?: NativeDate | null;
+        emailVerificationToken?: string | null;
+        emailVerificationExpires?: NativeDate | null;
+        refreshTokenHash?: string | null;
+        previousRefreshTokenHash?: string | null;
+        refreshTokenExpiresAt?: NativeDate | null;
+        csrfTokenHash?: string | null;
+        csrfTokenExpiresAt?: NativeDate | null;
+        lastLoginAt?: NativeDate | null;
+        lockUntil?: NativeDate | null;
+        mfaChallengeHash?: string | null;
+        mfaChallengeExpiresAt?: NativeDate | null;
+        mfaChallengePurpose?: "login" | "setup" | null;
+        deviceInfo?: string | null;
+    } & import("mongoose").DefaultTimestampProps & {
+        _id: import("mongoose").Types.ObjectId;
+    } & {
+        __v: number;
+    }, "id"> & import("mongoose").HydratedDocumentOverrides<{
+        id: string;
+    }>) | null, import("mongoose").Document<unknown, {}, {
+        email: string;
+        password: string;
+        passwordHistory: import("mongoose").Types.DocumentArray<{
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, import("mongoose").Types.Subdocument<import("mongodb").ObjectId, unknown, {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, {}, {}> & {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }>;
+        role: "user" | "admin";
+        resetPasswordUsed: boolean;
+        emailVerified: boolean;
+        sessionVersion: number;
+        loginAttempts: number;
+        mfaEnabled: boolean;
+        mfaMethod: "email" | "none";
+        mfaChallengeAttempts: number;
+        mfaRecoveryCodeHashes: string[];
+        name?: string | null;
+        image?: string | null;
+        passwordChangedAt?: NativeDate | null;
+        resetPasswordToken?: string | null;
+        resetPasswordExpires?: NativeDate | null;
+        emailVerificationToken?: string | null;
+        emailVerificationExpires?: NativeDate | null;
+        refreshTokenHash?: string | null;
+        previousRefreshTokenHash?: string | null;
+        refreshTokenExpiresAt?: NativeDate | null;
+        csrfTokenHash?: string | null;
+        csrfTokenExpiresAt?: NativeDate | null;
+        lastLoginAt?: NativeDate | null;
+        lockUntil?: NativeDate | null;
+        mfaChallengeHash?: string | null;
+        mfaChallengeExpiresAt?: NativeDate | null;
+        mfaChallengePurpose?: "login" | "setup" | null;
+        deviceInfo?: string | null;
+    } & import("mongoose").DefaultTimestampProps, {
+        id: string;
+    }, {
+        timestamps: true;
+    }> & Omit<{
+        email: string;
+        password: string;
+        passwordHistory: import("mongoose").Types.DocumentArray<{
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, import("mongoose").Types.Subdocument<import("mongodb").ObjectId, unknown, {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, {}, {}> & {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }>;
+        role: "user" | "admin";
+        resetPasswordUsed: boolean;
+        emailVerified: boolean;
+        sessionVersion: number;
+        loginAttempts: number;
+        mfaEnabled: boolean;
+        mfaMethod: "email" | "none";
+        mfaChallengeAttempts: number;
+        mfaRecoveryCodeHashes: string[];
+        name?: string | null;
+        image?: string | null;
+        passwordChangedAt?: NativeDate | null;
+        resetPasswordToken?: string | null;
+        resetPasswordExpires?: NativeDate | null;
+        emailVerificationToken?: string | null;
+        emailVerificationExpires?: NativeDate | null;
+        refreshTokenHash?: string | null;
+        previousRefreshTokenHash?: string | null;
+        refreshTokenExpiresAt?: NativeDate | null;
+        csrfTokenHash?: string | null;
+        csrfTokenExpiresAt?: NativeDate | null;
+        lastLoginAt?: NativeDate | null;
+        lockUntil?: NativeDate | null;
+        mfaChallengeHash?: string | null;
+        mfaChallengeExpiresAt?: NativeDate | null;
+        mfaChallengePurpose?: "login" | "setup" | null;
+        deviceInfo?: string | null;
+    } & import("mongoose").DefaultTimestampProps & {
+        _id: import("mongoose").Types.ObjectId;
+    } & {
+        __v: number;
+    }, "id"> & import("mongoose").HydratedDocumentOverrides<{
+        id: string;
+    }>, {}, {
+        email: string;
+        password: string;
+        passwordHistory: import("mongoose").Types.DocumentArray<{
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, import("mongoose").Types.Subdocument<import("mongodb").ObjectId, unknown, {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, {}, {}> & {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }>;
+        role: "user" | "admin";
+        resetPasswordUsed: boolean;
+        emailVerified: boolean;
+        sessionVersion: number;
+        loginAttempts: number;
+        mfaEnabled: boolean;
+        mfaMethod: "email" | "none";
+        mfaChallengeAttempts: number;
+        mfaRecoveryCodeHashes: string[];
+        name?: string | null;
+        image?: string | null;
+        passwordChangedAt?: NativeDate | null;
+        resetPasswordToken?: string | null;
+        resetPasswordExpires?: NativeDate | null;
+        emailVerificationToken?: string | null;
+        emailVerificationExpires?: NativeDate | null;
+        refreshTokenHash?: string | null;
+        previousRefreshTokenHash?: string | null;
+        refreshTokenExpiresAt?: NativeDate | null;
+        csrfTokenHash?: string | null;
+        csrfTokenExpiresAt?: NativeDate | null;
+        lastLoginAt?: NativeDate | null;
+        lockUntil?: NativeDate | null;
+        mfaChallengeHash?: string | null;
+        mfaChallengeExpiresAt?: NativeDate | null;
+        mfaChallengePurpose?: "login" | "setup" | null;
+        deviceInfo?: string | null;
+        createdAt: NativeDate;
+        updatedAt: NativeDate;
+    } & {
+        _id: import("mongoose").Types.ObjectId;
+    } & {
+        __v: number;
+    }, "findOneAndUpdate", {
+        id: string;
+    }>;
+    enableMfa: (id: string, recoveryCodeHashes: string[]) => import("mongoose").Query<(import("mongoose").Document<unknown, {}, {
+        email: string;
+        password: string;
+        passwordHistory: import("mongoose").Types.DocumentArray<{
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, import("mongoose").Types.Subdocument<import("mongodb").ObjectId, unknown, {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, {}, {}> & {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }>;
+        role: "user" | "admin";
+        resetPasswordUsed: boolean;
+        emailVerified: boolean;
+        sessionVersion: number;
+        loginAttempts: number;
+        mfaEnabled: boolean;
+        mfaMethod: "email" | "none";
+        mfaChallengeAttempts: number;
+        mfaRecoveryCodeHashes: string[];
+        name?: string | null;
+        image?: string | null;
+        passwordChangedAt?: NativeDate | null;
+        resetPasswordToken?: string | null;
+        resetPasswordExpires?: NativeDate | null;
+        emailVerificationToken?: string | null;
+        emailVerificationExpires?: NativeDate | null;
+        refreshTokenHash?: string | null;
+        previousRefreshTokenHash?: string | null;
+        refreshTokenExpiresAt?: NativeDate | null;
+        csrfTokenHash?: string | null;
+        csrfTokenExpiresAt?: NativeDate | null;
+        lastLoginAt?: NativeDate | null;
+        lockUntil?: NativeDate | null;
+        mfaChallengeHash?: string | null;
+        mfaChallengeExpiresAt?: NativeDate | null;
+        mfaChallengePurpose?: "login" | "setup" | null;
+        deviceInfo?: string | null;
+    } & import("mongoose").DefaultTimestampProps, {
+        id: string;
+    }, {
+        timestamps: true;
+    }> & Omit<{
+        email: string;
+        password: string;
+        passwordHistory: import("mongoose").Types.DocumentArray<{
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, import("mongoose").Types.Subdocument<import("mongodb").ObjectId, unknown, {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, {}, {}> & {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }>;
+        role: "user" | "admin";
+        resetPasswordUsed: boolean;
+        emailVerified: boolean;
+        sessionVersion: number;
+        loginAttempts: number;
+        mfaEnabled: boolean;
+        mfaMethod: "email" | "none";
+        mfaChallengeAttempts: number;
+        mfaRecoveryCodeHashes: string[];
+        name?: string | null;
+        image?: string | null;
+        passwordChangedAt?: NativeDate | null;
+        resetPasswordToken?: string | null;
+        resetPasswordExpires?: NativeDate | null;
+        emailVerificationToken?: string | null;
+        emailVerificationExpires?: NativeDate | null;
+        refreshTokenHash?: string | null;
+        previousRefreshTokenHash?: string | null;
+        refreshTokenExpiresAt?: NativeDate | null;
+        csrfTokenHash?: string | null;
+        csrfTokenExpiresAt?: NativeDate | null;
+        lastLoginAt?: NativeDate | null;
+        lockUntil?: NativeDate | null;
+        mfaChallengeHash?: string | null;
+        mfaChallengeExpiresAt?: NativeDate | null;
+        mfaChallengePurpose?: "login" | "setup" | null;
+        deviceInfo?: string | null;
+    } & import("mongoose").DefaultTimestampProps & {
+        _id: import("mongoose").Types.ObjectId;
+    } & {
+        __v: number;
+    }, "id"> & import("mongoose").HydratedDocumentOverrides<{
+        id: string;
+    }>) | null, import("mongoose").Document<unknown, {}, {
+        email: string;
+        password: string;
+        passwordHistory: import("mongoose").Types.DocumentArray<{
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, import("mongoose").Types.Subdocument<import("mongodb").ObjectId, unknown, {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, {}, {}> & {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }>;
+        role: "user" | "admin";
+        resetPasswordUsed: boolean;
+        emailVerified: boolean;
+        sessionVersion: number;
+        loginAttempts: number;
+        mfaEnabled: boolean;
+        mfaMethod: "email" | "none";
+        mfaChallengeAttempts: number;
+        mfaRecoveryCodeHashes: string[];
+        name?: string | null;
+        image?: string | null;
+        passwordChangedAt?: NativeDate | null;
+        resetPasswordToken?: string | null;
+        resetPasswordExpires?: NativeDate | null;
+        emailVerificationToken?: string | null;
+        emailVerificationExpires?: NativeDate | null;
+        refreshTokenHash?: string | null;
+        previousRefreshTokenHash?: string | null;
+        refreshTokenExpiresAt?: NativeDate | null;
+        csrfTokenHash?: string | null;
+        csrfTokenExpiresAt?: NativeDate | null;
+        lastLoginAt?: NativeDate | null;
+        lockUntil?: NativeDate | null;
+        mfaChallengeHash?: string | null;
+        mfaChallengeExpiresAt?: NativeDate | null;
+        mfaChallengePurpose?: "login" | "setup" | null;
+        deviceInfo?: string | null;
+    } & import("mongoose").DefaultTimestampProps, {
+        id: string;
+    }, {
+        timestamps: true;
+    }> & Omit<{
+        email: string;
+        password: string;
+        passwordHistory: import("mongoose").Types.DocumentArray<{
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, import("mongoose").Types.Subdocument<import("mongodb").ObjectId, unknown, {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, {}, {}> & {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }>;
+        role: "user" | "admin";
+        resetPasswordUsed: boolean;
+        emailVerified: boolean;
+        sessionVersion: number;
+        loginAttempts: number;
+        mfaEnabled: boolean;
+        mfaMethod: "email" | "none";
+        mfaChallengeAttempts: number;
+        mfaRecoveryCodeHashes: string[];
+        name?: string | null;
+        image?: string | null;
+        passwordChangedAt?: NativeDate | null;
+        resetPasswordToken?: string | null;
+        resetPasswordExpires?: NativeDate | null;
+        emailVerificationToken?: string | null;
+        emailVerificationExpires?: NativeDate | null;
+        refreshTokenHash?: string | null;
+        previousRefreshTokenHash?: string | null;
+        refreshTokenExpiresAt?: NativeDate | null;
+        csrfTokenHash?: string | null;
+        csrfTokenExpiresAt?: NativeDate | null;
+        lastLoginAt?: NativeDate | null;
+        lockUntil?: NativeDate | null;
+        mfaChallengeHash?: string | null;
+        mfaChallengeExpiresAt?: NativeDate | null;
+        mfaChallengePurpose?: "login" | "setup" | null;
+        deviceInfo?: string | null;
+    } & import("mongoose").DefaultTimestampProps & {
+        _id: import("mongoose").Types.ObjectId;
+    } & {
+        __v: number;
+    }, "id"> & import("mongoose").HydratedDocumentOverrides<{
+        id: string;
+    }>, {}, {
+        email: string;
+        password: string;
+        passwordHistory: import("mongoose").Types.DocumentArray<{
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, import("mongoose").Types.Subdocument<import("mongodb").ObjectId, unknown, {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, {}, {}> & {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }>;
+        role: "user" | "admin";
+        resetPasswordUsed: boolean;
+        emailVerified: boolean;
+        sessionVersion: number;
+        loginAttempts: number;
+        mfaEnabled: boolean;
+        mfaMethod: "email" | "none";
+        mfaChallengeAttempts: number;
+        mfaRecoveryCodeHashes: string[];
+        name?: string | null;
+        image?: string | null;
+        passwordChangedAt?: NativeDate | null;
+        resetPasswordToken?: string | null;
+        resetPasswordExpires?: NativeDate | null;
+        emailVerificationToken?: string | null;
+        emailVerificationExpires?: NativeDate | null;
+        refreshTokenHash?: string | null;
+        previousRefreshTokenHash?: string | null;
+        refreshTokenExpiresAt?: NativeDate | null;
+        csrfTokenHash?: string | null;
+        csrfTokenExpiresAt?: NativeDate | null;
+        lastLoginAt?: NativeDate | null;
+        lockUntil?: NativeDate | null;
+        mfaChallengeHash?: string | null;
+        mfaChallengeExpiresAt?: NativeDate | null;
+        mfaChallengePurpose?: "login" | "setup" | null;
+        deviceInfo?: string | null;
+        createdAt: NativeDate;
+        updatedAt: NativeDate;
+    } & {
+        _id: import("mongoose").Types.ObjectId;
+    } & {
+        __v: number;
+    }, "findOneAndUpdate", {
+        id: string;
+    }>;
+    disableMfa: (id: string) => import("mongoose").Query<(import("mongoose").Document<unknown, {}, {
+        email: string;
+        password: string;
+        passwordHistory: import("mongoose").Types.DocumentArray<{
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, import("mongoose").Types.Subdocument<import("mongodb").ObjectId, unknown, {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, {}, {}> & {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }>;
+        role: "user" | "admin";
+        resetPasswordUsed: boolean;
+        emailVerified: boolean;
+        sessionVersion: number;
+        loginAttempts: number;
+        mfaEnabled: boolean;
+        mfaMethod: "email" | "none";
+        mfaChallengeAttempts: number;
+        mfaRecoveryCodeHashes: string[];
+        name?: string | null;
+        image?: string | null;
+        passwordChangedAt?: NativeDate | null;
+        resetPasswordToken?: string | null;
+        resetPasswordExpires?: NativeDate | null;
+        emailVerificationToken?: string | null;
+        emailVerificationExpires?: NativeDate | null;
+        refreshTokenHash?: string | null;
+        previousRefreshTokenHash?: string | null;
+        refreshTokenExpiresAt?: NativeDate | null;
+        csrfTokenHash?: string | null;
+        csrfTokenExpiresAt?: NativeDate | null;
+        lastLoginAt?: NativeDate | null;
+        lockUntil?: NativeDate | null;
+        mfaChallengeHash?: string | null;
+        mfaChallengeExpiresAt?: NativeDate | null;
+        mfaChallengePurpose?: "login" | "setup" | null;
+        deviceInfo?: string | null;
+    } & import("mongoose").DefaultTimestampProps, {
+        id: string;
+    }, {
+        timestamps: true;
+    }> & Omit<{
+        email: string;
+        password: string;
+        passwordHistory: import("mongoose").Types.DocumentArray<{
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, import("mongoose").Types.Subdocument<import("mongodb").ObjectId, unknown, {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, {}, {}> & {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }>;
+        role: "user" | "admin";
+        resetPasswordUsed: boolean;
+        emailVerified: boolean;
+        sessionVersion: number;
+        loginAttempts: number;
+        mfaEnabled: boolean;
+        mfaMethod: "email" | "none";
+        mfaChallengeAttempts: number;
+        mfaRecoveryCodeHashes: string[];
+        name?: string | null;
+        image?: string | null;
+        passwordChangedAt?: NativeDate | null;
+        resetPasswordToken?: string | null;
+        resetPasswordExpires?: NativeDate | null;
+        emailVerificationToken?: string | null;
+        emailVerificationExpires?: NativeDate | null;
+        refreshTokenHash?: string | null;
+        previousRefreshTokenHash?: string | null;
+        refreshTokenExpiresAt?: NativeDate | null;
+        csrfTokenHash?: string | null;
+        csrfTokenExpiresAt?: NativeDate | null;
+        lastLoginAt?: NativeDate | null;
+        lockUntil?: NativeDate | null;
+        mfaChallengeHash?: string | null;
+        mfaChallengeExpiresAt?: NativeDate | null;
+        mfaChallengePurpose?: "login" | "setup" | null;
+        deviceInfo?: string | null;
+    } & import("mongoose").DefaultTimestampProps & {
+        _id: import("mongoose").Types.ObjectId;
+    } & {
+        __v: number;
+    }, "id"> & import("mongoose").HydratedDocumentOverrides<{
+        id: string;
+    }>) | null, import("mongoose").Document<unknown, {}, {
+        email: string;
+        password: string;
+        passwordHistory: import("mongoose").Types.DocumentArray<{
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, import("mongoose").Types.Subdocument<import("mongodb").ObjectId, unknown, {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, {}, {}> & {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }>;
+        role: "user" | "admin";
+        resetPasswordUsed: boolean;
+        emailVerified: boolean;
+        sessionVersion: number;
+        loginAttempts: number;
+        mfaEnabled: boolean;
+        mfaMethod: "email" | "none";
+        mfaChallengeAttempts: number;
+        mfaRecoveryCodeHashes: string[];
+        name?: string | null;
+        image?: string | null;
+        passwordChangedAt?: NativeDate | null;
+        resetPasswordToken?: string | null;
+        resetPasswordExpires?: NativeDate | null;
+        emailVerificationToken?: string | null;
+        emailVerificationExpires?: NativeDate | null;
+        refreshTokenHash?: string | null;
+        previousRefreshTokenHash?: string | null;
+        refreshTokenExpiresAt?: NativeDate | null;
+        csrfTokenHash?: string | null;
+        csrfTokenExpiresAt?: NativeDate | null;
+        lastLoginAt?: NativeDate | null;
+        lockUntil?: NativeDate | null;
+        mfaChallengeHash?: string | null;
+        mfaChallengeExpiresAt?: NativeDate | null;
+        mfaChallengePurpose?: "login" | "setup" | null;
+        deviceInfo?: string | null;
+    } & import("mongoose").DefaultTimestampProps, {
+        id: string;
+    }, {
+        timestamps: true;
+    }> & Omit<{
+        email: string;
+        password: string;
+        passwordHistory: import("mongoose").Types.DocumentArray<{
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, import("mongoose").Types.Subdocument<import("mongodb").ObjectId, unknown, {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, {}, {}> & {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }>;
+        role: "user" | "admin";
+        resetPasswordUsed: boolean;
+        emailVerified: boolean;
+        sessionVersion: number;
+        loginAttempts: number;
+        mfaEnabled: boolean;
+        mfaMethod: "email" | "none";
+        mfaChallengeAttempts: number;
+        mfaRecoveryCodeHashes: string[];
+        name?: string | null;
+        image?: string | null;
+        passwordChangedAt?: NativeDate | null;
+        resetPasswordToken?: string | null;
+        resetPasswordExpires?: NativeDate | null;
+        emailVerificationToken?: string | null;
+        emailVerificationExpires?: NativeDate | null;
+        refreshTokenHash?: string | null;
+        previousRefreshTokenHash?: string | null;
+        refreshTokenExpiresAt?: NativeDate | null;
+        csrfTokenHash?: string | null;
+        csrfTokenExpiresAt?: NativeDate | null;
+        lastLoginAt?: NativeDate | null;
+        lockUntil?: NativeDate | null;
+        mfaChallengeHash?: string | null;
+        mfaChallengeExpiresAt?: NativeDate | null;
+        mfaChallengePurpose?: "login" | "setup" | null;
+        deviceInfo?: string | null;
+    } & import("mongoose").DefaultTimestampProps & {
+        _id: import("mongoose").Types.ObjectId;
+    } & {
+        __v: number;
+    }, "id"> & import("mongoose").HydratedDocumentOverrides<{
+        id: string;
+    }>, {}, {
+        email: string;
+        password: string;
+        passwordHistory: import("mongoose").Types.DocumentArray<{
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, import("mongoose").Types.Subdocument<import("mongodb").ObjectId, unknown, {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, {}, {}> & {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }>;
+        role: "user" | "admin";
+        resetPasswordUsed: boolean;
+        emailVerified: boolean;
+        sessionVersion: number;
+        loginAttempts: number;
+        mfaEnabled: boolean;
+        mfaMethod: "email" | "none";
+        mfaChallengeAttempts: number;
+        mfaRecoveryCodeHashes: string[];
+        name?: string | null;
+        image?: string | null;
+        passwordChangedAt?: NativeDate | null;
+        resetPasswordToken?: string | null;
+        resetPasswordExpires?: NativeDate | null;
+        emailVerificationToken?: string | null;
+        emailVerificationExpires?: NativeDate | null;
+        refreshTokenHash?: string | null;
+        previousRefreshTokenHash?: string | null;
+        refreshTokenExpiresAt?: NativeDate | null;
+        csrfTokenHash?: string | null;
+        csrfTokenExpiresAt?: NativeDate | null;
+        lastLoginAt?: NativeDate | null;
+        lockUntil?: NativeDate | null;
+        mfaChallengeHash?: string | null;
+        mfaChallengeExpiresAt?: NativeDate | null;
+        mfaChallengePurpose?: "login" | "setup" | null;
+        deviceInfo?: string | null;
+        createdAt: NativeDate;
+        updatedAt: NativeDate;
+    } & {
+        _id: import("mongoose").Types.ObjectId;
+    } & {
+        __v: number;
+    }, "findOneAndUpdate", {
+        id: string;
+    }>;
+    consumeRecoveryCode: (id: string, hash: string) => import("mongoose").Query<(import("mongoose").Document<unknown, {}, {
+        email: string;
+        password: string;
+        passwordHistory: import("mongoose").Types.DocumentArray<{
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, import("mongoose").Types.Subdocument<import("mongodb").ObjectId, unknown, {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, {}, {}> & {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }>;
+        role: "user" | "admin";
+        resetPasswordUsed: boolean;
+        emailVerified: boolean;
+        sessionVersion: number;
+        loginAttempts: number;
+        mfaEnabled: boolean;
+        mfaMethod: "email" | "none";
+        mfaChallengeAttempts: number;
+        mfaRecoveryCodeHashes: string[];
+        name?: string | null;
+        image?: string | null;
+        passwordChangedAt?: NativeDate | null;
+        resetPasswordToken?: string | null;
+        resetPasswordExpires?: NativeDate | null;
+        emailVerificationToken?: string | null;
+        emailVerificationExpires?: NativeDate | null;
+        refreshTokenHash?: string | null;
+        previousRefreshTokenHash?: string | null;
+        refreshTokenExpiresAt?: NativeDate | null;
+        csrfTokenHash?: string | null;
+        csrfTokenExpiresAt?: NativeDate | null;
+        lastLoginAt?: NativeDate | null;
+        lockUntil?: NativeDate | null;
+        mfaChallengeHash?: string | null;
+        mfaChallengeExpiresAt?: NativeDate | null;
+        mfaChallengePurpose?: "login" | "setup" | null;
+        deviceInfo?: string | null;
+    } & import("mongoose").DefaultTimestampProps, {
+        id: string;
+    }, {
+        timestamps: true;
+    }> & Omit<{
+        email: string;
+        password: string;
+        passwordHistory: import("mongoose").Types.DocumentArray<{
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, import("mongoose").Types.Subdocument<import("mongodb").ObjectId, unknown, {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, {}, {}> & {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }>;
+        role: "user" | "admin";
+        resetPasswordUsed: boolean;
+        emailVerified: boolean;
+        sessionVersion: number;
+        loginAttempts: number;
+        mfaEnabled: boolean;
+        mfaMethod: "email" | "none";
+        mfaChallengeAttempts: number;
+        mfaRecoveryCodeHashes: string[];
+        name?: string | null;
+        image?: string | null;
+        passwordChangedAt?: NativeDate | null;
+        resetPasswordToken?: string | null;
+        resetPasswordExpires?: NativeDate | null;
+        emailVerificationToken?: string | null;
+        emailVerificationExpires?: NativeDate | null;
+        refreshTokenHash?: string | null;
+        previousRefreshTokenHash?: string | null;
+        refreshTokenExpiresAt?: NativeDate | null;
+        csrfTokenHash?: string | null;
+        csrfTokenExpiresAt?: NativeDate | null;
+        lastLoginAt?: NativeDate | null;
+        lockUntil?: NativeDate | null;
+        mfaChallengeHash?: string | null;
+        mfaChallengeExpiresAt?: NativeDate | null;
+        mfaChallengePurpose?: "login" | "setup" | null;
+        deviceInfo?: string | null;
+    } & import("mongoose").DefaultTimestampProps & {
+        _id: import("mongoose").Types.ObjectId;
+    } & {
+        __v: number;
+    }, "id"> & import("mongoose").HydratedDocumentOverrides<{
+        id: string;
+    }>) | null, import("mongoose").Document<unknown, {}, {
+        email: string;
+        password: string;
+        passwordHistory: import("mongoose").Types.DocumentArray<{
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, import("mongoose").Types.Subdocument<import("mongodb").ObjectId, unknown, {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, {}, {}> & {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }>;
+        role: "user" | "admin";
+        resetPasswordUsed: boolean;
+        emailVerified: boolean;
+        sessionVersion: number;
+        loginAttempts: number;
+        mfaEnabled: boolean;
+        mfaMethod: "email" | "none";
+        mfaChallengeAttempts: number;
+        mfaRecoveryCodeHashes: string[];
+        name?: string | null;
+        image?: string | null;
+        passwordChangedAt?: NativeDate | null;
+        resetPasswordToken?: string | null;
+        resetPasswordExpires?: NativeDate | null;
+        emailVerificationToken?: string | null;
+        emailVerificationExpires?: NativeDate | null;
+        refreshTokenHash?: string | null;
+        previousRefreshTokenHash?: string | null;
+        refreshTokenExpiresAt?: NativeDate | null;
+        csrfTokenHash?: string | null;
+        csrfTokenExpiresAt?: NativeDate | null;
+        lastLoginAt?: NativeDate | null;
+        lockUntil?: NativeDate | null;
+        mfaChallengeHash?: string | null;
+        mfaChallengeExpiresAt?: NativeDate | null;
+        mfaChallengePurpose?: "login" | "setup" | null;
+        deviceInfo?: string | null;
+    } & import("mongoose").DefaultTimestampProps, {
+        id: string;
+    }, {
+        timestamps: true;
+    }> & Omit<{
+        email: string;
+        password: string;
+        passwordHistory: import("mongoose").Types.DocumentArray<{
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, import("mongoose").Types.Subdocument<import("mongodb").ObjectId, unknown, {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, {}, {}> & {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }>;
+        role: "user" | "admin";
+        resetPasswordUsed: boolean;
+        emailVerified: boolean;
+        sessionVersion: number;
+        loginAttempts: number;
+        mfaEnabled: boolean;
+        mfaMethod: "email" | "none";
+        mfaChallengeAttempts: number;
+        mfaRecoveryCodeHashes: string[];
+        name?: string | null;
+        image?: string | null;
+        passwordChangedAt?: NativeDate | null;
+        resetPasswordToken?: string | null;
+        resetPasswordExpires?: NativeDate | null;
+        emailVerificationToken?: string | null;
+        emailVerificationExpires?: NativeDate | null;
+        refreshTokenHash?: string | null;
+        previousRefreshTokenHash?: string | null;
+        refreshTokenExpiresAt?: NativeDate | null;
+        csrfTokenHash?: string | null;
+        csrfTokenExpiresAt?: NativeDate | null;
+        lastLoginAt?: NativeDate | null;
+        lockUntil?: NativeDate | null;
+        mfaChallengeHash?: string | null;
+        mfaChallengeExpiresAt?: NativeDate | null;
+        mfaChallengePurpose?: "login" | "setup" | null;
+        deviceInfo?: string | null;
+    } & import("mongoose").DefaultTimestampProps & {
+        _id: import("mongoose").Types.ObjectId;
+    } & {
+        __v: number;
+    }, "id"> & import("mongoose").HydratedDocumentOverrides<{
+        id: string;
+    }>, {}, {
+        email: string;
+        password: string;
+        passwordHistory: import("mongoose").Types.DocumentArray<{
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, import("mongoose").Types.Subdocument<import("mongodb").ObjectId, unknown, {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, {}, {}> & {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }>;
+        role: "user" | "admin";
+        resetPasswordUsed: boolean;
+        emailVerified: boolean;
+        sessionVersion: number;
+        loginAttempts: number;
+        mfaEnabled: boolean;
+        mfaMethod: "email" | "none";
+        mfaChallengeAttempts: number;
+        mfaRecoveryCodeHashes: string[];
+        name?: string | null;
+        image?: string | null;
+        passwordChangedAt?: NativeDate | null;
+        resetPasswordToken?: string | null;
+        resetPasswordExpires?: NativeDate | null;
+        emailVerificationToken?: string | null;
+        emailVerificationExpires?: NativeDate | null;
+        refreshTokenHash?: string | null;
+        previousRefreshTokenHash?: string | null;
+        refreshTokenExpiresAt?: NativeDate | null;
+        csrfTokenHash?: string | null;
+        csrfTokenExpiresAt?: NativeDate | null;
+        lastLoginAt?: NativeDate | null;
+        lockUntil?: NativeDate | null;
+        mfaChallengeHash?: string | null;
+        mfaChallengeExpiresAt?: NativeDate | null;
+        mfaChallengePurpose?: "login" | "setup" | null;
         deviceInfo?: string | null;
         createdAt: NativeDate;
         updatedAt: NativeDate;
@@ -3498,6 +5204,8 @@ export declare const AuthRepository: {
         loginAttempts: number;
         mfaEnabled: boolean;
         mfaMethod: "email" | "none";
+        mfaChallengeAttempts: number;
+        mfaRecoveryCodeHashes: string[];
         name?: string | null;
         image?: string | null;
         passwordChangedAt?: NativeDate | null;
@@ -3512,7 +5220,9 @@ export declare const AuthRepository: {
         csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
-        mfaSecret?: string | null;
+        mfaChallengeHash?: string | null;
+        mfaChallengeExpiresAt?: NativeDate | null;
+        mfaChallengePurpose?: "login" | "setup" | null;
         deviceInfo?: string | null;
     } & import("mongoose").DefaultTimestampProps, {
         id: string;
@@ -3538,6 +5248,8 @@ export declare const AuthRepository: {
         loginAttempts: number;
         mfaEnabled: boolean;
         mfaMethod: "email" | "none";
+        mfaChallengeAttempts: number;
+        mfaRecoveryCodeHashes: string[];
         name?: string | null;
         image?: string | null;
         passwordChangedAt?: NativeDate | null;
@@ -3552,7 +5264,9 @@ export declare const AuthRepository: {
         csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
-        mfaSecret?: string | null;
+        mfaChallengeHash?: string | null;
+        mfaChallengeExpiresAt?: NativeDate | null;
+        mfaChallengePurpose?: "login" | "setup" | null;
         deviceInfo?: string | null;
     } & import("mongoose").DefaultTimestampProps & {
         _id: import("mongoose").Types.ObjectId;
@@ -3580,6 +5294,8 @@ export declare const AuthRepository: {
         loginAttempts: number;
         mfaEnabled: boolean;
         mfaMethod: "email" | "none";
+        mfaChallengeAttempts: number;
+        mfaRecoveryCodeHashes: string[];
         name?: string | null;
         image?: string | null;
         passwordChangedAt?: NativeDate | null;
@@ -3594,7 +5310,9 @@ export declare const AuthRepository: {
         csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
-        mfaSecret?: string | null;
+        mfaChallengeHash?: string | null;
+        mfaChallengeExpiresAt?: NativeDate | null;
+        mfaChallengePurpose?: "login" | "setup" | null;
         deviceInfo?: string | null;
     } & import("mongoose").DefaultTimestampProps, {
         id: string;
@@ -3620,6 +5338,8 @@ export declare const AuthRepository: {
         loginAttempts: number;
         mfaEnabled: boolean;
         mfaMethod: "email" | "none";
+        mfaChallengeAttempts: number;
+        mfaRecoveryCodeHashes: string[];
         name?: string | null;
         image?: string | null;
         passwordChangedAt?: NativeDate | null;
@@ -3634,7 +5354,9 @@ export declare const AuthRepository: {
         csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
-        mfaSecret?: string | null;
+        mfaChallengeHash?: string | null;
+        mfaChallengeExpiresAt?: NativeDate | null;
+        mfaChallengePurpose?: "login" | "setup" | null;
         deviceInfo?: string | null;
     } & import("mongoose").DefaultTimestampProps & {
         _id: import("mongoose").Types.ObjectId;
@@ -3662,6 +5384,8 @@ export declare const AuthRepository: {
         loginAttempts: number;
         mfaEnabled: boolean;
         mfaMethod: "email" | "none";
+        mfaChallengeAttempts: number;
+        mfaRecoveryCodeHashes: string[];
         name?: string | null;
         image?: string | null;
         passwordChangedAt?: NativeDate | null;
@@ -3676,7 +5400,9 @@ export declare const AuthRepository: {
         csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
-        mfaSecret?: string | null;
+        mfaChallengeHash?: string | null;
+        mfaChallengeExpiresAt?: NativeDate | null;
+        mfaChallengePurpose?: "login" | "setup" | null;
         deviceInfo?: string | null;
         createdAt: NativeDate;
         updatedAt: NativeDate;
@@ -3707,6 +5433,8 @@ export declare const AuthRepository: {
         loginAttempts: number;
         mfaEnabled: boolean;
         mfaMethod: "email" | "none";
+        mfaChallengeAttempts: number;
+        mfaRecoveryCodeHashes: string[];
         name?: string | null;
         image?: string | null;
         passwordChangedAt?: NativeDate | null;
@@ -3721,7 +5449,9 @@ export declare const AuthRepository: {
         csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
-        mfaSecret?: string | null;
+        mfaChallengeHash?: string | null;
+        mfaChallengeExpiresAt?: NativeDate | null;
+        mfaChallengePurpose?: "login" | "setup" | null;
         deviceInfo?: string | null;
     } & import("mongoose").DefaultTimestampProps, {
         id: string;
@@ -3747,6 +5477,8 @@ export declare const AuthRepository: {
         loginAttempts: number;
         mfaEnabled: boolean;
         mfaMethod: "email" | "none";
+        mfaChallengeAttempts: number;
+        mfaRecoveryCodeHashes: string[];
         name?: string | null;
         image?: string | null;
         passwordChangedAt?: NativeDate | null;
@@ -3761,7 +5493,9 @@ export declare const AuthRepository: {
         csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
-        mfaSecret?: string | null;
+        mfaChallengeHash?: string | null;
+        mfaChallengeExpiresAt?: NativeDate | null;
+        mfaChallengePurpose?: "login" | "setup" | null;
         deviceInfo?: string | null;
     } & import("mongoose").DefaultTimestampProps & {
         _id: import("mongoose").Types.ObjectId;
@@ -3789,6 +5523,8 @@ export declare const AuthRepository: {
         loginAttempts: number;
         mfaEnabled: boolean;
         mfaMethod: "email" | "none";
+        mfaChallengeAttempts: number;
+        mfaRecoveryCodeHashes: string[];
         name?: string | null;
         image?: string | null;
         passwordChangedAt?: NativeDate | null;
@@ -3803,7 +5539,9 @@ export declare const AuthRepository: {
         csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
-        mfaSecret?: string | null;
+        mfaChallengeHash?: string | null;
+        mfaChallengeExpiresAt?: NativeDate | null;
+        mfaChallengePurpose?: "login" | "setup" | null;
         deviceInfo?: string | null;
     } & import("mongoose").DefaultTimestampProps, {
         id: string;
@@ -3829,6 +5567,8 @@ export declare const AuthRepository: {
         loginAttempts: number;
         mfaEnabled: boolean;
         mfaMethod: "email" | "none";
+        mfaChallengeAttempts: number;
+        mfaRecoveryCodeHashes: string[];
         name?: string | null;
         image?: string | null;
         passwordChangedAt?: NativeDate | null;
@@ -3843,7 +5583,9 @@ export declare const AuthRepository: {
         csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
-        mfaSecret?: string | null;
+        mfaChallengeHash?: string | null;
+        mfaChallengeExpiresAt?: NativeDate | null;
+        mfaChallengePurpose?: "login" | "setup" | null;
         deviceInfo?: string | null;
     } & import("mongoose").DefaultTimestampProps & {
         _id: import("mongoose").Types.ObjectId;
@@ -3871,6 +5613,8 @@ export declare const AuthRepository: {
         loginAttempts: number;
         mfaEnabled: boolean;
         mfaMethod: "email" | "none";
+        mfaChallengeAttempts: number;
+        mfaRecoveryCodeHashes: string[];
         name?: string | null;
         image?: string | null;
         passwordChangedAt?: NativeDate | null;
@@ -3885,7 +5629,9 @@ export declare const AuthRepository: {
         csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
-        mfaSecret?: string | null;
+        mfaChallengeHash?: string | null;
+        mfaChallengeExpiresAt?: NativeDate | null;
+        mfaChallengePurpose?: "login" | "setup" | null;
         deviceInfo?: string | null;
         createdAt: NativeDate;
         updatedAt: NativeDate;
@@ -3916,6 +5662,8 @@ export declare const AuthRepository: {
         loginAttempts: number;
         mfaEnabled: boolean;
         mfaMethod: "email" | "none";
+        mfaChallengeAttempts: number;
+        mfaRecoveryCodeHashes: string[];
         name?: string | null;
         image?: string | null;
         passwordChangedAt?: NativeDate | null;
@@ -3930,7 +5678,9 @@ export declare const AuthRepository: {
         csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
-        mfaSecret?: string | null;
+        mfaChallengeHash?: string | null;
+        mfaChallengeExpiresAt?: NativeDate | null;
+        mfaChallengePurpose?: "login" | "setup" | null;
         deviceInfo?: string | null;
     } & import("mongoose").DefaultTimestampProps, {
         id: string;
@@ -3956,6 +5706,8 @@ export declare const AuthRepository: {
         loginAttempts: number;
         mfaEnabled: boolean;
         mfaMethod: "email" | "none";
+        mfaChallengeAttempts: number;
+        mfaRecoveryCodeHashes: string[];
         name?: string | null;
         image?: string | null;
         passwordChangedAt?: NativeDate | null;
@@ -3970,7 +5722,9 @@ export declare const AuthRepository: {
         csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
-        mfaSecret?: string | null;
+        mfaChallengeHash?: string | null;
+        mfaChallengeExpiresAt?: NativeDate | null;
+        mfaChallengePurpose?: "login" | "setup" | null;
         deviceInfo?: string | null;
     } & import("mongoose").DefaultTimestampProps & {
         _id: import("mongoose").Types.ObjectId;
@@ -3998,6 +5752,8 @@ export declare const AuthRepository: {
         loginAttempts: number;
         mfaEnabled: boolean;
         mfaMethod: "email" | "none";
+        mfaChallengeAttempts: number;
+        mfaRecoveryCodeHashes: string[];
         name?: string | null;
         image?: string | null;
         passwordChangedAt?: NativeDate | null;
@@ -4012,7 +5768,9 @@ export declare const AuthRepository: {
         csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
-        mfaSecret?: string | null;
+        mfaChallengeHash?: string | null;
+        mfaChallengeExpiresAt?: NativeDate | null;
+        mfaChallengePurpose?: "login" | "setup" | null;
         deviceInfo?: string | null;
     } & import("mongoose").DefaultTimestampProps, {
         id: string;
@@ -4038,6 +5796,8 @@ export declare const AuthRepository: {
         loginAttempts: number;
         mfaEnabled: boolean;
         mfaMethod: "email" | "none";
+        mfaChallengeAttempts: number;
+        mfaRecoveryCodeHashes: string[];
         name?: string | null;
         image?: string | null;
         passwordChangedAt?: NativeDate | null;
@@ -4052,7 +5812,9 @@ export declare const AuthRepository: {
         csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
-        mfaSecret?: string | null;
+        mfaChallengeHash?: string | null;
+        mfaChallengeExpiresAt?: NativeDate | null;
+        mfaChallengePurpose?: "login" | "setup" | null;
         deviceInfo?: string | null;
     } & import("mongoose").DefaultTimestampProps & {
         _id: import("mongoose").Types.ObjectId;
@@ -4080,6 +5842,8 @@ export declare const AuthRepository: {
         loginAttempts: number;
         mfaEnabled: boolean;
         mfaMethod: "email" | "none";
+        mfaChallengeAttempts: number;
+        mfaRecoveryCodeHashes: string[];
         name?: string | null;
         image?: string | null;
         passwordChangedAt?: NativeDate | null;
@@ -4094,7 +5858,9 @@ export declare const AuthRepository: {
         csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
-        mfaSecret?: string | null;
+        mfaChallengeHash?: string | null;
+        mfaChallengeExpiresAt?: NativeDate | null;
+        mfaChallengePurpose?: "login" | "setup" | null;
         deviceInfo?: string | null;
         createdAt: NativeDate;
         updatedAt: NativeDate;
@@ -4125,6 +5891,8 @@ export declare const AuthRepository: {
         loginAttempts: number;
         mfaEnabled: boolean;
         mfaMethod: "email" | "none";
+        mfaChallengeAttempts: number;
+        mfaRecoveryCodeHashes: string[];
         name?: string | null;
         image?: string | null;
         passwordChangedAt?: NativeDate | null;
@@ -4139,7 +5907,9 @@ export declare const AuthRepository: {
         csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
-        mfaSecret?: string | null;
+        mfaChallengeHash?: string | null;
+        mfaChallengeExpiresAt?: NativeDate | null;
+        mfaChallengePurpose?: "login" | "setup" | null;
         deviceInfo?: string | null;
     } & import("mongoose").DefaultTimestampProps, {
         id: string;
@@ -4165,6 +5935,8 @@ export declare const AuthRepository: {
         loginAttempts: number;
         mfaEnabled: boolean;
         mfaMethod: "email" | "none";
+        mfaChallengeAttempts: number;
+        mfaRecoveryCodeHashes: string[];
         name?: string | null;
         image?: string | null;
         passwordChangedAt?: NativeDate | null;
@@ -4179,7 +5951,9 @@ export declare const AuthRepository: {
         csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
-        mfaSecret?: string | null;
+        mfaChallengeHash?: string | null;
+        mfaChallengeExpiresAt?: NativeDate | null;
+        mfaChallengePurpose?: "login" | "setup" | null;
         deviceInfo?: string | null;
     } & import("mongoose").DefaultTimestampProps & {
         _id: import("mongoose").Types.ObjectId;
@@ -4207,6 +5981,8 @@ export declare const AuthRepository: {
         loginAttempts: number;
         mfaEnabled: boolean;
         mfaMethod: "email" | "none";
+        mfaChallengeAttempts: number;
+        mfaRecoveryCodeHashes: string[];
         name?: string | null;
         image?: string | null;
         passwordChangedAt?: NativeDate | null;
@@ -4221,7 +5997,9 @@ export declare const AuthRepository: {
         csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
-        mfaSecret?: string | null;
+        mfaChallengeHash?: string | null;
+        mfaChallengeExpiresAt?: NativeDate | null;
+        mfaChallengePurpose?: "login" | "setup" | null;
         deviceInfo?: string | null;
     } & import("mongoose").DefaultTimestampProps, {
         id: string;
@@ -4247,6 +6025,8 @@ export declare const AuthRepository: {
         loginAttempts: number;
         mfaEnabled: boolean;
         mfaMethod: "email" | "none";
+        mfaChallengeAttempts: number;
+        mfaRecoveryCodeHashes: string[];
         name?: string | null;
         image?: string | null;
         passwordChangedAt?: NativeDate | null;
@@ -4261,7 +6041,9 @@ export declare const AuthRepository: {
         csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
-        mfaSecret?: string | null;
+        mfaChallengeHash?: string | null;
+        mfaChallengeExpiresAt?: NativeDate | null;
+        mfaChallengePurpose?: "login" | "setup" | null;
         deviceInfo?: string | null;
     } & import("mongoose").DefaultTimestampProps & {
         _id: import("mongoose").Types.ObjectId;
@@ -4289,6 +6071,8 @@ export declare const AuthRepository: {
         loginAttempts: number;
         mfaEnabled: boolean;
         mfaMethod: "email" | "none";
+        mfaChallengeAttempts: number;
+        mfaRecoveryCodeHashes: string[];
         name?: string | null;
         image?: string | null;
         passwordChangedAt?: NativeDate | null;
@@ -4303,7 +6087,9 @@ export declare const AuthRepository: {
         csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
-        mfaSecret?: string | null;
+        mfaChallengeHash?: string | null;
+        mfaChallengeExpiresAt?: NativeDate | null;
+        mfaChallengePurpose?: "login" | "setup" | null;
         deviceInfo?: string | null;
         createdAt: NativeDate;
         updatedAt: NativeDate;

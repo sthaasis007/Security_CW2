@@ -16,6 +16,9 @@ export const getJwtSecret = (): string => {
 export const validateSecurityConfiguration = (): void => {
   getJwtSecret();
   if (process.env.NODE_ENV === "production") {
+    if (process.env.KHALTI_TEST_MODE === "true") {
+      throw new Error("KHALTI_TEST_MODE cannot be enabled in production");
+    }
     if (!process.env.CAPTCHA_SECRET?.trim()) {
       throw new Error("CAPTCHA_SECRET is required in production");
     }

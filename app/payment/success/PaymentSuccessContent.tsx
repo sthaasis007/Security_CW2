@@ -2,20 +2,15 @@
 import { useEffect, useState } from "react";
 import apiFetch from "@/app/lib/request";
 import { useSearchParams, useRouter } from "next/navigation";
-import { useCart } from "@/app/lib/useCart";
 import styles from "./Success.module.css";
 
 export default function PaymentSuccessContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const { clearCart } = useCart();
   const [paymentDetails, setPaymentDetails] = useState<any>(null);
-  const [hasCleared, setHasCleared] = useState(false);
+  const [message, setMessage] = useState("Verifying payment with Khalti…");
 
   useEffect(() => {
-    const orderId = searchParams.get("orderId");
-    const transactionId = searchParams.get("transactionId");
-    const amount = searchParams.get("amount");
     const pidx = searchParams.get("pidx");
 
     const run = async () => {
@@ -24,51 +19,35 @@ export default function PaymentSuccessContent() {
           try {
           const res = await apiFetch('/api/payment/verify', { method: 'POST', body: JSON.stringify({ pidx }) });
           const body = await res.json().catch(() => ({}));
-          if (res.ok && body?.data) {
-            const data = body.data;
-            // Khalti returns total_amount in paisa
-            const paid = (data.total_amount || data.total_amount_in_paisa || 0) / 100;
+          if (res.ok && body?.order) {
+            const order = body.order;
             setPaymentDetails({
-              orderId: data.purchase_order_id || pidx,
-              transactionId: data.transaction_id || data.transaction_id || data.transaction || searchParams.get('transaction_id') || '',
-              amount: paid,
+              orderId: order.orderId,
+              transactionId: order.transactionId || "",
+              amount: order.amountPaisa / 100,
             });
-            if (!hasCleared) {
-              clearCart();
-              setHasCleared(true);
-            }
+            setMessage(body.idempotent ? "This payment was already verified." : "Payment verified successfully.");
             return;
           }
-          console.error('Payment verify failed', body);
-        } catch (err) {
-          console.error('Payment verify error', err);
+          setMessage(body.message || "Payment could not be verified.");
+        } catch {
+          setMessage("Payment verification is temporarily unavailable.");
         }
-      }
-
-      if (orderId && transactionId && amount) {
-        setPaymentDetails({
-          orderId,
-          transactionId,
-          amount: parseFloat(amount),
-        });
-
-        if (!hasCleared) {
-          clearCart();
-          setHasCleared(true);
-        }
+      } else {
+        setMessage("Missing payment reference.");
       }
     };
 
     void run();
-  }, [searchParams, hasCleared, clearCart]);
+  }, [searchParams]);
 
   return (
     <div className={styles.container}>
       <div className={styles.card}>
         <div className={styles.success}>
           <div className={styles.checkmark}>✓</div>
-          <h1>Payment Successful!</h1>
-          <p>Thank you for your purchase</p>
+          <h1>{paymentDetails ? "Payment Successful!" : "Payment Status"}</h1>
+          <p>{message}</p>
 
           {paymentDetails && (
             <div className={styles.details}>
@@ -95,7 +74,7 @@ export default function PaymentSuccessContent() {
               Continue Shopping
             </button>
             <button
-              onClick={() => router.push("/profile")}
+              onClick={() => router.push("/cart")}
               className={styles.secondaryButton}
             >
               View Orders

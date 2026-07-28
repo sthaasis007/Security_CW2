@@ -6,10 +6,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const payment_controller_1 = require("./payment.controller");
 const rateLimit_middleware_1 = __importDefault(require("../../middleware/rateLimit.middleware"));
+const auth_middleware_1 = __importDefault(require("../../middleware/auth.middleware"));
 const router = (0, express_1.Router)();
 const paymentRateLimit = (0, rateLimit_middleware_1.default)({ windowMs: 60 * 1000, max: 10, keyPrefix: "payment", progressiveDelayMs: 2000 });
 // Payment routes
-router.post("/initiate", paymentRateLimit, payment_controller_1.initiatePayment);
-router.post("/verify", paymentRateLimit, payment_controller_1.verifyPayment);
+router.post("/initiate", paymentRateLimit, auth_middleware_1.default, payment_controller_1.initiatePayment);
+router.post("/verify", paymentRateLimit, auth_middleware_1.default, payment_controller_1.verifyPayment);
+router.get("/orders", paymentRateLimit, auth_middleware_1.default, payment_controller_1.listOrders);
 exports.default = router;
 //# sourceMappingURL=payment.route.js.map

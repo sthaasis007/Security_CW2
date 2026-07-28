@@ -16,6 +16,14 @@ export default function CreateUserForm() {
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
+  const passwordChecks = {
+    length: formData.password.length >= 12,
+    upper: /[A-Z]/.test(formData.password),
+    lower: /[a-z]/.test(formData.password),
+    number: /\d/.test(formData.password),
+    symbol: /[^A-Za-z0-9]/.test(formData.password),
+  };
+  const passwordIsStrong = Object.values(passwordChecks).every(Boolean);
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -42,6 +50,10 @@ export default function CreateUserForm() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
+    if (!passwordIsStrong) {
+      setError("Password must contain 12+ characters, uppercase, lowercase, a number, and a symbol.");
+      return;
+    }
     setIsLoading(true);
 
     try {
@@ -58,7 +70,8 @@ export default function CreateUserForm() {
       });
 
       if (!response.ok) {
-        throw new Error("Failed to create user");
+        const body = await response.json().catch(() => ({}));
+        throw new Error(body.message || `Failed to create user (${response.status})`);
       }
 
       alert("User created successfully");
@@ -122,8 +135,16 @@ export default function CreateUserForm() {
             onChange={handleInputChange}
             className={styles.input}
             placeholder="Enter user password"
+            minLength={12}
+            autoComplete="new-password"
             required
           />
+          {formData.password && (
+            <small>
+              Password strength: {Object.values(passwordChecks).filter(Boolean).length}/5.
+              Use 12+ characters with uppercase, lowercase, a number, and a symbol.
+            </small>
+          )}
         </div>
 
         <div className={styles.formGroup}>
@@ -171,7 +192,7 @@ export default function CreateUserForm() {
           <button
             type="submit"
             className={styles.submitBtn}
-            disabled={isLoading}
+            disabled={isLoading || !passwordIsStrong}
           >
             {isLoading ? "Creating..." : "Create User"}
           </button>

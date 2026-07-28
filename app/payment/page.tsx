@@ -27,17 +27,9 @@ export default function PaymentPage() {
 
     (async () => {
       try {
-        const total = calculateTotal();
-        const orderId = `ORDER-${Date.now()}`;
-
         const res = await apiFetch('/api/payment/initiate', {
           method: 'POST',
-          body: JSON.stringify({
-            amount: Math.round(total * 100), // send paisa to backend consistently
-            purchase_order_id: orderId,
-            purchase_order_name: `Order ${orderId}`,
-            cart_items: cartItems,
-          }),
+          body: JSON.stringify({}),
         });
 
         const body = await res.json().catch(() => ({}));
@@ -49,18 +41,10 @@ export default function PaymentPage() {
         }
 
         // backend returns a payment_url in test mode or Khalti initiate data
-        const paymentUrl = body?.data?.payment_url || body?.data?.payment_url || body?.payment_url || body?.data?.payment_url;
-        const pidx = body?.data?.pidx || body?.pidx || (body?.data && body.data.pidx);
+        const paymentUrl = body?.paymentUrl;
 
         if (paymentUrl) {
-          // Redirect user to Khalti checkout (or mock URL in test mode)
           window.location.href = paymentUrl;
-          return;
-        }
-
-        // If no payment url but pidx returned, navigate to success with pidx so we can verify
-        if (pidx) {
-          router.push(`/payment/success?pidx=${encodeURIComponent(pidx)}`);
           return;
         }
 

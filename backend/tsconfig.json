@@ -16,7 +16,9 @@
     // See also https://aka.ms/tsconfig/module
     // "module": "nodenext",
     // "target": "esnext",
-    "types": ["node"],
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "types": ["node", "jest"],
     // For nodejs:
     // "lib": ["esnext"],
     // "types": ["node"],
@@ -47,5 +49,6 @@
     "noUncheckedSideEffectImports": true,
     "moduleDetection": "force",
     "skipLibCheck": true,
-  }
+  },
+  "exclude": ["node_modules", "dist"]
 }

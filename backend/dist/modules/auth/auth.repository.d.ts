@@ -8,6 +8,16 @@ export declare const AuthRepository: {
     findByEmail: (email: string) => import("mongoose").Query<(import("mongoose").Document<unknown, {}, {
         email: string;
         password: string;
+        passwordHistory: import("mongoose").Types.DocumentArray<{
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, import("mongoose").Types.Subdocument<import("mongodb").ObjectId, unknown, {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, {}, {}> & {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }>;
         role: "user" | "admin";
         resetPasswordUsed: boolean;
         emailVerified: boolean;
@@ -23,6 +33,8 @@ export declare const AuthRepository: {
         emailVerificationExpires?: NativeDate | null;
         refreshTokenHash?: string | null;
         refreshTokenExpiresAt?: NativeDate | null;
+        csrfTokenHash?: string | null;
+        csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
         mfaSecret?: string | null;
@@ -34,6 +46,16 @@ export declare const AuthRepository: {
     }> & Omit<{
         email: string;
         password: string;
+        passwordHistory: import("mongoose").Types.DocumentArray<{
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, import("mongoose").Types.Subdocument<import("mongodb").ObjectId, unknown, {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, {}, {}> & {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }>;
         role: "user" | "admin";
         resetPasswordUsed: boolean;
         emailVerified: boolean;
@@ -49,6 +71,8 @@ export declare const AuthRepository: {
         emailVerificationExpires?: NativeDate | null;
         refreshTokenHash?: string | null;
         refreshTokenExpiresAt?: NativeDate | null;
+        csrfTokenHash?: string | null;
+        csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
         mfaSecret?: string | null;
@@ -62,6 +86,16 @@ export declare const AuthRepository: {
     }>) | null, import("mongoose").Document<unknown, {}, {
         email: string;
         password: string;
+        passwordHistory: import("mongoose").Types.DocumentArray<{
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, import("mongoose").Types.Subdocument<import("mongodb").ObjectId, unknown, {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, {}, {}> & {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }>;
         role: "user" | "admin";
         resetPasswordUsed: boolean;
         emailVerified: boolean;
@@ -77,6 +111,8 @@ export declare const AuthRepository: {
         emailVerificationExpires?: NativeDate | null;
         refreshTokenHash?: string | null;
         refreshTokenExpiresAt?: NativeDate | null;
+        csrfTokenHash?: string | null;
+        csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
         mfaSecret?: string | null;
@@ -88,6 +124,16 @@ export declare const AuthRepository: {
     }> & Omit<{
         email: string;
         password: string;
+        passwordHistory: import("mongoose").Types.DocumentArray<{
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, import("mongoose").Types.Subdocument<import("mongodb").ObjectId, unknown, {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, {}, {}> & {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }>;
         role: "user" | "admin";
         resetPasswordUsed: boolean;
         emailVerified: boolean;
@@ -103,6 +149,8 @@ export declare const AuthRepository: {
         emailVerificationExpires?: NativeDate | null;
         refreshTokenHash?: string | null;
         refreshTokenExpiresAt?: NativeDate | null;
+        csrfTokenHash?: string | null;
+        csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
         mfaSecret?: string | null;
@@ -116,6 +164,16 @@ export declare const AuthRepository: {
     }>, {}, {
         email: string;
         password: string;
+        passwordHistory: import("mongoose").Types.DocumentArray<{
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, import("mongoose").Types.Subdocument<import("mongodb").ObjectId, unknown, {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, {}, {}> & {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }>;
         role: "user" | "admin";
         resetPasswordUsed: boolean;
         emailVerified: boolean;
@@ -131,6 +189,8 @@ export declare const AuthRepository: {
         emailVerificationExpires?: NativeDate | null;
         refreshTokenHash?: string | null;
         refreshTokenExpiresAt?: NativeDate | null;
+        csrfTokenHash?: string | null;
+        csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
         mfaSecret?: string | null;
@@ -147,6 +207,16 @@ export declare const AuthRepository: {
     createUser: (data: CreateUserData) => Promise<import("mongoose").Document<unknown, {}, {
         email: string;
         password: string;
+        passwordHistory: import("mongoose").Types.DocumentArray<{
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, import("mongoose").Types.Subdocument<import("mongodb").ObjectId, unknown, {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, {}, {}> & {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }>;
         role: "user" | "admin";
         resetPasswordUsed: boolean;
         emailVerified: boolean;
@@ -162,6 +232,8 @@ export declare const AuthRepository: {
         emailVerificationExpires?: NativeDate | null;
         refreshTokenHash?: string | null;
         refreshTokenExpiresAt?: NativeDate | null;
+        csrfTokenHash?: string | null;
+        csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
         mfaSecret?: string | null;
@@ -173,6 +245,16 @@ export declare const AuthRepository: {
     }> & Omit<{
         email: string;
         password: string;
+        passwordHistory: import("mongoose").Types.DocumentArray<{
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, import("mongoose").Types.Subdocument<import("mongodb").ObjectId, unknown, {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, {}, {}> & {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }>;
         role: "user" | "admin";
         resetPasswordUsed: boolean;
         emailVerified: boolean;
@@ -188,6 +270,8 @@ export declare const AuthRepository: {
         emailVerificationExpires?: NativeDate | null;
         refreshTokenHash?: string | null;
         refreshTokenExpiresAt?: NativeDate | null;
+        csrfTokenHash?: string | null;
+        csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
         mfaSecret?: string | null;
@@ -202,6 +286,16 @@ export declare const AuthRepository: {
     findById: (id: string) => import("mongoose").Query<(import("mongoose").Document<unknown, {}, {
         email: string;
         password: string;
+        passwordHistory: import("mongoose").Types.DocumentArray<{
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, import("mongoose").Types.Subdocument<import("mongodb").ObjectId, unknown, {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, {}, {}> & {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }>;
         role: "user" | "admin";
         resetPasswordUsed: boolean;
         emailVerified: boolean;
@@ -217,6 +311,8 @@ export declare const AuthRepository: {
         emailVerificationExpires?: NativeDate | null;
         refreshTokenHash?: string | null;
         refreshTokenExpiresAt?: NativeDate | null;
+        csrfTokenHash?: string | null;
+        csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
         mfaSecret?: string | null;
@@ -228,6 +324,16 @@ export declare const AuthRepository: {
     }> & Omit<{
         email: string;
         password: string;
+        passwordHistory: import("mongoose").Types.DocumentArray<{
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, import("mongoose").Types.Subdocument<import("mongodb").ObjectId, unknown, {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, {}, {}> & {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }>;
         role: "user" | "admin";
         resetPasswordUsed: boolean;
         emailVerified: boolean;
@@ -243,6 +349,8 @@ export declare const AuthRepository: {
         emailVerificationExpires?: NativeDate | null;
         refreshTokenHash?: string | null;
         refreshTokenExpiresAt?: NativeDate | null;
+        csrfTokenHash?: string | null;
+        csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
         mfaSecret?: string | null;
@@ -256,6 +364,16 @@ export declare const AuthRepository: {
     }>) | null, import("mongoose").Document<unknown, {}, {
         email: string;
         password: string;
+        passwordHistory: import("mongoose").Types.DocumentArray<{
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, import("mongoose").Types.Subdocument<import("mongodb").ObjectId, unknown, {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, {}, {}> & {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }>;
         role: "user" | "admin";
         resetPasswordUsed: boolean;
         emailVerified: boolean;
@@ -271,6 +389,8 @@ export declare const AuthRepository: {
         emailVerificationExpires?: NativeDate | null;
         refreshTokenHash?: string | null;
         refreshTokenExpiresAt?: NativeDate | null;
+        csrfTokenHash?: string | null;
+        csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
         mfaSecret?: string | null;
@@ -282,6 +402,16 @@ export declare const AuthRepository: {
     }> & Omit<{
         email: string;
         password: string;
+        passwordHistory: import("mongoose").Types.DocumentArray<{
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, import("mongoose").Types.Subdocument<import("mongodb").ObjectId, unknown, {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, {}, {}> & {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }>;
         role: "user" | "admin";
         resetPasswordUsed: boolean;
         emailVerified: boolean;
@@ -297,6 +427,8 @@ export declare const AuthRepository: {
         emailVerificationExpires?: NativeDate | null;
         refreshTokenHash?: string | null;
         refreshTokenExpiresAt?: NativeDate | null;
+        csrfTokenHash?: string | null;
+        csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
         mfaSecret?: string | null;
@@ -310,6 +442,16 @@ export declare const AuthRepository: {
     }>, {}, {
         email: string;
         password: string;
+        passwordHistory: import("mongoose").Types.DocumentArray<{
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, import("mongoose").Types.Subdocument<import("mongodb").ObjectId, unknown, {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, {}, {}> & {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }>;
         role: "user" | "admin";
         resetPasswordUsed: boolean;
         emailVerified: boolean;
@@ -325,6 +467,8 @@ export declare const AuthRepository: {
         emailVerificationExpires?: NativeDate | null;
         refreshTokenHash?: string | null;
         refreshTokenExpiresAt?: NativeDate | null;
+        csrfTokenHash?: string | null;
+        csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
         mfaSecret?: string | null;
@@ -341,6 +485,16 @@ export declare const AuthRepository: {
     findByResetToken: (tokenHash: string) => import("mongoose").Query<(import("mongoose").Document<unknown, {}, {
         email: string;
         password: string;
+        passwordHistory: import("mongoose").Types.DocumentArray<{
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, import("mongoose").Types.Subdocument<import("mongodb").ObjectId, unknown, {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, {}, {}> & {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }>;
         role: "user" | "admin";
         resetPasswordUsed: boolean;
         emailVerified: boolean;
@@ -356,6 +510,8 @@ export declare const AuthRepository: {
         emailVerificationExpires?: NativeDate | null;
         refreshTokenHash?: string | null;
         refreshTokenExpiresAt?: NativeDate | null;
+        csrfTokenHash?: string | null;
+        csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
         mfaSecret?: string | null;
@@ -367,6 +523,16 @@ export declare const AuthRepository: {
     }> & Omit<{
         email: string;
         password: string;
+        passwordHistory: import("mongoose").Types.DocumentArray<{
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, import("mongoose").Types.Subdocument<import("mongodb").ObjectId, unknown, {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, {}, {}> & {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }>;
         role: "user" | "admin";
         resetPasswordUsed: boolean;
         emailVerified: boolean;
@@ -382,6 +548,8 @@ export declare const AuthRepository: {
         emailVerificationExpires?: NativeDate | null;
         refreshTokenHash?: string | null;
         refreshTokenExpiresAt?: NativeDate | null;
+        csrfTokenHash?: string | null;
+        csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
         mfaSecret?: string | null;
@@ -395,6 +563,16 @@ export declare const AuthRepository: {
     }>) | null, import("mongoose").Document<unknown, {}, {
         email: string;
         password: string;
+        passwordHistory: import("mongoose").Types.DocumentArray<{
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, import("mongoose").Types.Subdocument<import("mongodb").ObjectId, unknown, {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, {}, {}> & {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }>;
         role: "user" | "admin";
         resetPasswordUsed: boolean;
         emailVerified: boolean;
@@ -410,6 +588,8 @@ export declare const AuthRepository: {
         emailVerificationExpires?: NativeDate | null;
         refreshTokenHash?: string | null;
         refreshTokenExpiresAt?: NativeDate | null;
+        csrfTokenHash?: string | null;
+        csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
         mfaSecret?: string | null;
@@ -421,6 +601,16 @@ export declare const AuthRepository: {
     }> & Omit<{
         email: string;
         password: string;
+        passwordHistory: import("mongoose").Types.DocumentArray<{
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, import("mongoose").Types.Subdocument<import("mongodb").ObjectId, unknown, {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, {}, {}> & {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }>;
         role: "user" | "admin";
         resetPasswordUsed: boolean;
         emailVerified: boolean;
@@ -436,6 +626,8 @@ export declare const AuthRepository: {
         emailVerificationExpires?: NativeDate | null;
         refreshTokenHash?: string | null;
         refreshTokenExpiresAt?: NativeDate | null;
+        csrfTokenHash?: string | null;
+        csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
         mfaSecret?: string | null;
@@ -449,6 +641,16 @@ export declare const AuthRepository: {
     }>, {}, {
         email: string;
         password: string;
+        passwordHistory: import("mongoose").Types.DocumentArray<{
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, import("mongoose").Types.Subdocument<import("mongodb").ObjectId, unknown, {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, {}, {}> & {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }>;
         role: "user" | "admin";
         resetPasswordUsed: boolean;
         emailVerified: boolean;
@@ -464,6 +666,8 @@ export declare const AuthRepository: {
         emailVerificationExpires?: NativeDate | null;
         refreshTokenHash?: string | null;
         refreshTokenExpiresAt?: NativeDate | null;
+        csrfTokenHash?: string | null;
+        csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
         mfaSecret?: string | null;
@@ -477,9 +681,19 @@ export declare const AuthRepository: {
     }, "findOne", {
         id: string;
     }>;
-    findAll: () => import("mongoose").Query<(import("mongoose").Document<unknown, {}, {
+    findAll: () => import("mongoose").Query<({
         email: string;
         password: string;
+        passwordHistory: import("mongoose").Types.DocumentArray<{
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, import("mongoose").Types.Subdocument<import("mongodb").ObjectId, unknown, {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, {}, {}> & {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }>;
         role: "user" | "admin";
         resetPasswordUsed: boolean;
         emailVerified: boolean;
@@ -495,45 +709,33 @@ export declare const AuthRepository: {
         emailVerificationExpires?: NativeDate | null;
         refreshTokenHash?: string | null;
         refreshTokenExpiresAt?: NativeDate | null;
+        csrfTokenHash?: string | null;
+        csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
         mfaSecret?: string | null;
         deviceInfo?: string | null;
-    } & import("mongoose").DefaultTimestampProps, {
-        id: string;
-    }, {
-        timestamps: true;
-    }> & Omit<{
-        email: string;
-        password: string;
-        role: "user" | "admin";
-        resetPasswordUsed: boolean;
-        emailVerified: boolean;
-        loginAttempts: number;
-        mfaEnabled: boolean;
-        mfaMethod: "email" | "none";
-        name?: string | null;
-        image?: string | null;
-        passwordChangedAt?: NativeDate | null;
-        resetPasswordToken?: string | null;
-        resetPasswordExpires?: NativeDate | null;
-        emailVerificationToken?: string | null;
-        emailVerificationExpires?: NativeDate | null;
-        refreshTokenHash?: string | null;
-        refreshTokenExpiresAt?: NativeDate | null;
-        lastLoginAt?: NativeDate | null;
-        lockUntil?: NativeDate | null;
-        mfaSecret?: string | null;
-        deviceInfo?: string | null;
-    } & import("mongoose").DefaultTimestampProps & {
+        createdAt: NativeDate;
+        updatedAt: NativeDate;
+    } & {
         _id: import("mongoose").Types.ObjectId;
     } & {
         __v: number;
-    }, "id"> & import("mongoose").HydratedDocumentOverrides<{
-        id: string;
+    } & Required<{
+        _id: import("mongoose").Types.ObjectId;
     }>)[], import("mongoose").Document<unknown, {}, {
         email: string;
         password: string;
+        passwordHistory: import("mongoose").Types.DocumentArray<{
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, import("mongoose").Types.Subdocument<import("mongodb").ObjectId, unknown, {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, {}, {}> & {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }>;
         role: "user" | "admin";
         resetPasswordUsed: boolean;
         emailVerified: boolean;
@@ -549,6 +751,8 @@ export declare const AuthRepository: {
         emailVerificationExpires?: NativeDate | null;
         refreshTokenHash?: string | null;
         refreshTokenExpiresAt?: NativeDate | null;
+        csrfTokenHash?: string | null;
+        csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
         mfaSecret?: string | null;
@@ -560,6 +764,16 @@ export declare const AuthRepository: {
     }> & Omit<{
         email: string;
         password: string;
+        passwordHistory: import("mongoose").Types.DocumentArray<{
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, import("mongoose").Types.Subdocument<import("mongodb").ObjectId, unknown, {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, {}, {}> & {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }>;
         role: "user" | "admin";
         resetPasswordUsed: boolean;
         emailVerified: boolean;
@@ -575,6 +789,8 @@ export declare const AuthRepository: {
         emailVerificationExpires?: NativeDate | null;
         refreshTokenHash?: string | null;
         refreshTokenExpiresAt?: NativeDate | null;
+        csrfTokenHash?: string | null;
+        csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
         mfaSecret?: string | null;
@@ -588,6 +804,16 @@ export declare const AuthRepository: {
     }>, {}, {
         email: string;
         password: string;
+        passwordHistory: import("mongoose").Types.DocumentArray<{
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, import("mongoose").Types.Subdocument<import("mongodb").ObjectId, unknown, {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, {}, {}> & {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }>;
         role: "user" | "admin";
         resetPasswordUsed: boolean;
         emailVerified: boolean;
@@ -603,6 +829,8 @@ export declare const AuthRepository: {
         emailVerificationExpires?: NativeDate | null;
         refreshTokenHash?: string | null;
         refreshTokenExpiresAt?: NativeDate | null;
+        csrfTokenHash?: string | null;
+        csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
         mfaSecret?: string | null;
@@ -621,6 +849,16 @@ export declare const AuthRepository: {
     }>) => import("mongoose").Query<(import("mongoose").Document<unknown, {}, {
         email: string;
         password: string;
+        passwordHistory: import("mongoose").Types.DocumentArray<{
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, import("mongoose").Types.Subdocument<import("mongodb").ObjectId, unknown, {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, {}, {}> & {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }>;
         role: "user" | "admin";
         resetPasswordUsed: boolean;
         emailVerified: boolean;
@@ -636,6 +874,8 @@ export declare const AuthRepository: {
         emailVerificationExpires?: NativeDate | null;
         refreshTokenHash?: string | null;
         refreshTokenExpiresAt?: NativeDate | null;
+        csrfTokenHash?: string | null;
+        csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
         mfaSecret?: string | null;
@@ -647,6 +887,16 @@ export declare const AuthRepository: {
     }> & Omit<{
         email: string;
         password: string;
+        passwordHistory: import("mongoose").Types.DocumentArray<{
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, import("mongoose").Types.Subdocument<import("mongodb").ObjectId, unknown, {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, {}, {}> & {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }>;
         role: "user" | "admin";
         resetPasswordUsed: boolean;
         emailVerified: boolean;
@@ -662,6 +912,8 @@ export declare const AuthRepository: {
         emailVerificationExpires?: NativeDate | null;
         refreshTokenHash?: string | null;
         refreshTokenExpiresAt?: NativeDate | null;
+        csrfTokenHash?: string | null;
+        csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
         mfaSecret?: string | null;
@@ -675,6 +927,16 @@ export declare const AuthRepository: {
     }>) | null, import("mongoose").Document<unknown, {}, {
         email: string;
         password: string;
+        passwordHistory: import("mongoose").Types.DocumentArray<{
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, import("mongoose").Types.Subdocument<import("mongodb").ObjectId, unknown, {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, {}, {}> & {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }>;
         role: "user" | "admin";
         resetPasswordUsed: boolean;
         emailVerified: boolean;
@@ -690,6 +952,8 @@ export declare const AuthRepository: {
         emailVerificationExpires?: NativeDate | null;
         refreshTokenHash?: string | null;
         refreshTokenExpiresAt?: NativeDate | null;
+        csrfTokenHash?: string | null;
+        csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
         mfaSecret?: string | null;
@@ -701,6 +965,16 @@ export declare const AuthRepository: {
     }> & Omit<{
         email: string;
         password: string;
+        passwordHistory: import("mongoose").Types.DocumentArray<{
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, import("mongoose").Types.Subdocument<import("mongodb").ObjectId, unknown, {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, {}, {}> & {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }>;
         role: "user" | "admin";
         resetPasswordUsed: boolean;
         emailVerified: boolean;
@@ -716,6 +990,8 @@ export declare const AuthRepository: {
         emailVerificationExpires?: NativeDate | null;
         refreshTokenHash?: string | null;
         refreshTokenExpiresAt?: NativeDate | null;
+        csrfTokenHash?: string | null;
+        csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
         mfaSecret?: string | null;
@@ -729,6 +1005,16 @@ export declare const AuthRepository: {
     }>, {}, {
         email: string;
         password: string;
+        passwordHistory: import("mongoose").Types.DocumentArray<{
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, import("mongoose").Types.Subdocument<import("mongodb").ObjectId, unknown, {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, {}, {}> & {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }>;
         role: "user" | "admin";
         resetPasswordUsed: boolean;
         emailVerified: boolean;
@@ -744,6 +1030,8 @@ export declare const AuthRepository: {
         emailVerificationExpires?: NativeDate | null;
         refreshTokenHash?: string | null;
         refreshTokenExpiresAt?: NativeDate | null;
+        csrfTokenHash?: string | null;
+        csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
         mfaSecret?: string | null;
@@ -760,6 +1048,16 @@ export declare const AuthRepository: {
     setResetToken: (id: string, tokenHash: string, expiresAt: Date) => import("mongoose").Query<(import("mongoose").Document<unknown, {}, {
         email: string;
         password: string;
+        passwordHistory: import("mongoose").Types.DocumentArray<{
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, import("mongoose").Types.Subdocument<import("mongodb").ObjectId, unknown, {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, {}, {}> & {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }>;
         role: "user" | "admin";
         resetPasswordUsed: boolean;
         emailVerified: boolean;
@@ -775,6 +1073,8 @@ export declare const AuthRepository: {
         emailVerificationExpires?: NativeDate | null;
         refreshTokenHash?: string | null;
         refreshTokenExpiresAt?: NativeDate | null;
+        csrfTokenHash?: string | null;
+        csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
         mfaSecret?: string | null;
@@ -786,6 +1086,16 @@ export declare const AuthRepository: {
     }> & Omit<{
         email: string;
         password: string;
+        passwordHistory: import("mongoose").Types.DocumentArray<{
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, import("mongoose").Types.Subdocument<import("mongodb").ObjectId, unknown, {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, {}, {}> & {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }>;
         role: "user" | "admin";
         resetPasswordUsed: boolean;
         emailVerified: boolean;
@@ -801,6 +1111,8 @@ export declare const AuthRepository: {
         emailVerificationExpires?: NativeDate | null;
         refreshTokenHash?: string | null;
         refreshTokenExpiresAt?: NativeDate | null;
+        csrfTokenHash?: string | null;
+        csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
         mfaSecret?: string | null;
@@ -814,6 +1126,16 @@ export declare const AuthRepository: {
     }>) | null, import("mongoose").Document<unknown, {}, {
         email: string;
         password: string;
+        passwordHistory: import("mongoose").Types.DocumentArray<{
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, import("mongoose").Types.Subdocument<import("mongodb").ObjectId, unknown, {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, {}, {}> & {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }>;
         role: "user" | "admin";
         resetPasswordUsed: boolean;
         emailVerified: boolean;
@@ -829,6 +1151,8 @@ export declare const AuthRepository: {
         emailVerificationExpires?: NativeDate | null;
         refreshTokenHash?: string | null;
         refreshTokenExpiresAt?: NativeDate | null;
+        csrfTokenHash?: string | null;
+        csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
         mfaSecret?: string | null;
@@ -840,6 +1164,16 @@ export declare const AuthRepository: {
     }> & Omit<{
         email: string;
         password: string;
+        passwordHistory: import("mongoose").Types.DocumentArray<{
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, import("mongoose").Types.Subdocument<import("mongodb").ObjectId, unknown, {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, {}, {}> & {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }>;
         role: "user" | "admin";
         resetPasswordUsed: boolean;
         emailVerified: boolean;
@@ -855,6 +1189,8 @@ export declare const AuthRepository: {
         emailVerificationExpires?: NativeDate | null;
         refreshTokenHash?: string | null;
         refreshTokenExpiresAt?: NativeDate | null;
+        csrfTokenHash?: string | null;
+        csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
         mfaSecret?: string | null;
@@ -868,6 +1204,16 @@ export declare const AuthRepository: {
     }>, {}, {
         email: string;
         password: string;
+        passwordHistory: import("mongoose").Types.DocumentArray<{
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, import("mongoose").Types.Subdocument<import("mongodb").ObjectId, unknown, {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, {}, {}> & {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }>;
         role: "user" | "admin";
         resetPasswordUsed: boolean;
         emailVerified: boolean;
@@ -883,6 +1229,8 @@ export declare const AuthRepository: {
         emailVerificationExpires?: NativeDate | null;
         refreshTokenHash?: string | null;
         refreshTokenExpiresAt?: NativeDate | null;
+        csrfTokenHash?: string | null;
+        csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
         mfaSecret?: string | null;
@@ -896,9 +1244,19 @@ export declare const AuthRepository: {
     }, "findOneAndUpdate", {
         id: string;
     }>;
-    updatePasswordAndClearReset: (id: string, hashedPassword: string) => import("mongoose").Query<(import("mongoose").Document<unknown, {}, {
+    updatePasswordAndClearReset: (id: string, hashedPassword: string) => Promise<(import("mongoose").Document<unknown, {}, {
         email: string;
         password: string;
+        passwordHistory: import("mongoose").Types.DocumentArray<{
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, import("mongoose").Types.Subdocument<import("mongodb").ObjectId, unknown, {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, {}, {}> & {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }>;
         role: "user" | "admin";
         resetPasswordUsed: boolean;
         emailVerified: boolean;
@@ -914,6 +1272,8 @@ export declare const AuthRepository: {
         emailVerificationExpires?: NativeDate | null;
         refreshTokenHash?: string | null;
         refreshTokenExpiresAt?: NativeDate | null;
+        csrfTokenHash?: string | null;
+        csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
         mfaSecret?: string | null;
@@ -925,6 +1285,16 @@ export declare const AuthRepository: {
     }> & Omit<{
         email: string;
         password: string;
+        passwordHistory: import("mongoose").Types.DocumentArray<{
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, import("mongoose").Types.Subdocument<import("mongodb").ObjectId, unknown, {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, {}, {}> & {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }>;
         role: "user" | "admin";
         resetPasswordUsed: boolean;
         emailVerified: boolean;
@@ -940,6 +1310,8 @@ export declare const AuthRepository: {
         emailVerificationExpires?: NativeDate | null;
         refreshTokenHash?: string | null;
         refreshTokenExpiresAt?: NativeDate | null;
+        csrfTokenHash?: string | null;
+        csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
         mfaSecret?: string | null;
@@ -950,94 +1322,20 @@ export declare const AuthRepository: {
         __v: number;
     }, "id"> & import("mongoose").HydratedDocumentOverrides<{
         id: string;
-    }>) | null, import("mongoose").Document<unknown, {}, {
-        email: string;
-        password: string;
-        role: "user" | "admin";
-        resetPasswordUsed: boolean;
-        emailVerified: boolean;
-        loginAttempts: number;
-        mfaEnabled: boolean;
-        mfaMethod: "email" | "none";
-        name?: string | null;
-        image?: string | null;
-        passwordChangedAt?: NativeDate | null;
-        resetPasswordToken?: string | null;
-        resetPasswordExpires?: NativeDate | null;
-        emailVerificationToken?: string | null;
-        emailVerificationExpires?: NativeDate | null;
-        refreshTokenHash?: string | null;
-        refreshTokenExpiresAt?: NativeDate | null;
-        lastLoginAt?: NativeDate | null;
-        lockUntil?: NativeDate | null;
-        mfaSecret?: string | null;
-        deviceInfo?: string | null;
-    } & import("mongoose").DefaultTimestampProps, {
-        id: string;
-    }, {
-        timestamps: true;
-    }> & Omit<{
-        email: string;
-        password: string;
-        role: "user" | "admin";
-        resetPasswordUsed: boolean;
-        emailVerified: boolean;
-        loginAttempts: number;
-        mfaEnabled: boolean;
-        mfaMethod: "email" | "none";
-        name?: string | null;
-        image?: string | null;
-        passwordChangedAt?: NativeDate | null;
-        resetPasswordToken?: string | null;
-        resetPasswordExpires?: NativeDate | null;
-        emailVerificationToken?: string | null;
-        emailVerificationExpires?: NativeDate | null;
-        refreshTokenHash?: string | null;
-        refreshTokenExpiresAt?: NativeDate | null;
-        lastLoginAt?: NativeDate | null;
-        lockUntil?: NativeDate | null;
-        mfaSecret?: string | null;
-        deviceInfo?: string | null;
-    } & import("mongoose").DefaultTimestampProps & {
-        _id: import("mongoose").Types.ObjectId;
-    } & {
-        __v: number;
-    }, "id"> & import("mongoose").HydratedDocumentOverrides<{
-        id: string;
-    }>, {}, {
-        email: string;
-        password: string;
-        role: "user" | "admin";
-        resetPasswordUsed: boolean;
-        emailVerified: boolean;
-        loginAttempts: number;
-        mfaEnabled: boolean;
-        mfaMethod: "email" | "none";
-        name?: string | null;
-        image?: string | null;
-        passwordChangedAt?: NativeDate | null;
-        resetPasswordToken?: string | null;
-        resetPasswordExpires?: NativeDate | null;
-        emailVerificationToken?: string | null;
-        emailVerificationExpires?: NativeDate | null;
-        refreshTokenHash?: string | null;
-        refreshTokenExpiresAt?: NativeDate | null;
-        lastLoginAt?: NativeDate | null;
-        lockUntil?: NativeDate | null;
-        mfaSecret?: string | null;
-        deviceInfo?: string | null;
-        createdAt: NativeDate;
-        updatedAt: NativeDate;
-    } & {
-        _id: import("mongoose").Types.ObjectId;
-    } & {
-        __v: number;
-    }, "findOneAndUpdate", {
-        id: string;
-    }>;
+    }>) | null>;
     setEmailVerificationToken: (id: string, tokenHash: string, expiresAt: Date) => import("mongoose").Query<(import("mongoose").Document<unknown, {}, {
         email: string;
         password: string;
+        passwordHistory: import("mongoose").Types.DocumentArray<{
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, import("mongoose").Types.Subdocument<import("mongodb").ObjectId, unknown, {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, {}, {}> & {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }>;
         role: "user" | "admin";
         resetPasswordUsed: boolean;
         emailVerified: boolean;
@@ -1053,6 +1351,8 @@ export declare const AuthRepository: {
         emailVerificationExpires?: NativeDate | null;
         refreshTokenHash?: string | null;
         refreshTokenExpiresAt?: NativeDate | null;
+        csrfTokenHash?: string | null;
+        csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
         mfaSecret?: string | null;
@@ -1064,6 +1364,16 @@ export declare const AuthRepository: {
     }> & Omit<{
         email: string;
         password: string;
+        passwordHistory: import("mongoose").Types.DocumentArray<{
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, import("mongoose").Types.Subdocument<import("mongodb").ObjectId, unknown, {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, {}, {}> & {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }>;
         role: "user" | "admin";
         resetPasswordUsed: boolean;
         emailVerified: boolean;
@@ -1079,6 +1389,8 @@ export declare const AuthRepository: {
         emailVerificationExpires?: NativeDate | null;
         refreshTokenHash?: string | null;
         refreshTokenExpiresAt?: NativeDate | null;
+        csrfTokenHash?: string | null;
+        csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
         mfaSecret?: string | null;
@@ -1092,6 +1404,16 @@ export declare const AuthRepository: {
     }>) | null, import("mongoose").Document<unknown, {}, {
         email: string;
         password: string;
+        passwordHistory: import("mongoose").Types.DocumentArray<{
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, import("mongoose").Types.Subdocument<import("mongodb").ObjectId, unknown, {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, {}, {}> & {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }>;
         role: "user" | "admin";
         resetPasswordUsed: boolean;
         emailVerified: boolean;
@@ -1107,6 +1429,8 @@ export declare const AuthRepository: {
         emailVerificationExpires?: NativeDate | null;
         refreshTokenHash?: string | null;
         refreshTokenExpiresAt?: NativeDate | null;
+        csrfTokenHash?: string | null;
+        csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
         mfaSecret?: string | null;
@@ -1118,6 +1442,16 @@ export declare const AuthRepository: {
     }> & Omit<{
         email: string;
         password: string;
+        passwordHistory: import("mongoose").Types.DocumentArray<{
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, import("mongoose").Types.Subdocument<import("mongodb").ObjectId, unknown, {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, {}, {}> & {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }>;
         role: "user" | "admin";
         resetPasswordUsed: boolean;
         emailVerified: boolean;
@@ -1133,6 +1467,8 @@ export declare const AuthRepository: {
         emailVerificationExpires?: NativeDate | null;
         refreshTokenHash?: string | null;
         refreshTokenExpiresAt?: NativeDate | null;
+        csrfTokenHash?: string | null;
+        csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
         mfaSecret?: string | null;
@@ -1146,6 +1482,16 @@ export declare const AuthRepository: {
     }>, {}, {
         email: string;
         password: string;
+        passwordHistory: import("mongoose").Types.DocumentArray<{
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, import("mongoose").Types.Subdocument<import("mongodb").ObjectId, unknown, {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, {}, {}> & {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }>;
         role: "user" | "admin";
         resetPasswordUsed: boolean;
         emailVerified: boolean;
@@ -1161,6 +1507,8 @@ export declare const AuthRepository: {
         emailVerificationExpires?: NativeDate | null;
         refreshTokenHash?: string | null;
         refreshTokenExpiresAt?: NativeDate | null;
+        csrfTokenHash?: string | null;
+        csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
         mfaSecret?: string | null;
@@ -1177,6 +1525,16 @@ export declare const AuthRepository: {
     verifyEmail: (id: string) => import("mongoose").Query<(import("mongoose").Document<unknown, {}, {
         email: string;
         password: string;
+        passwordHistory: import("mongoose").Types.DocumentArray<{
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, import("mongoose").Types.Subdocument<import("mongodb").ObjectId, unknown, {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, {}, {}> & {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }>;
         role: "user" | "admin";
         resetPasswordUsed: boolean;
         emailVerified: boolean;
@@ -1192,6 +1550,8 @@ export declare const AuthRepository: {
         emailVerificationExpires?: NativeDate | null;
         refreshTokenHash?: string | null;
         refreshTokenExpiresAt?: NativeDate | null;
+        csrfTokenHash?: string | null;
+        csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
         mfaSecret?: string | null;
@@ -1203,6 +1563,16 @@ export declare const AuthRepository: {
     }> & Omit<{
         email: string;
         password: string;
+        passwordHistory: import("mongoose").Types.DocumentArray<{
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, import("mongoose").Types.Subdocument<import("mongodb").ObjectId, unknown, {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, {}, {}> & {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }>;
         role: "user" | "admin";
         resetPasswordUsed: boolean;
         emailVerified: boolean;
@@ -1218,6 +1588,8 @@ export declare const AuthRepository: {
         emailVerificationExpires?: NativeDate | null;
         refreshTokenHash?: string | null;
         refreshTokenExpiresAt?: NativeDate | null;
+        csrfTokenHash?: string | null;
+        csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
         mfaSecret?: string | null;
@@ -1231,6 +1603,16 @@ export declare const AuthRepository: {
     }>) | null, import("mongoose").Document<unknown, {}, {
         email: string;
         password: string;
+        passwordHistory: import("mongoose").Types.DocumentArray<{
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, import("mongoose").Types.Subdocument<import("mongodb").ObjectId, unknown, {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, {}, {}> & {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }>;
         role: "user" | "admin";
         resetPasswordUsed: boolean;
         emailVerified: boolean;
@@ -1246,6 +1628,8 @@ export declare const AuthRepository: {
         emailVerificationExpires?: NativeDate | null;
         refreshTokenHash?: string | null;
         refreshTokenExpiresAt?: NativeDate | null;
+        csrfTokenHash?: string | null;
+        csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
         mfaSecret?: string | null;
@@ -1257,6 +1641,16 @@ export declare const AuthRepository: {
     }> & Omit<{
         email: string;
         password: string;
+        passwordHistory: import("mongoose").Types.DocumentArray<{
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, import("mongoose").Types.Subdocument<import("mongodb").ObjectId, unknown, {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, {}, {}> & {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }>;
         role: "user" | "admin";
         resetPasswordUsed: boolean;
         emailVerified: boolean;
@@ -1272,6 +1666,8 @@ export declare const AuthRepository: {
         emailVerificationExpires?: NativeDate | null;
         refreshTokenHash?: string | null;
         refreshTokenExpiresAt?: NativeDate | null;
+        csrfTokenHash?: string | null;
+        csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
         mfaSecret?: string | null;
@@ -1285,6 +1681,16 @@ export declare const AuthRepository: {
     }>, {}, {
         email: string;
         password: string;
+        passwordHistory: import("mongoose").Types.DocumentArray<{
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, import("mongoose").Types.Subdocument<import("mongodb").ObjectId, unknown, {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, {}, {}> & {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }>;
         role: "user" | "admin";
         resetPasswordUsed: boolean;
         emailVerified: boolean;
@@ -1300,6 +1706,8 @@ export declare const AuthRepository: {
         emailVerificationExpires?: NativeDate | null;
         refreshTokenHash?: string | null;
         refreshTokenExpiresAt?: NativeDate | null;
+        csrfTokenHash?: string | null;
+        csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
         mfaSecret?: string | null;
@@ -1316,6 +1724,16 @@ export declare const AuthRepository: {
     setRefreshToken: (id: string, tokenHash: string, expiresAt: Date) => import("mongoose").Query<(import("mongoose").Document<unknown, {}, {
         email: string;
         password: string;
+        passwordHistory: import("mongoose").Types.DocumentArray<{
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, import("mongoose").Types.Subdocument<import("mongodb").ObjectId, unknown, {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, {}, {}> & {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }>;
         role: "user" | "admin";
         resetPasswordUsed: boolean;
         emailVerified: boolean;
@@ -1331,6 +1749,8 @@ export declare const AuthRepository: {
         emailVerificationExpires?: NativeDate | null;
         refreshTokenHash?: string | null;
         refreshTokenExpiresAt?: NativeDate | null;
+        csrfTokenHash?: string | null;
+        csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
         mfaSecret?: string | null;
@@ -1342,6 +1762,16 @@ export declare const AuthRepository: {
     }> & Omit<{
         email: string;
         password: string;
+        passwordHistory: import("mongoose").Types.DocumentArray<{
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, import("mongoose").Types.Subdocument<import("mongodb").ObjectId, unknown, {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, {}, {}> & {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }>;
         role: "user" | "admin";
         resetPasswordUsed: boolean;
         emailVerified: boolean;
@@ -1357,6 +1787,8 @@ export declare const AuthRepository: {
         emailVerificationExpires?: NativeDate | null;
         refreshTokenHash?: string | null;
         refreshTokenExpiresAt?: NativeDate | null;
+        csrfTokenHash?: string | null;
+        csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
         mfaSecret?: string | null;
@@ -1370,6 +1802,16 @@ export declare const AuthRepository: {
     }>) | null, import("mongoose").Document<unknown, {}, {
         email: string;
         password: string;
+        passwordHistory: import("mongoose").Types.DocumentArray<{
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, import("mongoose").Types.Subdocument<import("mongodb").ObjectId, unknown, {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, {}, {}> & {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }>;
         role: "user" | "admin";
         resetPasswordUsed: boolean;
         emailVerified: boolean;
@@ -1385,6 +1827,8 @@ export declare const AuthRepository: {
         emailVerificationExpires?: NativeDate | null;
         refreshTokenHash?: string | null;
         refreshTokenExpiresAt?: NativeDate | null;
+        csrfTokenHash?: string | null;
+        csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
         mfaSecret?: string | null;
@@ -1396,6 +1840,16 @@ export declare const AuthRepository: {
     }> & Omit<{
         email: string;
         password: string;
+        passwordHistory: import("mongoose").Types.DocumentArray<{
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, import("mongoose").Types.Subdocument<import("mongodb").ObjectId, unknown, {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, {}, {}> & {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }>;
         role: "user" | "admin";
         resetPasswordUsed: boolean;
         emailVerified: boolean;
@@ -1411,6 +1865,8 @@ export declare const AuthRepository: {
         emailVerificationExpires?: NativeDate | null;
         refreshTokenHash?: string | null;
         refreshTokenExpiresAt?: NativeDate | null;
+        csrfTokenHash?: string | null;
+        csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
         mfaSecret?: string | null;
@@ -1424,6 +1880,16 @@ export declare const AuthRepository: {
     }>, {}, {
         email: string;
         password: string;
+        passwordHistory: import("mongoose").Types.DocumentArray<{
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, import("mongoose").Types.Subdocument<import("mongodb").ObjectId, unknown, {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, {}, {}> & {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }>;
         role: "user" | "admin";
         resetPasswordUsed: boolean;
         emailVerified: boolean;
@@ -1439,6 +1905,8 @@ export declare const AuthRepository: {
         emailVerificationExpires?: NativeDate | null;
         refreshTokenHash?: string | null;
         refreshTokenExpiresAt?: NativeDate | null;
+        csrfTokenHash?: string | null;
+        csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
         mfaSecret?: string | null;
@@ -1452,9 +1920,19 @@ export declare const AuthRepository: {
     }, "findOneAndUpdate", {
         id: string;
     }>;
-    clearRefreshToken: (id: string) => import("mongoose").Query<(import("mongoose").Document<unknown, {}, {
+    clearCsrfToken: (id: string) => import("mongoose").Query<(import("mongoose").Document<unknown, {}, {
         email: string;
         password: string;
+        passwordHistory: import("mongoose").Types.DocumentArray<{
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, import("mongoose").Types.Subdocument<import("mongodb").ObjectId, unknown, {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, {}, {}> & {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }>;
         role: "user" | "admin";
         resetPasswordUsed: boolean;
         emailVerified: boolean;
@@ -1470,6 +1948,8 @@ export declare const AuthRepository: {
         emailVerificationExpires?: NativeDate | null;
         refreshTokenHash?: string | null;
         refreshTokenExpiresAt?: NativeDate | null;
+        csrfTokenHash?: string | null;
+        csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
         mfaSecret?: string | null;
@@ -1481,6 +1961,16 @@ export declare const AuthRepository: {
     }> & Omit<{
         email: string;
         password: string;
+        passwordHistory: import("mongoose").Types.DocumentArray<{
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, import("mongoose").Types.Subdocument<import("mongodb").ObjectId, unknown, {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, {}, {}> & {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }>;
         role: "user" | "admin";
         resetPasswordUsed: boolean;
         emailVerified: boolean;
@@ -1496,6 +1986,8 @@ export declare const AuthRepository: {
         emailVerificationExpires?: NativeDate | null;
         refreshTokenHash?: string | null;
         refreshTokenExpiresAt?: NativeDate | null;
+        csrfTokenHash?: string | null;
+        csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
         mfaSecret?: string | null;
@@ -1509,6 +2001,16 @@ export declare const AuthRepository: {
     }>) | null, import("mongoose").Document<unknown, {}, {
         email: string;
         password: string;
+        passwordHistory: import("mongoose").Types.DocumentArray<{
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, import("mongoose").Types.Subdocument<import("mongodb").ObjectId, unknown, {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, {}, {}> & {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }>;
         role: "user" | "admin";
         resetPasswordUsed: boolean;
         emailVerified: boolean;
@@ -1524,6 +2026,8 @@ export declare const AuthRepository: {
         emailVerificationExpires?: NativeDate | null;
         refreshTokenHash?: string | null;
         refreshTokenExpiresAt?: NativeDate | null;
+        csrfTokenHash?: string | null;
+        csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
         mfaSecret?: string | null;
@@ -1535,6 +2039,16 @@ export declare const AuthRepository: {
     }> & Omit<{
         email: string;
         password: string;
+        passwordHistory: import("mongoose").Types.DocumentArray<{
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, import("mongoose").Types.Subdocument<import("mongodb").ObjectId, unknown, {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, {}, {}> & {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }>;
         role: "user" | "admin";
         resetPasswordUsed: boolean;
         emailVerified: boolean;
@@ -1550,6 +2064,8 @@ export declare const AuthRepository: {
         emailVerificationExpires?: NativeDate | null;
         refreshTokenHash?: string | null;
         refreshTokenExpiresAt?: NativeDate | null;
+        csrfTokenHash?: string | null;
+        csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
         mfaSecret?: string | null;
@@ -1563,6 +2079,16 @@ export declare const AuthRepository: {
     }>, {}, {
         email: string;
         password: string;
+        passwordHistory: import("mongoose").Types.DocumentArray<{
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, import("mongoose").Types.Subdocument<import("mongodb").ObjectId, unknown, {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, {}, {}> & {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }>;
         role: "user" | "admin";
         resetPasswordUsed: boolean;
         emailVerified: boolean;
@@ -1578,6 +2104,605 @@ export declare const AuthRepository: {
         emailVerificationExpires?: NativeDate | null;
         refreshTokenHash?: string | null;
         refreshTokenExpiresAt?: NativeDate | null;
+        csrfTokenHash?: string | null;
+        csrfTokenExpiresAt?: NativeDate | null;
+        lastLoginAt?: NativeDate | null;
+        lockUntil?: NativeDate | null;
+        mfaSecret?: string | null;
+        deviceInfo?: string | null;
+        createdAt: NativeDate;
+        updatedAt: NativeDate;
+    } & {
+        _id: import("mongoose").Types.ObjectId;
+    } & {
+        __v: number;
+    }, "findOneAndUpdate", {
+        id: string;
+    }>;
+    setCsrfToken: (id: string, csrfHash: string, expiresAt: Date) => import("mongoose").Query<(import("mongoose").Document<unknown, {}, {
+        email: string;
+        password: string;
+        passwordHistory: import("mongoose").Types.DocumentArray<{
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, import("mongoose").Types.Subdocument<import("mongodb").ObjectId, unknown, {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, {}, {}> & {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }>;
+        role: "user" | "admin";
+        resetPasswordUsed: boolean;
+        emailVerified: boolean;
+        loginAttempts: number;
+        mfaEnabled: boolean;
+        mfaMethod: "email" | "none";
+        name?: string | null;
+        image?: string | null;
+        passwordChangedAt?: NativeDate | null;
+        resetPasswordToken?: string | null;
+        resetPasswordExpires?: NativeDate | null;
+        emailVerificationToken?: string | null;
+        emailVerificationExpires?: NativeDate | null;
+        refreshTokenHash?: string | null;
+        refreshTokenExpiresAt?: NativeDate | null;
+        csrfTokenHash?: string | null;
+        csrfTokenExpiresAt?: NativeDate | null;
+        lastLoginAt?: NativeDate | null;
+        lockUntil?: NativeDate | null;
+        mfaSecret?: string | null;
+        deviceInfo?: string | null;
+    } & import("mongoose").DefaultTimestampProps, {
+        id: string;
+    }, {
+        timestamps: true;
+    }> & Omit<{
+        email: string;
+        password: string;
+        passwordHistory: import("mongoose").Types.DocumentArray<{
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, import("mongoose").Types.Subdocument<import("mongodb").ObjectId, unknown, {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, {}, {}> & {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }>;
+        role: "user" | "admin";
+        resetPasswordUsed: boolean;
+        emailVerified: boolean;
+        loginAttempts: number;
+        mfaEnabled: boolean;
+        mfaMethod: "email" | "none";
+        name?: string | null;
+        image?: string | null;
+        passwordChangedAt?: NativeDate | null;
+        resetPasswordToken?: string | null;
+        resetPasswordExpires?: NativeDate | null;
+        emailVerificationToken?: string | null;
+        emailVerificationExpires?: NativeDate | null;
+        refreshTokenHash?: string | null;
+        refreshTokenExpiresAt?: NativeDate | null;
+        csrfTokenHash?: string | null;
+        csrfTokenExpiresAt?: NativeDate | null;
+        lastLoginAt?: NativeDate | null;
+        lockUntil?: NativeDate | null;
+        mfaSecret?: string | null;
+        deviceInfo?: string | null;
+    } & import("mongoose").DefaultTimestampProps & {
+        _id: import("mongoose").Types.ObjectId;
+    } & {
+        __v: number;
+    }, "id"> & import("mongoose").HydratedDocumentOverrides<{
+        id: string;
+    }>) | null, import("mongoose").Document<unknown, {}, {
+        email: string;
+        password: string;
+        passwordHistory: import("mongoose").Types.DocumentArray<{
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, import("mongoose").Types.Subdocument<import("mongodb").ObjectId, unknown, {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, {}, {}> & {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }>;
+        role: "user" | "admin";
+        resetPasswordUsed: boolean;
+        emailVerified: boolean;
+        loginAttempts: number;
+        mfaEnabled: boolean;
+        mfaMethod: "email" | "none";
+        name?: string | null;
+        image?: string | null;
+        passwordChangedAt?: NativeDate | null;
+        resetPasswordToken?: string | null;
+        resetPasswordExpires?: NativeDate | null;
+        emailVerificationToken?: string | null;
+        emailVerificationExpires?: NativeDate | null;
+        refreshTokenHash?: string | null;
+        refreshTokenExpiresAt?: NativeDate | null;
+        csrfTokenHash?: string | null;
+        csrfTokenExpiresAt?: NativeDate | null;
+        lastLoginAt?: NativeDate | null;
+        lockUntil?: NativeDate | null;
+        mfaSecret?: string | null;
+        deviceInfo?: string | null;
+    } & import("mongoose").DefaultTimestampProps, {
+        id: string;
+    }, {
+        timestamps: true;
+    }> & Omit<{
+        email: string;
+        password: string;
+        passwordHistory: import("mongoose").Types.DocumentArray<{
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, import("mongoose").Types.Subdocument<import("mongodb").ObjectId, unknown, {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, {}, {}> & {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }>;
+        role: "user" | "admin";
+        resetPasswordUsed: boolean;
+        emailVerified: boolean;
+        loginAttempts: number;
+        mfaEnabled: boolean;
+        mfaMethod: "email" | "none";
+        name?: string | null;
+        image?: string | null;
+        passwordChangedAt?: NativeDate | null;
+        resetPasswordToken?: string | null;
+        resetPasswordExpires?: NativeDate | null;
+        emailVerificationToken?: string | null;
+        emailVerificationExpires?: NativeDate | null;
+        refreshTokenHash?: string | null;
+        refreshTokenExpiresAt?: NativeDate | null;
+        csrfTokenHash?: string | null;
+        csrfTokenExpiresAt?: NativeDate | null;
+        lastLoginAt?: NativeDate | null;
+        lockUntil?: NativeDate | null;
+        mfaSecret?: string | null;
+        deviceInfo?: string | null;
+    } & import("mongoose").DefaultTimestampProps & {
+        _id: import("mongoose").Types.ObjectId;
+    } & {
+        __v: number;
+    }, "id"> & import("mongoose").HydratedDocumentOverrides<{
+        id: string;
+    }>, {}, {
+        email: string;
+        password: string;
+        passwordHistory: import("mongoose").Types.DocumentArray<{
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, import("mongoose").Types.Subdocument<import("mongodb").ObjectId, unknown, {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, {}, {}> & {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }>;
+        role: "user" | "admin";
+        resetPasswordUsed: boolean;
+        emailVerified: boolean;
+        loginAttempts: number;
+        mfaEnabled: boolean;
+        mfaMethod: "email" | "none";
+        name?: string | null;
+        image?: string | null;
+        passwordChangedAt?: NativeDate | null;
+        resetPasswordToken?: string | null;
+        resetPasswordExpires?: NativeDate | null;
+        emailVerificationToken?: string | null;
+        emailVerificationExpires?: NativeDate | null;
+        refreshTokenHash?: string | null;
+        refreshTokenExpiresAt?: NativeDate | null;
+        csrfTokenHash?: string | null;
+        csrfTokenExpiresAt?: NativeDate | null;
+        lastLoginAt?: NativeDate | null;
+        lockUntil?: NativeDate | null;
+        mfaSecret?: string | null;
+        deviceInfo?: string | null;
+        createdAt: NativeDate;
+        updatedAt: NativeDate;
+    } & {
+        _id: import("mongoose").Types.ObjectId;
+    } & {
+        __v: number;
+    }, "findOneAndUpdate", {
+        id: string;
+    }>;
+    findByRefreshTokenHash: (tokenHash: string) => import("mongoose").Query<(import("mongoose").Document<unknown, {}, {
+        email: string;
+        password: string;
+        passwordHistory: import("mongoose").Types.DocumentArray<{
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, import("mongoose").Types.Subdocument<import("mongodb").ObjectId, unknown, {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, {}, {}> & {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }>;
+        role: "user" | "admin";
+        resetPasswordUsed: boolean;
+        emailVerified: boolean;
+        loginAttempts: number;
+        mfaEnabled: boolean;
+        mfaMethod: "email" | "none";
+        name?: string | null;
+        image?: string | null;
+        passwordChangedAt?: NativeDate | null;
+        resetPasswordToken?: string | null;
+        resetPasswordExpires?: NativeDate | null;
+        emailVerificationToken?: string | null;
+        emailVerificationExpires?: NativeDate | null;
+        refreshTokenHash?: string | null;
+        refreshTokenExpiresAt?: NativeDate | null;
+        csrfTokenHash?: string | null;
+        csrfTokenExpiresAt?: NativeDate | null;
+        lastLoginAt?: NativeDate | null;
+        lockUntil?: NativeDate | null;
+        mfaSecret?: string | null;
+        deviceInfo?: string | null;
+    } & import("mongoose").DefaultTimestampProps, {
+        id: string;
+    }, {
+        timestamps: true;
+    }> & Omit<{
+        email: string;
+        password: string;
+        passwordHistory: import("mongoose").Types.DocumentArray<{
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, import("mongoose").Types.Subdocument<import("mongodb").ObjectId, unknown, {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, {}, {}> & {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }>;
+        role: "user" | "admin";
+        resetPasswordUsed: boolean;
+        emailVerified: boolean;
+        loginAttempts: number;
+        mfaEnabled: boolean;
+        mfaMethod: "email" | "none";
+        name?: string | null;
+        image?: string | null;
+        passwordChangedAt?: NativeDate | null;
+        resetPasswordToken?: string | null;
+        resetPasswordExpires?: NativeDate | null;
+        emailVerificationToken?: string | null;
+        emailVerificationExpires?: NativeDate | null;
+        refreshTokenHash?: string | null;
+        refreshTokenExpiresAt?: NativeDate | null;
+        csrfTokenHash?: string | null;
+        csrfTokenExpiresAt?: NativeDate | null;
+        lastLoginAt?: NativeDate | null;
+        lockUntil?: NativeDate | null;
+        mfaSecret?: string | null;
+        deviceInfo?: string | null;
+    } & import("mongoose").DefaultTimestampProps & {
+        _id: import("mongoose").Types.ObjectId;
+    } & {
+        __v: number;
+    }, "id"> & import("mongoose").HydratedDocumentOverrides<{
+        id: string;
+    }>) | null, import("mongoose").Document<unknown, {}, {
+        email: string;
+        password: string;
+        passwordHistory: import("mongoose").Types.DocumentArray<{
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, import("mongoose").Types.Subdocument<import("mongodb").ObjectId, unknown, {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, {}, {}> & {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }>;
+        role: "user" | "admin";
+        resetPasswordUsed: boolean;
+        emailVerified: boolean;
+        loginAttempts: number;
+        mfaEnabled: boolean;
+        mfaMethod: "email" | "none";
+        name?: string | null;
+        image?: string | null;
+        passwordChangedAt?: NativeDate | null;
+        resetPasswordToken?: string | null;
+        resetPasswordExpires?: NativeDate | null;
+        emailVerificationToken?: string | null;
+        emailVerificationExpires?: NativeDate | null;
+        refreshTokenHash?: string | null;
+        refreshTokenExpiresAt?: NativeDate | null;
+        csrfTokenHash?: string | null;
+        csrfTokenExpiresAt?: NativeDate | null;
+        lastLoginAt?: NativeDate | null;
+        lockUntil?: NativeDate | null;
+        mfaSecret?: string | null;
+        deviceInfo?: string | null;
+    } & import("mongoose").DefaultTimestampProps, {
+        id: string;
+    }, {
+        timestamps: true;
+    }> & Omit<{
+        email: string;
+        password: string;
+        passwordHistory: import("mongoose").Types.DocumentArray<{
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, import("mongoose").Types.Subdocument<import("mongodb").ObjectId, unknown, {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, {}, {}> & {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }>;
+        role: "user" | "admin";
+        resetPasswordUsed: boolean;
+        emailVerified: boolean;
+        loginAttempts: number;
+        mfaEnabled: boolean;
+        mfaMethod: "email" | "none";
+        name?: string | null;
+        image?: string | null;
+        passwordChangedAt?: NativeDate | null;
+        resetPasswordToken?: string | null;
+        resetPasswordExpires?: NativeDate | null;
+        emailVerificationToken?: string | null;
+        emailVerificationExpires?: NativeDate | null;
+        refreshTokenHash?: string | null;
+        refreshTokenExpiresAt?: NativeDate | null;
+        csrfTokenHash?: string | null;
+        csrfTokenExpiresAt?: NativeDate | null;
+        lastLoginAt?: NativeDate | null;
+        lockUntil?: NativeDate | null;
+        mfaSecret?: string | null;
+        deviceInfo?: string | null;
+    } & import("mongoose").DefaultTimestampProps & {
+        _id: import("mongoose").Types.ObjectId;
+    } & {
+        __v: number;
+    }, "id"> & import("mongoose").HydratedDocumentOverrides<{
+        id: string;
+    }>, {}, {
+        email: string;
+        password: string;
+        passwordHistory: import("mongoose").Types.DocumentArray<{
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, import("mongoose").Types.Subdocument<import("mongodb").ObjectId, unknown, {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, {}, {}> & {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }>;
+        role: "user" | "admin";
+        resetPasswordUsed: boolean;
+        emailVerified: boolean;
+        loginAttempts: number;
+        mfaEnabled: boolean;
+        mfaMethod: "email" | "none";
+        name?: string | null;
+        image?: string | null;
+        passwordChangedAt?: NativeDate | null;
+        resetPasswordToken?: string | null;
+        resetPasswordExpires?: NativeDate | null;
+        emailVerificationToken?: string | null;
+        emailVerificationExpires?: NativeDate | null;
+        refreshTokenHash?: string | null;
+        refreshTokenExpiresAt?: NativeDate | null;
+        csrfTokenHash?: string | null;
+        csrfTokenExpiresAt?: NativeDate | null;
+        lastLoginAt?: NativeDate | null;
+        lockUntil?: NativeDate | null;
+        mfaSecret?: string | null;
+        deviceInfo?: string | null;
+        createdAt: NativeDate;
+        updatedAt: NativeDate;
+    } & {
+        _id: import("mongoose").Types.ObjectId;
+    } & {
+        __v: number;
+    }, "findOne", {
+        id: string;
+    }>;
+    clearRefreshToken: (id: string) => import("mongoose").Query<(import("mongoose").Document<unknown, {}, {
+        email: string;
+        password: string;
+        passwordHistory: import("mongoose").Types.DocumentArray<{
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, import("mongoose").Types.Subdocument<import("mongodb").ObjectId, unknown, {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, {}, {}> & {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }>;
+        role: "user" | "admin";
+        resetPasswordUsed: boolean;
+        emailVerified: boolean;
+        loginAttempts: number;
+        mfaEnabled: boolean;
+        mfaMethod: "email" | "none";
+        name?: string | null;
+        image?: string | null;
+        passwordChangedAt?: NativeDate | null;
+        resetPasswordToken?: string | null;
+        resetPasswordExpires?: NativeDate | null;
+        emailVerificationToken?: string | null;
+        emailVerificationExpires?: NativeDate | null;
+        refreshTokenHash?: string | null;
+        refreshTokenExpiresAt?: NativeDate | null;
+        csrfTokenHash?: string | null;
+        csrfTokenExpiresAt?: NativeDate | null;
+        lastLoginAt?: NativeDate | null;
+        lockUntil?: NativeDate | null;
+        mfaSecret?: string | null;
+        deviceInfo?: string | null;
+    } & import("mongoose").DefaultTimestampProps, {
+        id: string;
+    }, {
+        timestamps: true;
+    }> & Omit<{
+        email: string;
+        password: string;
+        passwordHistory: import("mongoose").Types.DocumentArray<{
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, import("mongoose").Types.Subdocument<import("mongodb").ObjectId, unknown, {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, {}, {}> & {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }>;
+        role: "user" | "admin";
+        resetPasswordUsed: boolean;
+        emailVerified: boolean;
+        loginAttempts: number;
+        mfaEnabled: boolean;
+        mfaMethod: "email" | "none";
+        name?: string | null;
+        image?: string | null;
+        passwordChangedAt?: NativeDate | null;
+        resetPasswordToken?: string | null;
+        resetPasswordExpires?: NativeDate | null;
+        emailVerificationToken?: string | null;
+        emailVerificationExpires?: NativeDate | null;
+        refreshTokenHash?: string | null;
+        refreshTokenExpiresAt?: NativeDate | null;
+        csrfTokenHash?: string | null;
+        csrfTokenExpiresAt?: NativeDate | null;
+        lastLoginAt?: NativeDate | null;
+        lockUntil?: NativeDate | null;
+        mfaSecret?: string | null;
+        deviceInfo?: string | null;
+    } & import("mongoose").DefaultTimestampProps & {
+        _id: import("mongoose").Types.ObjectId;
+    } & {
+        __v: number;
+    }, "id"> & import("mongoose").HydratedDocumentOverrides<{
+        id: string;
+    }>) | null, import("mongoose").Document<unknown, {}, {
+        email: string;
+        password: string;
+        passwordHistory: import("mongoose").Types.DocumentArray<{
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, import("mongoose").Types.Subdocument<import("mongodb").ObjectId, unknown, {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, {}, {}> & {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }>;
+        role: "user" | "admin";
+        resetPasswordUsed: boolean;
+        emailVerified: boolean;
+        loginAttempts: number;
+        mfaEnabled: boolean;
+        mfaMethod: "email" | "none";
+        name?: string | null;
+        image?: string | null;
+        passwordChangedAt?: NativeDate | null;
+        resetPasswordToken?: string | null;
+        resetPasswordExpires?: NativeDate | null;
+        emailVerificationToken?: string | null;
+        emailVerificationExpires?: NativeDate | null;
+        refreshTokenHash?: string | null;
+        refreshTokenExpiresAt?: NativeDate | null;
+        csrfTokenHash?: string | null;
+        csrfTokenExpiresAt?: NativeDate | null;
+        lastLoginAt?: NativeDate | null;
+        lockUntil?: NativeDate | null;
+        mfaSecret?: string | null;
+        deviceInfo?: string | null;
+    } & import("mongoose").DefaultTimestampProps, {
+        id: string;
+    }, {
+        timestamps: true;
+    }> & Omit<{
+        email: string;
+        password: string;
+        passwordHistory: import("mongoose").Types.DocumentArray<{
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, import("mongoose").Types.Subdocument<import("mongodb").ObjectId, unknown, {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, {}, {}> & {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }>;
+        role: "user" | "admin";
+        resetPasswordUsed: boolean;
+        emailVerified: boolean;
+        loginAttempts: number;
+        mfaEnabled: boolean;
+        mfaMethod: "email" | "none";
+        name?: string | null;
+        image?: string | null;
+        passwordChangedAt?: NativeDate | null;
+        resetPasswordToken?: string | null;
+        resetPasswordExpires?: NativeDate | null;
+        emailVerificationToken?: string | null;
+        emailVerificationExpires?: NativeDate | null;
+        refreshTokenHash?: string | null;
+        refreshTokenExpiresAt?: NativeDate | null;
+        csrfTokenHash?: string | null;
+        csrfTokenExpiresAt?: NativeDate | null;
+        lastLoginAt?: NativeDate | null;
+        lockUntil?: NativeDate | null;
+        mfaSecret?: string | null;
+        deviceInfo?: string | null;
+    } & import("mongoose").DefaultTimestampProps & {
+        _id: import("mongoose").Types.ObjectId;
+    } & {
+        __v: number;
+    }, "id"> & import("mongoose").HydratedDocumentOverrides<{
+        id: string;
+    }>, {}, {
+        email: string;
+        password: string;
+        passwordHistory: import("mongoose").Types.DocumentArray<{
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, import("mongoose").Types.Subdocument<import("mongodb").ObjectId, unknown, {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, {}, {}> & {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }>;
+        role: "user" | "admin";
+        resetPasswordUsed: boolean;
+        emailVerified: boolean;
+        loginAttempts: number;
+        mfaEnabled: boolean;
+        mfaMethod: "email" | "none";
+        name?: string | null;
+        image?: string | null;
+        passwordChangedAt?: NativeDate | null;
+        resetPasswordToken?: string | null;
+        resetPasswordExpires?: NativeDate | null;
+        emailVerificationToken?: string | null;
+        emailVerificationExpires?: NativeDate | null;
+        refreshTokenHash?: string | null;
+        refreshTokenExpiresAt?: NativeDate | null;
+        csrfTokenHash?: string | null;
+        csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
         mfaSecret?: string | null;
@@ -1594,6 +2719,16 @@ export declare const AuthRepository: {
     incrementLoginAttempts: (id: string) => import("mongoose").Query<(import("mongoose").Document<unknown, {}, {
         email: string;
         password: string;
+        passwordHistory: import("mongoose").Types.DocumentArray<{
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, import("mongoose").Types.Subdocument<import("mongodb").ObjectId, unknown, {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, {}, {}> & {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }>;
         role: "user" | "admin";
         resetPasswordUsed: boolean;
         emailVerified: boolean;
@@ -1609,6 +2744,8 @@ export declare const AuthRepository: {
         emailVerificationExpires?: NativeDate | null;
         refreshTokenHash?: string | null;
         refreshTokenExpiresAt?: NativeDate | null;
+        csrfTokenHash?: string | null;
+        csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
         mfaSecret?: string | null;
@@ -1620,6 +2757,16 @@ export declare const AuthRepository: {
     }> & Omit<{
         email: string;
         password: string;
+        passwordHistory: import("mongoose").Types.DocumentArray<{
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, import("mongoose").Types.Subdocument<import("mongodb").ObjectId, unknown, {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, {}, {}> & {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }>;
         role: "user" | "admin";
         resetPasswordUsed: boolean;
         emailVerified: boolean;
@@ -1635,6 +2782,8 @@ export declare const AuthRepository: {
         emailVerificationExpires?: NativeDate | null;
         refreshTokenHash?: string | null;
         refreshTokenExpiresAt?: NativeDate | null;
+        csrfTokenHash?: string | null;
+        csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
         mfaSecret?: string | null;
@@ -1648,6 +2797,16 @@ export declare const AuthRepository: {
     }>) | null, import("mongoose").Document<unknown, {}, {
         email: string;
         password: string;
+        passwordHistory: import("mongoose").Types.DocumentArray<{
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, import("mongoose").Types.Subdocument<import("mongodb").ObjectId, unknown, {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, {}, {}> & {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }>;
         role: "user" | "admin";
         resetPasswordUsed: boolean;
         emailVerified: boolean;
@@ -1663,6 +2822,8 @@ export declare const AuthRepository: {
         emailVerificationExpires?: NativeDate | null;
         refreshTokenHash?: string | null;
         refreshTokenExpiresAt?: NativeDate | null;
+        csrfTokenHash?: string | null;
+        csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
         mfaSecret?: string | null;
@@ -1674,6 +2835,16 @@ export declare const AuthRepository: {
     }> & Omit<{
         email: string;
         password: string;
+        passwordHistory: import("mongoose").Types.DocumentArray<{
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, import("mongoose").Types.Subdocument<import("mongodb").ObjectId, unknown, {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, {}, {}> & {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }>;
         role: "user" | "admin";
         resetPasswordUsed: boolean;
         emailVerified: boolean;
@@ -1689,6 +2860,8 @@ export declare const AuthRepository: {
         emailVerificationExpires?: NativeDate | null;
         refreshTokenHash?: string | null;
         refreshTokenExpiresAt?: NativeDate | null;
+        csrfTokenHash?: string | null;
+        csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
         mfaSecret?: string | null;
@@ -1702,6 +2875,16 @@ export declare const AuthRepository: {
     }>, {}, {
         email: string;
         password: string;
+        passwordHistory: import("mongoose").Types.DocumentArray<{
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, import("mongoose").Types.Subdocument<import("mongodb").ObjectId, unknown, {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, {}, {}> & {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }>;
         role: "user" | "admin";
         resetPasswordUsed: boolean;
         emailVerified: boolean;
@@ -1717,6 +2900,8 @@ export declare const AuthRepository: {
         emailVerificationExpires?: NativeDate | null;
         refreshTokenHash?: string | null;
         refreshTokenExpiresAt?: NativeDate | null;
+        csrfTokenHash?: string | null;
+        csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
         mfaSecret?: string | null;
@@ -1733,6 +2918,16 @@ export declare const AuthRepository: {
     resetLoginAttempts: (id: string) => import("mongoose").Query<(import("mongoose").Document<unknown, {}, {
         email: string;
         password: string;
+        passwordHistory: import("mongoose").Types.DocumentArray<{
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, import("mongoose").Types.Subdocument<import("mongodb").ObjectId, unknown, {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, {}, {}> & {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }>;
         role: "user" | "admin";
         resetPasswordUsed: boolean;
         emailVerified: boolean;
@@ -1748,6 +2943,8 @@ export declare const AuthRepository: {
         emailVerificationExpires?: NativeDate | null;
         refreshTokenHash?: string | null;
         refreshTokenExpiresAt?: NativeDate | null;
+        csrfTokenHash?: string | null;
+        csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
         mfaSecret?: string | null;
@@ -1759,6 +2956,16 @@ export declare const AuthRepository: {
     }> & Omit<{
         email: string;
         password: string;
+        passwordHistory: import("mongoose").Types.DocumentArray<{
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, import("mongoose").Types.Subdocument<import("mongodb").ObjectId, unknown, {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, {}, {}> & {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }>;
         role: "user" | "admin";
         resetPasswordUsed: boolean;
         emailVerified: boolean;
@@ -1774,6 +2981,8 @@ export declare const AuthRepository: {
         emailVerificationExpires?: NativeDate | null;
         refreshTokenHash?: string | null;
         refreshTokenExpiresAt?: NativeDate | null;
+        csrfTokenHash?: string | null;
+        csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
         mfaSecret?: string | null;
@@ -1787,6 +2996,16 @@ export declare const AuthRepository: {
     }>) | null, import("mongoose").Document<unknown, {}, {
         email: string;
         password: string;
+        passwordHistory: import("mongoose").Types.DocumentArray<{
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, import("mongoose").Types.Subdocument<import("mongodb").ObjectId, unknown, {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, {}, {}> & {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }>;
         role: "user" | "admin";
         resetPasswordUsed: boolean;
         emailVerified: boolean;
@@ -1802,6 +3021,8 @@ export declare const AuthRepository: {
         emailVerificationExpires?: NativeDate | null;
         refreshTokenHash?: string | null;
         refreshTokenExpiresAt?: NativeDate | null;
+        csrfTokenHash?: string | null;
+        csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
         mfaSecret?: string | null;
@@ -1813,6 +3034,16 @@ export declare const AuthRepository: {
     }> & Omit<{
         email: string;
         password: string;
+        passwordHistory: import("mongoose").Types.DocumentArray<{
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, import("mongoose").Types.Subdocument<import("mongodb").ObjectId, unknown, {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, {}, {}> & {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }>;
         role: "user" | "admin";
         resetPasswordUsed: boolean;
         emailVerified: boolean;
@@ -1828,6 +3059,8 @@ export declare const AuthRepository: {
         emailVerificationExpires?: NativeDate | null;
         refreshTokenHash?: string | null;
         refreshTokenExpiresAt?: NativeDate | null;
+        csrfTokenHash?: string | null;
+        csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
         mfaSecret?: string | null;
@@ -1841,6 +3074,16 @@ export declare const AuthRepository: {
     }>, {}, {
         email: string;
         password: string;
+        passwordHistory: import("mongoose").Types.DocumentArray<{
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, import("mongoose").Types.Subdocument<import("mongodb").ObjectId, unknown, {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, {}, {}> & {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }>;
         role: "user" | "admin";
         resetPasswordUsed: boolean;
         emailVerified: boolean;
@@ -1856,6 +3099,8 @@ export declare const AuthRepository: {
         emailVerificationExpires?: NativeDate | null;
         refreshTokenHash?: string | null;
         refreshTokenExpiresAt?: NativeDate | null;
+        csrfTokenHash?: string | null;
+        csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
         mfaSecret?: string | null;
@@ -1872,6 +3117,16 @@ export declare const AuthRepository: {
     lockAccount: (id: string, lockUntil: Date) => import("mongoose").Query<(import("mongoose").Document<unknown, {}, {
         email: string;
         password: string;
+        passwordHistory: import("mongoose").Types.DocumentArray<{
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, import("mongoose").Types.Subdocument<import("mongodb").ObjectId, unknown, {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, {}, {}> & {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }>;
         role: "user" | "admin";
         resetPasswordUsed: boolean;
         emailVerified: boolean;
@@ -1887,6 +3142,8 @@ export declare const AuthRepository: {
         emailVerificationExpires?: NativeDate | null;
         refreshTokenHash?: string | null;
         refreshTokenExpiresAt?: NativeDate | null;
+        csrfTokenHash?: string | null;
+        csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
         mfaSecret?: string | null;
@@ -1898,6 +3155,16 @@ export declare const AuthRepository: {
     }> & Omit<{
         email: string;
         password: string;
+        passwordHistory: import("mongoose").Types.DocumentArray<{
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, import("mongoose").Types.Subdocument<import("mongodb").ObjectId, unknown, {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, {}, {}> & {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }>;
         role: "user" | "admin";
         resetPasswordUsed: boolean;
         emailVerified: boolean;
@@ -1913,6 +3180,8 @@ export declare const AuthRepository: {
         emailVerificationExpires?: NativeDate | null;
         refreshTokenHash?: string | null;
         refreshTokenExpiresAt?: NativeDate | null;
+        csrfTokenHash?: string | null;
+        csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
         mfaSecret?: string | null;
@@ -1926,6 +3195,16 @@ export declare const AuthRepository: {
     }>) | null, import("mongoose").Document<unknown, {}, {
         email: string;
         password: string;
+        passwordHistory: import("mongoose").Types.DocumentArray<{
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, import("mongoose").Types.Subdocument<import("mongodb").ObjectId, unknown, {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, {}, {}> & {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }>;
         role: "user" | "admin";
         resetPasswordUsed: boolean;
         emailVerified: boolean;
@@ -1941,6 +3220,8 @@ export declare const AuthRepository: {
         emailVerificationExpires?: NativeDate | null;
         refreshTokenHash?: string | null;
         refreshTokenExpiresAt?: NativeDate | null;
+        csrfTokenHash?: string | null;
+        csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
         mfaSecret?: string | null;
@@ -1952,6 +3233,16 @@ export declare const AuthRepository: {
     }> & Omit<{
         email: string;
         password: string;
+        passwordHistory: import("mongoose").Types.DocumentArray<{
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, import("mongoose").Types.Subdocument<import("mongodb").ObjectId, unknown, {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, {}, {}> & {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }>;
         role: "user" | "admin";
         resetPasswordUsed: boolean;
         emailVerified: boolean;
@@ -1967,6 +3258,8 @@ export declare const AuthRepository: {
         emailVerificationExpires?: NativeDate | null;
         refreshTokenHash?: string | null;
         refreshTokenExpiresAt?: NativeDate | null;
+        csrfTokenHash?: string | null;
+        csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
         mfaSecret?: string | null;
@@ -1980,6 +3273,16 @@ export declare const AuthRepository: {
     }>, {}, {
         email: string;
         password: string;
+        passwordHistory: import("mongoose").Types.DocumentArray<{
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, import("mongoose").Types.Subdocument<import("mongodb").ObjectId, unknown, {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, {}, {}> & {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }>;
         role: "user" | "admin";
         resetPasswordUsed: boolean;
         emailVerified: boolean;
@@ -1995,6 +3298,8 @@ export declare const AuthRepository: {
         emailVerificationExpires?: NativeDate | null;
         refreshTokenHash?: string | null;
         refreshTokenExpiresAt?: NativeDate | null;
+        csrfTokenHash?: string | null;
+        csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
         mfaSecret?: string | null;
@@ -2011,6 +3316,16 @@ export declare const AuthRepository: {
     deleteUser: (id: string) => import("mongoose").Query<(import("mongoose").Document<unknown, {}, {
         email: string;
         password: string;
+        passwordHistory: import("mongoose").Types.DocumentArray<{
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, import("mongoose").Types.Subdocument<import("mongodb").ObjectId, unknown, {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, {}, {}> & {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }>;
         role: "user" | "admin";
         resetPasswordUsed: boolean;
         emailVerified: boolean;
@@ -2026,6 +3341,8 @@ export declare const AuthRepository: {
         emailVerificationExpires?: NativeDate | null;
         refreshTokenHash?: string | null;
         refreshTokenExpiresAt?: NativeDate | null;
+        csrfTokenHash?: string | null;
+        csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
         mfaSecret?: string | null;
@@ -2037,6 +3354,16 @@ export declare const AuthRepository: {
     }> & Omit<{
         email: string;
         password: string;
+        passwordHistory: import("mongoose").Types.DocumentArray<{
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, import("mongoose").Types.Subdocument<import("mongodb").ObjectId, unknown, {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, {}, {}> & {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }>;
         role: "user" | "admin";
         resetPasswordUsed: boolean;
         emailVerified: boolean;
@@ -2052,6 +3379,8 @@ export declare const AuthRepository: {
         emailVerificationExpires?: NativeDate | null;
         refreshTokenHash?: string | null;
         refreshTokenExpiresAt?: NativeDate | null;
+        csrfTokenHash?: string | null;
+        csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
         mfaSecret?: string | null;
@@ -2065,6 +3394,16 @@ export declare const AuthRepository: {
     }>) | null, import("mongoose").Document<unknown, {}, {
         email: string;
         password: string;
+        passwordHistory: import("mongoose").Types.DocumentArray<{
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, import("mongoose").Types.Subdocument<import("mongodb").ObjectId, unknown, {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, {}, {}> & {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }>;
         role: "user" | "admin";
         resetPasswordUsed: boolean;
         emailVerified: boolean;
@@ -2080,6 +3419,8 @@ export declare const AuthRepository: {
         emailVerificationExpires?: NativeDate | null;
         refreshTokenHash?: string | null;
         refreshTokenExpiresAt?: NativeDate | null;
+        csrfTokenHash?: string | null;
+        csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
         mfaSecret?: string | null;
@@ -2091,6 +3432,16 @@ export declare const AuthRepository: {
     }> & Omit<{
         email: string;
         password: string;
+        passwordHistory: import("mongoose").Types.DocumentArray<{
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, import("mongoose").Types.Subdocument<import("mongodb").ObjectId, unknown, {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, {}, {}> & {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }>;
         role: "user" | "admin";
         resetPasswordUsed: boolean;
         emailVerified: boolean;
@@ -2106,6 +3457,8 @@ export declare const AuthRepository: {
         emailVerificationExpires?: NativeDate | null;
         refreshTokenHash?: string | null;
         refreshTokenExpiresAt?: NativeDate | null;
+        csrfTokenHash?: string | null;
+        csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
         mfaSecret?: string | null;
@@ -2119,6 +3472,16 @@ export declare const AuthRepository: {
     }>, {}, {
         email: string;
         password: string;
+        passwordHistory: import("mongoose").Types.DocumentArray<{
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, import("mongoose").Types.Subdocument<import("mongodb").ObjectId, unknown, {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }, {}, {}> & {
+            hash?: string | null;
+            changedAt?: NativeDate | null;
+        }>;
         role: "user" | "admin";
         resetPasswordUsed: boolean;
         emailVerified: boolean;
@@ -2134,6 +3497,8 @@ export declare const AuthRepository: {
         emailVerificationExpires?: NativeDate | null;
         refreshTokenHash?: string | null;
         refreshTokenExpiresAt?: NativeDate | null;
+        csrfTokenHash?: string | null;
+        csrfTokenExpiresAt?: NativeDate | null;
         lastLoginAt?: NativeDate | null;
         lockUntil?: NativeDate | null;
         mfaSecret?: string | null;

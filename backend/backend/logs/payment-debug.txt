@@ -110,3 +110,10 @@ process.env.KHALTI_TEST_MODE = true
 KHALTI_TEST_MODE constant = true
 typeof KHALTI_TEST_MODE = boolean
 ═══════════════════════════════════════
+
+═══════════════════════════════════════
+PAYMENT INITIATE CALLED AT 2026-07-27T15:27:51.336Z
+process.env.KHALTI_TEST_MODE = true
+KHALTI_TEST_MODE constant = true
+typeof KHALTI_TEST_MODE = boolean
+═══════════════════════════════════════

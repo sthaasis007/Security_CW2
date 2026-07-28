@@ -2,6 +2,16 @@ import mongoose from "mongoose";
 export declare const UserModel: mongoose.Model<{
     email: string;
     password: string;
+    passwordHistory: mongoose.Types.DocumentArray<{
+        hash?: string | null;
+        changedAt?: NativeDate | null;
+    }, mongoose.Types.Subdocument<mongoose.mongo.ObjectId, unknown, {
+        hash?: string | null;
+        changedAt?: NativeDate | null;
+    }, {}, {}> & {
+        hash?: string | null;
+        changedAt?: NativeDate | null;
+    }>;
     role: "user" | "admin";
     resetPasswordUsed: boolean;
     emailVerified: boolean;
@@ -17,6 +27,8 @@ export declare const UserModel: mongoose.Model<{
     emailVerificationExpires?: NativeDate | null;
     refreshTokenHash?: string | null;
     refreshTokenExpiresAt?: NativeDate | null;
+    csrfTokenHash?: string | null;
+    csrfTokenExpiresAt?: NativeDate | null;
     lastLoginAt?: NativeDate | null;
     lockUntil?: NativeDate | null;
     mfaSecret?: string | null;
@@ -26,6 +38,16 @@ export declare const UserModel: mongoose.Model<{
 }, mongoose.Document<unknown, {}, {
     email: string;
     password: string;
+    passwordHistory: mongoose.Types.DocumentArray<{
+        hash?: string | null;
+        changedAt?: NativeDate | null;
+    }, mongoose.Types.Subdocument<mongoose.mongo.ObjectId, unknown, {
+        hash?: string | null;
+        changedAt?: NativeDate | null;
+    }, {}, {}> & {
+        hash?: string | null;
+        changedAt?: NativeDate | null;
+    }>;
     role: "user" | "admin";
     resetPasswordUsed: boolean;
     emailVerified: boolean;
@@ -41,6 +63,8 @@ export declare const UserModel: mongoose.Model<{
     emailVerificationExpires?: NativeDate | null;
     refreshTokenHash?: string | null;
     refreshTokenExpiresAt?: NativeDate | null;
+    csrfTokenHash?: string | null;
+    csrfTokenExpiresAt?: NativeDate | null;
     lastLoginAt?: NativeDate | null;
     lockUntil?: NativeDate | null;
     mfaSecret?: string | null;
@@ -52,6 +76,16 @@ export declare const UserModel: mongoose.Model<{
 }> & Omit<{
     email: string;
     password: string;
+    passwordHistory: mongoose.Types.DocumentArray<{
+        hash?: string | null;
+        changedAt?: NativeDate | null;
+    }, mongoose.Types.Subdocument<mongoose.mongo.ObjectId, unknown, {
+        hash?: string | null;
+        changedAt?: NativeDate | null;
+    }, {}, {}> & {
+        hash?: string | null;
+        changedAt?: NativeDate | null;
+    }>;
     role: "user" | "admin";
     resetPasswordUsed: boolean;
     emailVerified: boolean;
@@ -67,6 +101,8 @@ export declare const UserModel: mongoose.Model<{
     emailVerificationExpires?: NativeDate | null;
     refreshTokenHash?: string | null;
     refreshTokenExpiresAt?: NativeDate | null;
+    csrfTokenHash?: string | null;
+    csrfTokenExpiresAt?: NativeDate | null;
     lastLoginAt?: NativeDate | null;
     lockUntil?: NativeDate | null;
     mfaSecret?: string | null;
@@ -82,6 +118,16 @@ export declare const UserModel: mongoose.Model<{
 }, {
     email: string;
     password: string;
+    passwordHistory: mongoose.Types.DocumentArray<{
+        hash?: string | null;
+        changedAt?: NativeDate | null;
+    }, mongoose.Types.Subdocument<mongoose.mongo.ObjectId, unknown, {
+        hash?: string | null;
+        changedAt?: NativeDate | null;
+    }, {}, {}> & {
+        hash?: string | null;
+        changedAt?: NativeDate | null;
+    }>;
     role: "user" | "admin";
     resetPasswordUsed: boolean;
     emailVerified: boolean;
@@ -97,6 +143,8 @@ export declare const UserModel: mongoose.Model<{
     emailVerificationExpires?: NativeDate | null;
     refreshTokenHash?: string | null;
     refreshTokenExpiresAt?: NativeDate | null;
+    csrfTokenHash?: string | null;
+    csrfTokenExpiresAt?: NativeDate | null;
     lastLoginAt?: NativeDate | null;
     lockUntil?: NativeDate | null;
     mfaSecret?: string | null;
@@ -104,6 +152,16 @@ export declare const UserModel: mongoose.Model<{
 } & mongoose.DefaultTimestampProps, mongoose.Document<unknown, {}, {
     email: string;
     password: string;
+    passwordHistory: mongoose.Types.DocumentArray<{
+        hash?: string | null;
+        changedAt?: NativeDate | null;
+    }, mongoose.Types.Subdocument<mongoose.mongo.ObjectId, unknown, {
+        hash?: string | null;
+        changedAt?: NativeDate | null;
+    }, {}, {}> & {
+        hash?: string | null;
+        changedAt?: NativeDate | null;
+    }>;
     role: "user" | "admin";
     resetPasswordUsed: boolean;
     emailVerified: boolean;
@@ -119,6 +177,8 @@ export declare const UserModel: mongoose.Model<{
     emailVerificationExpires?: NativeDate | null;
     refreshTokenHash?: string | null;
     refreshTokenExpiresAt?: NativeDate | null;
+    csrfTokenHash?: string | null;
+    csrfTokenExpiresAt?: NativeDate | null;
     lastLoginAt?: NativeDate | null;
     lockUntil?: NativeDate | null;
     mfaSecret?: string | null;
@@ -130,6 +190,16 @@ export declare const UserModel: mongoose.Model<{
 }> & Omit<{
     email: string;
     password: string;
+    passwordHistory: mongoose.Types.DocumentArray<{
+        hash?: string | null;
+        changedAt?: NativeDate | null;
+    }, mongoose.Types.Subdocument<mongoose.mongo.ObjectId, unknown, {
+        hash?: string | null;
+        changedAt?: NativeDate | null;
+    }, {}, {}> & {
+        hash?: string | null;
+        changedAt?: NativeDate | null;
+    }>;
     role: "user" | "admin";
     resetPasswordUsed: boolean;
     emailVerified: boolean;
@@ -145,6 +215,8 @@ export declare const UserModel: mongoose.Model<{
     emailVerificationExpires?: NativeDate | null;
     refreshTokenHash?: string | null;
     refreshTokenExpiresAt?: NativeDate | null;
+    csrfTokenHash?: string | null;
+    csrfTokenExpiresAt?: NativeDate | null;
     lastLoginAt?: NativeDate | null;
     lockUntil?: NativeDate | null;
     mfaSecret?: string | null;
@@ -158,6 +230,16 @@ export declare const UserModel: mongoose.Model<{
 }>, unknown, {
     email: string;
     password: string;
+    passwordHistory: mongoose.Types.DocumentArray<{
+        hash?: string | null;
+        changedAt?: NativeDate | null;
+    }, mongoose.Types.Subdocument<mongoose.mongo.ObjectId, unknown, {
+        hash?: string | null;
+        changedAt?: NativeDate | null;
+    }, {}, {}> & {
+        hash?: string | null;
+        changedAt?: NativeDate | null;
+    }>;
     role: "user" | "admin";
     resetPasswordUsed: boolean;
     emailVerified: boolean;
@@ -173,6 +255,8 @@ export declare const UserModel: mongoose.Model<{
     emailVerificationExpires?: NativeDate | null;
     refreshTokenHash?: string | null;
     refreshTokenExpiresAt?: NativeDate | null;
+    csrfTokenHash?: string | null;
+    csrfTokenExpiresAt?: NativeDate | null;
     lastLoginAt?: NativeDate | null;
     lockUntil?: NativeDate | null;
     mfaSecret?: string | null;
@@ -186,6 +270,16 @@ export declare const UserModel: mongoose.Model<{
 }>, {
     email: string;
     password: string;
+    passwordHistory: mongoose.Types.DocumentArray<{
+        hash?: string | null;
+        changedAt?: NativeDate | null;
+    }, mongoose.Types.Subdocument<mongoose.mongo.ObjectId, unknown, {
+        hash?: string | null;
+        changedAt?: NativeDate | null;
+    }, {}, {}> & {
+        hash?: string | null;
+        changedAt?: NativeDate | null;
+    }>;
     role: "user" | "admin";
     resetPasswordUsed: boolean;
     emailVerified: boolean;
@@ -201,6 +295,8 @@ export declare const UserModel: mongoose.Model<{
     emailVerificationExpires?: NativeDate | null;
     refreshTokenHash?: string | null;
     refreshTokenExpiresAt?: NativeDate | null;
+    csrfTokenHash?: string | null;
+    csrfTokenExpiresAt?: NativeDate | null;
     lastLoginAt?: NativeDate | null;
     lockUntil?: NativeDate | null;
     mfaSecret?: string | null;

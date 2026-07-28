@@ -1,0 +1,4 @@
+import { Request, Response, NextFunction } from "express";
+export declare const requireOwnershipOrAdmin: (req: Request, res: Response, next: NextFunction) => void | Response<any, Record<string, any>>;
+export default requireOwnershipOrAdmin;
+//# sourceMappingURL=ownership.middleware.d.ts.map

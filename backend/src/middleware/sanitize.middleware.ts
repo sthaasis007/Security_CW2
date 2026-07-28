@@ -97,14 +97,24 @@ export default function sanitizeMiddleware(req: Request, res: Response, next: Ne
   logDebug(JSON.stringify(debugEntry));
 
   try {
-    if (req.body && typeof req.body === "object") {
-      sanitizeInPlace(req.body);
-    } else {
-      req.body = safeSanitize(req.body);
+    if (req.body !== undefined && req.body !== null) {
+      if (typeof req.body === "object") {
+        sanitizeInPlace(req.body);
+      } else {
+        req.body = safeSanitize(req.body);
+      }
     }
 
-    sanitizeInPlace(req.query);
-    sanitizeInPlace(req.params);
+    const query = req.query as Record<string, any> | undefined;
+    if (query && typeof query === "object") {
+      sanitizeInPlace(query);
+    }
+
+    const params = req.params as Record<string, any> | undefined;
+    if (params && typeof params === "object") {
+      sanitizeInPlace(params);
+    }
+
     next();
   } catch (err) {
     const error = err instanceof Error ? err : new Error(String(err));

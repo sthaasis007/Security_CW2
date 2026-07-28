@@ -17,7 +17,7 @@ exports.AdminController = {
             const existing = await auth_repository_1.AuthRepository.findByEmail(email);
             if (existing)
                 return res.status(409).json({ ok: false, message: "Email exists" });
-            const hashed = await bcryptjs_1.default.hash(password, 10);
+            const hashed = await bcryptjs_1.default.hash(password, 12);
             const image = req.file ? req.file.filename : undefined;
             const user = await auth_repository_1.AuthRepository.createUser({
                 name,
@@ -33,7 +33,7 @@ exports.AdminController = {
         }
     },
     async list(_req, res) {
-        const users = await auth_repository_1.AuthRepository.findAll();
+        const users = (await auth_repository_1.AuthRepository.findAll()) ?? [];
         return res.status(200).json({ ok: true, users });
     },
     async get(req, res) {
@@ -53,7 +53,7 @@ exports.AdminController = {
             }
             // don't allow password update here unless explicitly provided
             if (body.password) {
-                body.password = await bcryptjs_1.default.hash(body.password, 10);
+                body.password = await bcryptjs_1.default.hash(body.password, 12);
             }
             const updated = await auth_repository_1.AuthRepository.updateUser(id, body);
             if (!updated)

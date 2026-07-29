@@ -3,6 +3,9 @@
 # dependencies
 /node_modules
 /backend/node_modules/
+
+# Local penetration-test captures can contain credentials or personal data.
+/security-testing/evidence/
 /.pnp
 .pnp.*
 .yarn/*
@@ -43,3 +46,7 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 MCP_DOCUMENTATION.md
+BEFORE_AFTER_DEMONSTRATIONS.md
+PENETRATION_TEST_PLAN.md
+TEST_MATRIX.md
+VULNERABILITY_REPORT_TEMPLATE.md

@@ -72,7 +72,7 @@ const sanitizeInPlace = (target: any) => {
   Object.assign(target, sanitized);
   return target;
 };
-
+ 
 export default function sanitizeMiddleware(req: Request, res: Response, next: NextFunction) {
   try {
     if (req.body !== undefined && req.body !== null) {

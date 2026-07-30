@@ -143,7 +143,7 @@ export const AuthService = {
     if (!isPasswordStrong(data.password)) {
       return { ok: false, status: 400, message: "Password must be at least 12 characters and include uppercase, lowercase, number, and special character" };
     }
- 
+
     const email = data.email.trim().toLowerCase();
     const existing = await AuthRepository.findByEmail(email);
     if (existing) {

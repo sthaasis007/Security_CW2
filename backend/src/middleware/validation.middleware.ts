@@ -7,7 +7,7 @@ type RequestSchemas = {
   params?: ZodType;
   query?: ZodType;
 };
-
+ 
 export const validate = (schemas: RequestSchemas) =>
   (req: Request, res: Response, next: NextFunction) => {
     for (const [target, schema] of Object.entries(schemas) as [keyof RequestSchemas, ZodType][]) {

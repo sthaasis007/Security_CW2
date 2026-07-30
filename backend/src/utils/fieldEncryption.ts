@@ -11,7 +11,7 @@ const keyForVersion = (version: string) => {
   if (key.length !== 32) throw new Error("Field encryption key must be exactly 32 bytes");
   return key;
 };
- 
+
 export const encryptField = (plaintext: string, fieldName: string) => {
   if (!plaintext || plaintext.startsWith("enc:")) return plaintext;
   const version = process.env.FIELD_ENCRYPTION_KEY_VERSION || "v1";

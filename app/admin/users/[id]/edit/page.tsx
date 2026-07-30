@@ -4,7 +4,7 @@ import { useParams } from "next/navigation";
 import useAuth from "../../../../lib/useAuth";
 import AdminLayout from "../../../../component/admin/AdminLayout";
 import EditUserForm from "../../../../component/admin/EditUserForm";
- 
+
 export default function AdminUserEdit() {
   const { id } = useParams() as { id: string };
   const { ready } = useAuth({ requireAdmin: true, requireLogin: true });
